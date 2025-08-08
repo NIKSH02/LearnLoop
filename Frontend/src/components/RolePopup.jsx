@@ -14,7 +14,7 @@ const RolePopup = ({ open, onClose }) => {
     if (role === 'mentor') {
       navigate('/mentors');
     } else if (role === 'student') {
-      navigate('/'); // Navigate to home page for students
+      navigate('/UserProfile'); // Navigate to user profile page for students
     }
   };
 
