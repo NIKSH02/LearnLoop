@@ -12,6 +12,7 @@ import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import AboutPage from './pages/AboutPage';
 import MentorPage from './pages/MentorPage';
+import UserProfile from './pages/UserProfile'
 import RoleSelectionPage from './pages/RoleSelectionPage';
 
 // Components
@@ -74,6 +75,11 @@ function App() {
           <LoadingProvider>
             <div className="App min-h-screen">
               <Routes>
+                {/* Global Navigation Bar can be added here */}
+                <Route
+                path="/UserProfile"
+                element={ <UserProfile /> }
+                />
                 {/* Home/Landing Page */}
                 <Route 
                   path="/" 
