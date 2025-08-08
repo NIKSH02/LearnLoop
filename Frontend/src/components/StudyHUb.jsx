@@ -17,15 +17,12 @@ import {
 import { useTheme } from "../context/ThemeContext";
 
 const subjects = [
-  { name: "Advanced Mathematics", description: "Calculus, Linear Algebra", tutors: "250+ Expert Tutors", icon: <Calculator className="w-7 h-7" />, color: "text-blue-600", bgColor: "bg-gradient-to-br from-blue-50 to-blue-100", borderColor: "border-blue-200" },
-  { name: "Computer Science", description: "Programming, Algorithms", tutors: "180+ Expert Tutors", icon: <Code className="w-7 h-7" />, color: "text-purple-600", bgColor: "bg-gradient-to-br from-purple-50 to-purple-100", borderColor: "border-purple-200" },
-  { name: "Physics & Chemistry", description: "Lab Experiments, Theory", tutors: "200+ Expert Tutors", icon: <Atom className="w-7 h-7" />, color: "text-green-600", bgColor: "bg-gradient-to-br from-green-50 to-green-100", borderColor: "border-green-200" },
-  { name: "Engineering Design", description: "CAD, Project Development", tutors: "150+ Expert Tutors", icon: <Cog className="w-7 h-7" />, color: "text-orange-600", bgColor: "bg-gradient-to-br from-orange-50 to-orange-100", borderColor: "border-orange-200" },
-  { name: "Data Science", description: "Analytics, Machine Learning", tutors: "120+ Expert Tutors", icon: <Brain className="w-7 h-7" />, color: "text-pink-600", bgColor: "bg-gradient-to-br from-pink-50 to-pink-100", borderColor: "border-pink-200" },
-  { name: "Electrical Systems", description: "Circuits, Power Systems", tutors: "175+ Expert Tutors", icon: <Zap className="w-7 h-7" />, color: "text-yellow-600", bgColor: "bg-gradient-to-br from-yellow-50 to-yellow-100", borderColor: "border-yellow-200" },
-  { name: "Mechanical Design", description: "Thermodynamics, Mechanics", tutors: "160+ Expert Tutors", icon: <Wrench className="w-7 h-7" />, color: "text-indigo-600", bgColor: "bg-gradient-to-br from-indigo-50 to-indigo-100", borderColor: "border-indigo-200" },
-  { name: "Research Methods", description: "Academic Writing, Analysis", tutors: "90+ Expert Tutors", icon: <Microscope className="w-7 h-7" />, color: "text-teal-600", bgColor: "bg-gradient-to-br from-teal-50 to-teal-100", borderColor: "border-teal-200" },
-  { name: "Business Studies", description: "Management, Economics", tutors: "110+ Expert Tutors", icon: <Building className="w-7 h-7" />, color: "text-red-600", bgColor: "bg-gradient-to-br from-red-50 to-red-100", borderColor: "border-red-200" }
+  { name: "Mathematics", description: "Calculus, Linear Algebra", tutors: "250+ Expert Tutors", icon: <Calculator className="w-8 h-8" />, color: "text-blue-600", bgColor: "bg-gradient-to-br from-blue-50 to-blue-100", borderColor: "border-blue-200" },
+  { name: "Computer Science", description: "Programming, Algorithms", tutors: "180+ Expert Tutors", icon: <Code className="w-8 h-8" />, color: "text-purple-600", bgColor: "bg-gradient-to-br from-purple-50 to-purple-100", borderColor: "border-purple-200" },
+  { name: "Physics", description: "Lab Experiments, Theory", tutors: "200+ Expert Tutors", icon: <Atom className="w-8 h-8" />, color: "text-green-600", bgColor: "bg-gradient-to-br from-green-50 to-green-100", borderColor: "border-green-200" },
+  { name: "Engineering", description: "CAD, Project Development", tutors: "150+ Expert Tutors", icon: <Cog className="w-8 h-8" />, color: "text-orange-600", bgColor: "bg-gradient-to-br from-orange-50 to-orange-100", borderColor: "border-orange-200" },
+  { name: "Data Science", description: "Analytics, ML", tutors: "120+ Expert Tutors", icon: <Brain className="w-8 h-8" />, color: "text-pink-600", bgColor: "bg-gradient-to-br from-pink-50 to-pink-100", borderColor: "border-pink-200" },
+  { name: "Electronics", description: "Circuits, Power Systems", tutors: "175+ Expert Tutors", icon: <Zap className="w-8 h-8" />, color: "text-yellow-600", bgColor: "bg-gradient-to-br from-yellow-50 to-yellow-100", borderColor: "border-yellow-200" }
 ];
 
 
