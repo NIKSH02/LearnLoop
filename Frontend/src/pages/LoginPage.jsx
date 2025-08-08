@@ -47,8 +47,8 @@ const LoginPage = () => {
       setMessage('Login successful! Redirecting...');
       setMessageType('success');
       setTimeout(() => {
-        navigateWithLoader('/', {
-          message: 'WELCOME BACK',
+        navigateWithLoader('/role-selection', {
+          message: 'WELCOME! CHOOSE YOUR ROLE',
           duration: 1500
         });
       }, 1000);
@@ -120,8 +120,8 @@ const LoginPage = () => {
       clearTimeout(otpTimerRef.current);
       setOtpTimer(0);
       setTimeout(() => {
-        navigateWithLoader('/', {
-          message: 'WELCOME BACK',
+        navigateWithLoader('/role-selection', {
+          message: 'WELCOME! CHOOSE YOUR ROLE',
           duration: 1500
         });
       }, 1000);

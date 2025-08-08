@@ -12,9 +12,11 @@ import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import AboutPage from './pages/AboutPage';
 import MentorPage from './pages/MentorPage';
+import RoleSelectionPage from './pages/RoleSelectionPage';
 
 // Components
 import AIAssistant from './components/AIAssistant';
+import RolePopup from './components/RolePopup';
 
 
 // Styles
@@ -92,6 +94,12 @@ function App() {
                 <Route 
                   path="/about" 
                   element={<AboutPage />} 
+                />
+                
+                {/* Role Selection */}
+                <Route 
+                  path="/role-selection" 
+                  element={<RoleSelectionPage />} 
                 />
                 
                 {/* Mentor/Teachers Page */}

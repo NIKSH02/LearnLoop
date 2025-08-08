@@ -6,10 +6,16 @@ const RolePopup = ({ open, onClose }) => {
   const navigate = useNavigate();
 
   const handleRoleSelection = (role) => {
-    // You can store the selected role in localStorage or context
+    // Store the selected role in localStorage
     localStorage.setItem('userRole', role);
     onClose();
-    navigate('/');
+    
+    // Navigate based on role selection
+    if (role === 'mentor') {
+      navigate('/mentors');
+    } else if (role === 'student') {
+      navigate('/'); // Navigate to home page for students
+    }
   };
 
   if (!open) return null;
