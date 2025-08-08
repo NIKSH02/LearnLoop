@@ -22,6 +22,7 @@ import RolePopup from './components/RolePopup';
 
 // Styles
 import './App.css';
+import MentorProfile from './pages/MentorProfile';
 
 // Simple Loading Provider implementation
 const LoadingProvider = ({ children }) => {
@@ -79,6 +80,10 @@ function App() {
                 <Route
                 path="/UserProfile"
                 element={ <UserProfile /> }
+                />
+                <Route 
+                  path='/MentorProfile'
+                  element={<MentorProfile />}
                 />
                 {/* Home/Landing Page */}
                 <Route 
