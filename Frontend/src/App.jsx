@@ -14,6 +14,7 @@ import AboutPage from './pages/AboutPage';
 import MentorPage from './pages/MentorPage';
 import UserProfile from './pages/UserProfile'
 import RoleSelectionPage from './pages/RoleSelectionPage';
+import GlobalChat from './pages/GlobalChat'
 
 // Components
 import AIAssistant from './components/AIAssistant';
@@ -89,6 +90,10 @@ function App() {
                 <Route 
                   path="/" 
                   element={<LandingPage />} 
+                />
+                <Route 
+                  path="/chat" 
+                  element={<GlobalChat />} 
                 />
                 
                 {/* Authentication Routes */}

@@ -1,24 +1,14 @@
 import jwt from "jsonwebtoken";
 
 // Generate access token
-export const generateAccessToken = (user) => {
-  const payload = {
-    id: user._id || user.id,
-    email: user.email,
-    username: user.username,
-    fullName: user.fullName
-  };
+export const generateAccessToken = (payload) => {
   return jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
-    expiresIn: "7d", // 15 minutes
+    expiresIn: "7d", // 7 days (matches your requirement)
   });
 };
 
 // Generate refresh token
-export const generateRefreshToken = (user) => {
-  const payload = {
-    id: user._id || user.id,
-    email: user.email
-  };
+export const generateRefreshToken = (payload) => {
   return jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {
     expiresIn: "7d", // 7 days
   });
@@ -31,7 +21,7 @@ export const setAuthCookies = (res, accessToken, refreshToken) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
-    maxAge: 15 * 60 * 1000, // 15 minutes
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 
   // Set refresh token cookie
