@@ -1,11 +1,11 @@
-
-import React from 'react';
+import React from "react";
 // import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar.jsx'
-import HeroSection from '../components/HeroSection.jsx';
-import Images from '../components/Images.jsx';
-import StudyHub from '../components/StudyHUb.jsx';
-import StudyMitraCard from '../components/StudyMitraCard.jsx';
+import Navbar from "../components/Navbar.jsx";
+import HeroSection from "../components/HeroSection.jsx";
+import Images from "../components/Images.jsx";
+import StudyHub from "../components/StudyHUb.jsx";
+import StudyMitraCard from "../components/StudyMitraCard.jsx";
+import RoleGuard from "../components/RoleGuard.jsx";
 
 // Icons commented out since dock is not used
 /*
@@ -20,10 +20,6 @@ import {
   VscRobot,
 } from 'react-icons/vsc';
 */
-
-
-
-
 
 const LandingPage = () => {
   // Navigation functions commented out since dock is not used
@@ -52,8 +48,8 @@ const LandingPage = () => {
   };
   */
 
-// Dock items - temporarily commented out
-/*
+  // Dock items - temporarily commented out
+  /*
 const items = [
   { icon: <VscHome size={18} />, label: 'Home', onClick: scrollToHero },
   { icon: <VscRobot size={18} />, label: 'AI Assistant', onClick: goToAIAssistant },
@@ -67,28 +63,29 @@ const items = [
 */
 
   return (
-    <div className=" text-white font-['Inter'] relative">
-      <Navbar />
-      <HeroSection />
-       <StudyMitraCard />
-      <Images />
-      <StudyHub />
-     
-   
-       {/* Dock navigation - temporarily commented out */}
-       {/* <div className="my-class" style={{ zIndex: "10", position: 'fixed', bottom: "0",left: "50%"}}>
-           <Dock
-            items={items}
-            className="my-class"
-            panelHeight={80}
-            baseItemSize={50}
-            magnification={90}
-            />
-       </div> */}
-      
-       {/* Footer - temporarily commented out */}
-       {/* <Footer/> */}
-    </div>
+    <RoleGuard>
+      <div className=" text-white font-['Inter'] relative">
+        <Navbar />
+        <HeroSection />
+        <StudyMitraCard />
+        <Images />
+        <StudyHub />
+
+        {/* Dock navigation - temporarily commented out */}
+        {/* <div className="my-class" style={{ zIndex: "10", position: 'fixed', bottom: "0",left: "50%"}}>
+             <Dock
+              items={items}
+              className="my-class"
+              panelHeight={80}
+              baseItemSize={50}
+              magnification={90}
+              />
+         </div> */}
+
+        {/* Footer - temporarily commented out */}
+        {/* <Footer/> */}
+      </div>
+    </RoleGuard>
   );
 };
 

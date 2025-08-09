@@ -1,36 +1,39 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React, { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 // Context Providers
-import { ThemeProvider } from './context/ThemeContext';
-import { AuthProvider } from './context/AuthContext';
-import { LoadingContext } from './context/LoadingContext';
+import { ThemeProvider } from "./context/ThemeContext";
+import { AuthProvider } from "./context/AuthContext";
+import { LoadingContext } from "./context/LoadingContext";
 
 // Pages
-import LandingPage from './pages/LandingPage';
-import LoginPage from './pages/LoginPage';
-import SignUpPage from './pages/SignUpPage';
-import AboutPage from './pages/AboutPage';
-import MentorPage from './pages/MentorPage';
-import UserProfile from './pages/UserProfile'
-import RoleSelectionPage from './pages/RoleSelectionPage';
-import GlobalChat from './pages/GlobalChat'
-
+import LandingPage from "./pages/LandingPage";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
+import AboutPage from "./pages/AboutPage";
+import MentorPage from "./pages/MentorPage";
+import RoleSelectionPage from "./pages/RoleSelectionPage";
+import StudentProfile from "./pages/StudentProfile";
+import MentorProfile from "./pages/MentorProfile";
+import Notifications from "./pages/Notifications";
 // Components
-import AIAssistant from './components/AIAssistant';
-import RolePopup from './components/RolePopup';
-
+import AIAssistant from "./components/AIAssistant";
+import RolePopup from "./components/RolePopup";
 
 // Styles
-import './App.css';
-import MentorProfile from './pages/MentorProfile';
+import "./App.css";
 
 // Simple Loading Provider implementation
 const LoadingProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [loadingMessage, setLoadingMessage] = useState('LOADING...');
+  const [loadingMessage, setLoadingMessage] = useState("LOADING...");
 
-  const showLoader = (message = 'LOADING...') => {
+  const showLoader = (message = "LOADING...") => {
     setLoadingMessage(message);
     setIsLoading(true);
   };
@@ -44,7 +47,7 @@ const LoadingProvider = ({ children }) => {
     loadingMessage,
     showLoader,
     hideLoader,
-    setLoading: setIsLoading
+    setLoading: setIsLoading,
   };
 
   return (
@@ -78,177 +81,142 @@ function App() {
             <div className="App min-h-screen">
               <Routes>
                 {/* Global Navigation Bar can be added here */}
-                <Route
-                path="/UserProfile"
-                element={ <UserProfile /> }
-                />
-                <Route 
-                  path='/MentorProfile'
-                  element={<MentorProfile />}
-                />
+                <Route path="/StudentProfile" element={<StudentProfile />} />
+                <Route path="/MentorProfile" element={<MentorProfile />} />
                 {/* Home/Landing Page */}
-                <Route 
-                  path="/" 
-                  element={<LandingPage />} 
-                />
-                <Route 
-                  path="/chat" 
-                  element={<GlobalChat />} 
-                />
-                
+                <Route path="/" element={<LandingPage />} />
+
                 {/* Authentication Routes */}
-                <Route 
-                  path="/login" 
-                  element={<LoginPage />} 
-                />
-                <Route 
-                  path="/signup" 
-                  element={<SignUpPage />} 
-                />
-                
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<SignUpPage />} />
+
                 {/* Public Pages */}
-                <Route 
-                  path="/about" 
-                  element={<AboutPage />} 
-                />
-                
+                <Route path="/about" element={<AboutPage />} />
+
                 {/* Role Selection */}
-                <Route 
-                  path="/role-selection" 
-                  element={<RoleSelectionPage />} 
-                />
-                
+                <Route path="/role-selection" element={<RoleSelectionPage />} />
+
                 {/* Mentor/Teachers Page */}
-                <Route 
-                  path="/mentors" 
-                  element={<MentorPage />} 
-                />
-                <Route 
-                  path="/teachers" 
-                  element={<MentorPage />} 
-                />
-                
+                <Route path="/mentors" element={<MentorPage />} />
+                <Route path="/teachers" element={<MentorPage />} />
+
                 {/* AI Assistant */}
-                <Route 
-                  path="/ai-assistant" 
+                <Route
+                  path="/ai-assistant"
                   element={
                     <ProtectedRoute>
                       <AIAssistant />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
-                
+
                 {/* Contact Route - Can be a section on landing page */}
-                <Route 
-                  path="/contact" 
-                  element={<Navigate to="/#contact" replace />} 
+                <Route
+                  path="/contact"
+                  element={<Navigate to="/#contact" replace />}
                 />
-                
+
                 {/* Services/Study Hub Route */}
-                <Route 
-                  path="/services" 
-                  element={<Navigate to="/#services" replace />} 
+                <Route
+                  path="/services"
+                  element={<Navigate to="/#services" replace />}
                 />
-                <Route 
-                  path="/study-hub" 
-                  element={<Navigate to="/#study-hub" replace />} 
+                <Route
+                  path="/study-hub"
+                  element={<Navigate to="/#study-hub" replace />}
                 />
-                
+
                 {/* Gallery/Images Route */}
-                <Route 
-                  path="/gallery" 
-                  element={<Navigate to="/#gallery" replace />} 
+                <Route
+                  path="/gallery"
+                  element={<Navigate to="/#gallery" replace />}
                 />
-                
+
                 {/* Mystry/Special Routes */}
-                <Route 
-                  path="/mystry" 
-                  element={<Navigate to="/ai-assistant" replace />} 
+                <Route
+                  path="/mystry"
+                  element={<Navigate to="/ai-assistant" replace />}
                 />
-                <Route 
-                  path="/text" 
-                  element={<Navigate to="/ai-assistant" replace />} 
+                <Route
+                  path="/text"
+                  element={<Navigate to="/ai-assistant" replace />}
                 />
-                
+
                 {/* Profile Routes - Protected */}
-                <Route 
-                  path="/profile" 
+                <Route
+                  path="/profile"
                   element={
                     <ProtectedRoute requireAuth={true}>
                       <Navigate to="/signup" replace />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
-                
+
                 {/* Dashboard Routes - Protected */}
-                <Route 
-                  path="/dashboard" 
+                <Route
+                  path="/dashboard"
                   element={
                     <ProtectedRoute requireAuth={true}>
                       <Navigate to="/login" replace />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
-                
+
                 {/* Settings Routes - Protected */}
-                <Route 
-                  path="/settings" 
+                <Route
+                  path="/settings"
                   element={
                     <ProtectedRoute requireAuth={true}>
                       <Navigate to="/login" replace />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
-                
+
                 {/* Notifications Routes - Protected */}
-                <Route 
-                  path="/notifications" 
+                <Route
+                  path="/notifications"
                   element={
                     <ProtectedRoute requireAuth={true}>
-                      <Navigate to="/login" replace />
+                      <Notifications />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
-                
+
                 {/* Archive Routes - Protected */}
-                <Route 
-                  path="/archive" 
+                <Route
+                  path="/archive"
                   element={
                     <ProtectedRoute requireAuth={true}>
                       <Navigate to="/login" replace />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
-                
+
                 {/* Analytics Routes - Protected */}
-                <Route 
-                  path="/analytics" 
+                <Route
+                  path="/analytics"
                   element={
                     <ProtectedRoute requireAuth={true}>
                       <Navigate to="/login" replace />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
-                
+
                 {/* Legal Pages */}
-                <Route 
-                  path="/privacy" 
-                  element={<Navigate to="/about" replace />} 
+                <Route
+                  path="/privacy"
+                  element={<Navigate to="/about" replace />}
                 />
-                <Route 
-                  path="/terms" 
-                  element={<Navigate to="/about" replace />} 
+                <Route
+                  path="/terms"
+                  element={<Navigate to="/about" replace />}
                 />
-                
+
                 {/* 404 Fallback */}
-                <Route 
-                  path="*" 
-                  element={<Navigate to="/" replace />} 
-                />
+                <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
-              
+
               {/* Global Loader Component */}
-              
             </div>
           </LoadingProvider>
         </AuthProvider>
