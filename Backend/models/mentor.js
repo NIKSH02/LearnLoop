@@ -10,19 +10,15 @@ const mentorSchema = new mongoose.Schema(
     },
     name: {
       type: String,
-      required: true,
+      required: false, // Made optional for step-by-step profile creation
       trim: true,
+      default: "",
     },
     phone: {
       type: String,
-      required: true,
+      required: false, // Made optional for step-by-step profile creation
       trim: true,
-      validate: {
-        validator: function(v) {
-          return /^\d{10}$/.test(v);
-        },
-        message: 'Phone number must be exactly 10 digits'
-      }
+      default: "",
     },
     profileImage: {
       type: String,
@@ -30,8 +26,9 @@ const mentorSchema = new mongoose.Schema(
     },
     designation: {
       type: String,
-      required: true,
+      required: false, // Made optional for step-by-step profile creation
       trim: true,
+      default: "",
     },
     skills: [
       {
@@ -41,14 +38,16 @@ const mentorSchema = new mongoose.Schema(
     ],
     experience_years: {
       type: Number,
-      required: true,
+      required: false, // Made optional for step-by-step profile creation
       min: 0,
+      default: 0,
     },
     bio: {
       type: String,
-      required: true,
+      required: false, // Made optional for step-by-step profile creation
       trim: true,
       maxlength: 500,
+      default: "",
     },
     available_time_slots: [
       {
@@ -63,15 +62,15 @@ const mentorSchema = new mongoose.Schema(
             "Saturday",
             "Sunday",
           ],
-          required: true,
+          required: false, // Made optional for flexibility
         },
         start_time: {
           type: String,
-          required: true,
+          required: false, // Made optional for flexibility
         },
         end_time: {
           type: String,
-          required: true,
+          required: false, // Made optional for flexibility
         },
       },
     ],
