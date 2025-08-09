@@ -15,8 +15,8 @@ const Images = () => {
     <section
       className={`w-full min-h-screen flex items-center justify-center px-8 py-16 transition-all duration-300 ${
         isDarkMode
-          ? "bg-gradient-to-r from-black via-gray-900 to-black"
-          : "bg-gradient-to-r from-gray-100 via-white to-gray-100"
+          ? "bg-gradient-to-r from-black via-gray-900"
+          : "bg-gradient-to-r from-[#d7d4e0]/20 via-white to-[#d7d4e0]/20"
       }`}
     >
       <div className="max-w-6xl w-full grid md:grid-cols-2 bg-transparent">
@@ -24,13 +24,13 @@ const Images = () => {
         {/* Left Section */}
         <div
           className={`relative p-10 flex flex-col justify-between transition-all duration-300 ${
-            isDarkMode ? "bg-gray-800 text-white" : "bg-[#f3f6f3] text-black"
+            isDarkMode ? "bg-gray-800 text-white" : "bg-[#d7d4e0]/30 text-black"
           }`}
         >
           {/* Top-right arrow */}
           <ArrowUpRight
             onClick={handleRequestClick}
-            className={`absolute top-6 right-6 w-6 h-6 cursor-pointer transform transition-all duration-300 hover:scale-125 hover:text-purple-500 ${
+            className={`absolute top-6 right-6 w-6 h-6 cursor-pointer transform transition-all duration-300 hover:scale-125 hover:text-[#7B61FF] ${
               isDarkMode ? "text-white" : "text-black"
             }`}
           />
@@ -39,7 +39,7 @@ const Images = () => {
           <div>
             <p
               className={`text-sm mb-4 font-medium transition-colors duration-300 ${
-                isDarkMode ? "text-purple-400" : "text-purple-600"
+                isDarkMode ? "text-[#7B61FF]" : "text-[#7968ED]"
               }`}
             >
               Welcome to Our Platform
@@ -50,8 +50,8 @@ const Images = () => {
                 isDarkMode ? "text-white" : "text-black"
               }`}
             >
-              Place Your <span className="bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">Request</span> or Ask Your Question <br />
-              and We'll Get <span className="bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">Back to You</span>
+              Place Your <span className="bg-gradient-to-r from-[#7B61FF] to-[#7968ED] bg-clip-text text-transparent">Request</span> or Ask Your Question <br />
+              and We'll Get <span className="bg-gradient-to-r from-[#7B61FF] to-[#7968ED] bg-clip-text text-transparent">Back to You</span>
             </h1>
           </div>
 
@@ -61,24 +61,24 @@ const Images = () => {
             }`}
           >
             <span className={`transition-colors duration-300 ${
-              isDarkMode ? "hover:text-purple-400" : "hover:text-purple-600"
+              isDarkMode ? "hover:text-[#7B61FF]" : "hover:text-[#7968ED]"
             }`}>
-              <span className={`${isDarkMode ? "text-purple-400" : "text-purple-600"}`}>Fast</span> Response
+              <span className={`${isDarkMode ? "text-[#7B61FF]" : "text-[#7968ED]"}`}>Fast</span> Response
             </span>
             <span className={`transition-colors duration-300 ${
-              isDarkMode ? "hover:text-purple-400" : "hover:text-purple-600"
+              isDarkMode ? "hover:text-[#7B61FF]" : "hover:text-[#7968ED]"
             }`}>
-              <span className={`${isDarkMode ? "text-purple-400" : "text-purple-600"}`}>Expert</span> Help
+              <span className={`${isDarkMode ? "text-[#7B61FF]" : "text-[#7968ED]"}`}>Expert</span> Help
             </span>
             <span className={`transition-colors duration-300 ${
-              isDarkMode ? "hover:text-purple-400" : "hover:text-purple-600"
+              isDarkMode ? "hover:text-[#7B61FF]" : "hover:text-[#7968ED]"
             }`}>
-              <span className={`${isDarkMode ? "text-purple-400" : "text-purple-600"}`}>Reliable</span> Support
+              <span className={`${isDarkMode ? "text-[#7B61FF]" : "text-[#7968ED]"}`}>Reliable</span> Support
             </span>
             <span className={`transition-colors duration-300 ${
-              isDarkMode ? "hover:text-purple-400" : "hover:text-purple-600"
+              isDarkMode ? "hover:text-[#7B61FF]" : "hover:text-[#7968ED]"
             }`}>
-              Available <span className={`${isDarkMode ? "text-purple-400" : "text-purple-600"}`}>24/7</span>
+              Available <span className={`${isDarkMode ? "text-[#7B61FF]" : "text-[#7968ED]"}`}>24/7</span>
             </span>
           </div>
         </div>
@@ -88,7 +88,7 @@ const Images = () => {
           className={`flex items-center justify-center transition-all duration-300 ${
             isDarkMode
               ? "bg-gradient-to-b from-gray-700 to-gray-900"
-              : "bg-gradient-to-b from-[#f8f8f8] to-[#e6e6e6]"
+              : "bg-gradient-to-b from-[#d7d4e0]/20 to-[#d7d4e0]/40"
           }`}
         >
           <img

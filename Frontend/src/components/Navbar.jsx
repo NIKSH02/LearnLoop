@@ -54,19 +54,19 @@ const Navbar = () => {
           background: scrolled 
             ? isDarkMode
               ? "rgba(17, 24, 39, 0.95)"
-              : "rgba(255, 255, 255, 0.95)"
+              : "rgba(215, 212, 224, 0.95)"
             : isDarkMode
               ? "rgba(17, 24, 39, 0.8)"
-              : "rgba(255, 255, 255, 0.8)",
+              : "rgba(215, 212, 224, 0.8)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
           borderBottom: isDarkMode
-            ? "1px solid rgba(147, 51, 234, 0.3)"
-            : "1px solid rgba(147, 51, 234, 0.2)",
+            ? "1px solid rgba(123, 97, 255, 0.3)"
+            : "1px solid rgba(121, 104, 237, 0.2)",
           boxShadow: scrolled
             ? isDarkMode
-              ? "0 8px 32px rgba(147, 51, 234, 0.15)"
-              : "0 8px 32px rgba(147, 51, 234, 0.12)"
+              ? "0 8px 32px rgba(123, 97, 255, 0.15)"
+              : "0 8px 32px rgba(121, 104, 237, 0.12)"
             : "none",
         }}
         initial={{ y: -100, opacity: 0 }}
@@ -82,18 +82,18 @@ const Navbar = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className={`w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300`}>
+              <div className={`w-10 h-10 rounded-2xl bg-gradient-to-br from-[#7B61FF] to-[#7968ED] flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300`}>
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
               <div className="flex flex-col">
                 <span className={`text-2xl font-black tracking-tight ${
                   isDarkMode ? 'text-white' : 'text-gray-900'
-                } group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-purple-800 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300`}>
+                } group-hover:bg-gradient-to-r group-hover:from-[#7B61FF] group-hover:to-[#7968ED] group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300`}>
                   TutorLink
                 </span>
                 <span className={`text-xs font-medium ${
                   isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                } group-hover:text-purple-500 transition-colors duration-300`}>
+                } group-hover:text-[#7B61FF] transition-colors duration-300`}>
                   Learn • Connect • Grow
                 </span>
               </div>
@@ -115,8 +115,8 @@ const Navbar = () => {
                     }`}
                   >
                     <span className="relative z-10">{link.name}</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-purple-800 rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
-                    <div className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-purple-800 group-hover:w-full group-hover:left-0 transition-all duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#7B61FF] to-[#7968ED] rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+                    <div className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-[#7B61FF] to-[#7968ED] group-hover:w-full group-hover:left-0 transition-all duration-300" />
                   </Link>
                 </motion.div>
               ))}
@@ -130,7 +130,7 @@ const Navbar = () => {
                 className={`p-3 rounded-xl transition-all duration-300 ${
                   isDarkMode 
                     ? 'bg-gray-800/50 hover:bg-gray-700/50 text-gray-300 hover:text-white border border-gray-700/50' 
-                    : 'bg-gray-100/50 hover:bg-gray-200/50 text-gray-600 hover:text-gray-900 border border-gray-200/50'
+                    : 'bg-[#d7d4e0]/50 hover:bg-[#d7d4e0]/70 text-gray-600 hover:text-gray-900 border border-[#d7d4e0]/50'
                 } backdrop-blur-sm hover:scale-105`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -146,7 +146,7 @@ const Navbar = () => {
                     className={`flex items-center space-x-2 px-4 py-3 font-semibold rounded-xl transition-all duration-300 ${
                       isDarkMode
                         ? 'bg-gray-800/50 hover:bg-gray-700/50 text-gray-300 hover:text-white border border-gray-700/50'
-                        : 'bg-gray-100/50 hover:bg-gray-200/50 text-gray-600 hover:text-gray-900 border border-gray-200/50'
+                        : 'bg-[#d7d4e0]/50 hover:bg-[#d7d4e0]/70 text-gray-600 hover:text-gray-900 border border-[#d7d4e0]/50'
                     } backdrop-blur-sm hover:scale-105`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -177,7 +177,7 @@ const Navbar = () => {
                       className={`flex items-center space-x-2 px-6 py-3 font-semibold rounded-xl transition-all duration-300 ${
                         isDarkMode
                           ? 'bg-gray-800/50 hover:bg-gray-700/50 text-gray-300 hover:text-white border border-gray-700/50'
-                          : 'bg-gray-100/50 hover:bg-gray-200/50 text-gray-600 hover:text-gray-900 border border-gray-200/50'
+                          : 'bg-[#d7d4e0]/50 hover:bg-[#d7d4e0]/70 text-gray-600 hover:text-gray-900 border border-[#d7d4e0]/50'
                       } backdrop-blur-sm hover:scale-105`}
                     >
                       <LogIn size={18} />
@@ -192,7 +192,7 @@ const Navbar = () => {
                   >
                     <Link
                       to="/signup"
-                      className="flex items-center space-x-2 px-6 py-3 font-bold text-white bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5"
+                      className="flex items-center space-x-2 px-6 py-3 font-bold text-white bg-gradient-to-r from-[#7B61FF] to-[#7968ED] hover:from-[#7968ED] hover:to-[#7B61FF] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:-translate-y-0.5"
                     >
                       <UserPlus size={18} />
                       <span>Sign Up</span>
@@ -209,7 +209,7 @@ const Navbar = () => {
                 className={`p-2 rounded-xl transition-all duration-300 ${
                   isDarkMode 
                     ? 'bg-gray-800/50 text-gray-300 border border-gray-700/50' 
-                    : 'bg-gray-100/50 text-gray-600 border border-gray-200/50'
+                    : 'bg-[#d7d4e0]/50 text-gray-600 border border-[#d7d4e0]/50'
                 } backdrop-blur-sm`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -222,7 +222,7 @@ const Navbar = () => {
                 className={`p-2 rounded-xl transition-all duration-300 ${
                   isDarkMode 
                     ? 'bg-gray-800/50 text-gray-300 border border-gray-700/50' 
-                    : 'bg-gray-100/50 text-gray-600 border border-gray-200/50'
+                    : 'bg-[#d7d4e0]/50 text-gray-600 border border-[#d7d4e0]/50'
                 } backdrop-blur-sm`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -239,7 +239,7 @@ const Navbar = () => {
         {isMenuOpen && (
           <motion.div
             className={`lg:hidden fixed inset-0 z-40 ${
-              isDarkMode ? 'bg-gray-900/95' : 'bg-white/95'
+              isDarkMode ? 'bg-gray-900/95' : 'bg-[#d7d4e0]/95'
             } backdrop-blur-xl`}
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -263,7 +263,7 @@ const Navbar = () => {
                       className={`block text-2xl font-bold py-4 px-6 rounded-2xl transition-all duration-300 ${
                         isDarkMode 
                           ? 'text-white hover:bg-gray-800/50' 
-                          : 'text-gray-900 hover:bg-gray-100/50'
+                          : 'text-gray-900 hover:bg-[#d7d4e0]/50'
                       } hover:scale-105 hover:translate-x-2`}
                     >
                       {link.name}
@@ -284,7 +284,7 @@ const Navbar = () => {
                       className={`w-full flex items-center justify-center space-x-3 px-6 py-4 font-bold text-lg rounded-2xl transition-all duration-300 ${
                         isDarkMode
                           ? 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 border border-gray-700/50'
-                          : 'bg-gray-100/50 text-gray-700 hover:bg-gray-200/50 border border-gray-200/50'
+                          : 'bg-[#d7d4e0]/50 text-gray-700 hover:bg-[#d7d4e0]/70 border border-[#d7d4e0]/50'
                       } hover:scale-105`}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -318,7 +318,7 @@ const Navbar = () => {
                         className={`w-full flex items-center justify-center space-x-3 px-6 py-4 font-bold text-lg rounded-2xl transition-all duration-300 ${
                           isDarkMode
                             ? 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 border border-gray-700/50'
-                            : 'bg-gray-100/50 text-gray-700 hover:bg-gray-200/50 border border-gray-200/50'
+                            : 'bg-[#d7d4e0]/50 text-gray-700 hover:bg-[#d7d4e0]/70 border border-[#d7d4e0]/50'
                         } hover:scale-105`}
                       >
                         <LogIn size={20} />
@@ -334,7 +334,7 @@ const Navbar = () => {
                       <Link
                         to="/signup"
                         onClick={() => setIsMenuOpen(false)}
-                        className="w-full flex items-center justify-center space-x-3 px-6 py-4 font-bold text-lg text-white bg-gradient-to-r from-purple-600 to-purple-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                        className="w-full flex items-center justify-center space-x-3 px-6 py-4 font-bold text-lg text-white bg-gradient-to-r from-[#7B61FF] to-[#7968ED] rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                       >
                         <UserPlus size={20} />
                         <span>Sign Up</span>
@@ -355,7 +355,7 @@ const Navbar = () => {
                   transition={{ duration: 0.3, delay: 0.6 }}
                 >
                   <div className="flex items-center justify-center space-x-2 mb-2">
-                    <Sparkles className="w-4 h-4 text-purple-500" />
+                    <Sparkles className="w-4 h-4 text-[#7B61FF]" />
                     <span className="text-sm font-medium">TutorLink</span>
                   </div>
                   <p className="text-xs">Learn • Connect • Grow</p>

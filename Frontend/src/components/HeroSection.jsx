@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 
 const slides = [
@@ -8,26 +9,27 @@ const slides = [
     subtext: "Find the perfect tutor for any subject and unlock your potential",
     image: "r6.jpg",
     highlight: "Connect & Learn",
-    color: "from-purple-600 to-purple-800"
+    color: "from-[#7B61FF] to-[#7968ED]"
   },
   { 
     text: "Get Personalized Academic Support", 
     subtext: "One-on-one guidance from experienced seniors and professionals",
     image: "r2.jpg",
     highlight: "Expert Guidance",
-    color: "from-blue-600 to-purple-600"
+    color: "from-[#7968ED] to-[#7B61FF]"
   },
   { 
     text: "Access On-Demand Learning", 
     subtext: "Instant help whenever you need it, in any subject you choose",
     image: "r4.jpg",
     highlight: "Instant Support",
-    color: "from-purple-600 to-indigo-600"
+    color: "from-[#7B61FF] to-[#7968ED]"
   },
 ];
 
 const HeroSection = () => {
   const { isDarkMode } = useTheme();
+  const navigate = useNavigate();
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -40,14 +42,14 @@ const HeroSection = () => {
       className={`relative flex flex-col lg:flex-row items-center justify-between w-full min-h-screen px-6 lg:px-12 py-20 transition-all duration-700 overflow-hidden ${
         isDarkMode
           ? "bg-gradient-to-br from-gray-900 via-gray-800 to-slate-900"
-          : "bg-gradient-to-br from-white via-gray-50 to-purple-50"
+          : "bg-gradient-to-br from-white via-gray-50 to-[#7B61FF]/5"
       }`}
     >
       {/* Enhanced Background Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Animated gradient orbs */}
         <motion.div 
-          className={`absolute w-96 h-96 rounded-full opacity-20 ${isDarkMode ? 'bg-purple-500' : 'bg-purple-300'} blur-3xl`}
+          className={`absolute w-96 h-96 rounded-full opacity-20 ${isDarkMode ? 'bg-[#7B61FF]' : 'bg-[#7B61FF]/30'} blur-3xl`}
           style={{ top: '-10%', right: '-10%' }}
           animate={{ 
             scale: [1, 1.2, 1],
@@ -56,7 +58,7 @@ const HeroSection = () => {
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div 
-          className={`absolute w-80 h-80 rounded-full opacity-20 ${isDarkMode ? 'bg-purple-700' : 'bg-purple-400'} blur-3xl`}
+          className={`absolute w-80 h-80 rounded-full opacity-20 ${isDarkMode ? 'bg-[#7968ED]' : 'bg-[#7968ED]/30'} blur-3xl`}
           style={{ bottom: '-10%', left: '-10%' }}
           animate={{ 
             scale: [1.2, 1, 1.2],
@@ -69,7 +71,7 @@ const HeroSection = () => {
         <div className={`absolute inset-0 opacity-5 ${isDarkMode ? 'opacity-5' : 'opacity-10'}`}>
           <div className="absolute inset-0" 
                style={{
-                 backgroundImage: `linear-gradient(${isDarkMode ? '#6366f1' : '#8b5cf6'} 1px, transparent 1px), linear-gradient(90deg, ${isDarkMode ? '#6366f1' : '#8b5cf6'} 1px, transparent 1px)`,
+                 backgroundImage: `linear-gradient(${isDarkMode ? '#7B61FF' : '#7968ED'} 1px, transparent 1px), linear-gradient(90deg, ${isDarkMode ? '#7B61FF' : '#7968ED'} 1px, transparent 1px)`,
                  backgroundSize: '50px 50px'
                }}
           />
@@ -77,7 +79,7 @@ const HeroSection = () => {
 
         {/* Floating geometric shapes */}
         <motion.div
-          className={`absolute top-20 left-20 w-16 h-16 ${isDarkMode ? 'bg-gradient-to-br from-purple-500 to-purple-700' : 'bg-gradient-to-br from-purple-600 to-purple-800'} rounded-2xl shadow-2xl`}
+          className={`absolute top-20 left-20 w-16 h-16 ${isDarkMode ? 'bg-gradient-to-br from-[#7B61FF] to-[#7968ED]' : 'bg-gradient-to-br from-[#7B61FF] to-[#7968ED]'} rounded-2xl shadow-2xl`}
           animate={{ 
             rotate: [0, 180, 360],
             y: [-10, 10, -10]
@@ -85,7 +87,7 @@ const HeroSection = () => {
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
-          className={`absolute top-32 right-32 w-12 h-12 ${isDarkMode ? 'bg-gradient-to-br from-blue-500 to-purple-500' : 'bg-gradient-to-br from-blue-600 to-purple-600'} rounded-full shadow-xl`}
+          className={`absolute top-32 right-32 w-12 h-12 ${isDarkMode ? 'bg-gradient-to-br from-[#7968ED] to-[#7B61FF]' : 'bg-gradient-to-br from-[#7968ED] to-[#7B61FF]'} rounded-full shadow-xl`}
           animate={{ 
             scale: [1, 1.3, 1],
             x: [-5, 5, -5]
@@ -93,7 +95,7 @@ const HeroSection = () => {
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
-          className={`absolute bottom-32 left-40 w-8 h-8 ${isDarkMode ? 'bg-purple-500' : 'bg-purple-600'} rounded-lg shadow-lg`}
+          className={`absolute bottom-32 left-40 w-8 h-8 ${isDarkMode ? 'bg-[#7B61FF]' : 'bg-[#7968ED]'} rounded-lg shadow-lg`}
           animate={{ rotate: [0, 90, 180, 270, 360] }}
           transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
         />
@@ -106,14 +108,14 @@ const HeroSection = () => {
           key={slides[index].highlight}
           className={`inline-flex items-center px-6 py-3 rounded-full text-sm font-bold tracking-wide uppercase ${
             isDarkMode 
-              ? 'bg-gradient-to-r from-purple-500/20 to-purple-700/20 text-purple-300 border border-purple-400/30 backdrop-blur-sm' 
-              : 'bg-gradient-to-r from-purple-100 to-purple-200 text-purple-800 border border-purple-300/50 shadow-lg'
+              ? 'bg-gradient-to-r from-[#7B61FF]/20 to-[#7968ED]/20 text-[#7B61FF] border border-[#7B61FF]/30 backdrop-blur-sm' 
+              : 'bg-gradient-to-r from-[#7B61FF]/10 to-[#7968ED]/10 text-[#7968ED] border border-[#7B61FF]/30 shadow-lg'
           }`}
           initial={{ opacity: 0, y: -20, scale: 0.8 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <div className={`w-2 h-2 rounded-full mr-3 ${isDarkMode ? 'bg-purple-400' : 'bg-purple-600'} animate-pulse`} />
+          <div className={`w-2 h-2 rounded-full mr-3 ${isDarkMode ? 'bg-[#7B61FF]' : 'bg-[#7968ED]'} animate-pulse`} />
           {slides[index].highlight}
         </motion.div>
 
@@ -170,13 +172,14 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.5 }}
         >
           <motion.button 
-            className={`group relative px-8 py-4 bg-gradient-to-r ${slides[index].color} text-white font-bold rounded-2xl shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 overflow-hidden`}
+            onClick={() => navigate('/meet-your-guide')}
+            className={`group relative px-8 py-4 bg-gradient-to-r ${slides[index].color} text-white font-bold rounded-2xl shadow-2xl hover:shadow-[#7B61FF]/25 transition-all duration-300 overflow-hidden`}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <div className="relative flex items-center space-x-3">
-              <span className="text-lg">Start Learning</span>
+              <span className="text-lg">Meet Your Guide</span>
               <motion.svg 
                 viewBox="0 0 24 24" 
                 width="20" 
@@ -199,8 +202,8 @@ const HeroSection = () => {
           <motion.button 
             className={`group px-8 py-4 font-bold rounded-2xl border-2 transition-all duration-300 ${
               isDarkMode
-                ? 'border-gray-600 text-gray-300 hover:border-purple-400 hover:text-purple-300 hover:bg-purple-500/10'
-                : 'border-gray-300 text-gray-700 hover:border-purple-500 hover:text-purple-600 hover:bg-purple-50 hover:shadow-lg'
+                ? 'border-gray-600 text-gray-300 hover:border-[#7B61FF] hover:text-[#7B61FF] hover:bg-[#7B61FF]/10'
+                : 'border-gray-300 text-gray-700 hover:border-[#7968ED] hover:text-[#7968ED] hover:bg-[#7B61FF]/5 hover:shadow-lg'
             }`}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
@@ -267,7 +270,7 @@ const HeroSection = () => {
 
           {/* Corner decorative elements */}
           <motion.div
-            className={`absolute -top-4 -right-4 w-16 h-16 ${isDarkMode ? 'bg-gradient-to-br from-purple-500 to-purple-700' : 'bg-gradient-to-br from-purple-600 to-purple-800'} rounded-2xl shadow-xl flex items-center justify-center z-10`}
+            className={`absolute -top-4 -right-4 w-16 h-16 ${isDarkMode ? 'bg-gradient-to-br from-[#7B61FF] to-[#7968ED]' : 'bg-gradient-to-br from-[#7B61FF] to-[#7968ED]'} rounded-2xl shadow-xl flex items-center justify-center z-10`}
             animate={{ 
               rotate: [0, 360],
               scale: [1, 1.1, 1]
@@ -280,7 +283,7 @@ const HeroSection = () => {
           </motion.div>
 
           <motion.div
-            className={`absolute -bottom-4 -left-4 w-14 h-14 ${isDarkMode ? 'bg-gradient-to-br from-purple-500 to-purple-700' : 'bg-gradient-to-br from-purple-600 to-purple-800'} rounded-2xl shadow-xl flex items-center justify-center z-10`}
+            className={`absolute -bottom-4 -left-4 w-14 h-14 ${isDarkMode ? 'bg-gradient-to-br from-[#7B61FF] to-[#7968ED]' : 'bg-gradient-to-br from-[#7B61FF] to-[#7968ED]'} rounded-2xl shadow-xl flex items-center justify-center z-10`}
             animate={{ 
               rotate: [360, 0],
               y: [-5, 5, -5]
@@ -337,7 +340,7 @@ const HeroSection = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1 }}
               >
-                <div className={`text-2xl font-bold ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>
+                <div className={`text-2xl font-bold ${isDarkMode ? 'text-[#7B61FF]' : 'text-[#7968ED]'}`}>
                   1000+
                 </div>
                 <div className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -355,7 +358,7 @@ const HeroSection = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.2 }}
               >
-                <div className={`text-2xl font-bold ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>
+                <div className={`text-2xl font-bold ${isDarkMode ? 'text-[#7B61FF]' : 'text-[#7968ED]'}`}>
                   5000+
                 </div>
                 <div className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -366,7 +369,7 @@ const HeroSection = () => {
 
             {/* Animated particles */}
             <motion.div
-              className={`absolute top-8 left-8 w-3 h-3 rounded-full ${isDarkMode ? 'bg-purple-400' : 'bg-purple-500'}`}
+              className={`absolute top-8 left-8 w-3 h-3 rounded-full ${isDarkMode ? 'bg-[#7B61FF]' : 'bg-[#7968ED]'}`}
               animate={{ 
                 y: [-10, 10, -10],
                 opacity: [0.5, 1, 0.5]
@@ -374,7 +377,7 @@ const HeroSection = () => {
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.div
-              className={`absolute bottom-8 right-8 w-2 h-2 rounded-full ${isDarkMode ? 'bg-purple-400' : 'bg-purple-500'}`}
+              className={`absolute bottom-8 right-8 w-2 h-2 rounded-full ${isDarkMode ? 'bg-[#7B61FF]' : 'bg-[#7968ED]'}`}
               animate={{ 
                 x: [-8, 8, -8],
                 opacity: [0.3, 1, 0.3]
@@ -382,7 +385,7 @@ const HeroSection = () => {
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             />
             <motion.div
-              className={`absolute top-1/2 left-4 w-1 h-1 rounded-full ${isDarkMode ? 'bg-purple-400' : 'bg-purple-500'}`}
+              className={`absolute top-1/2 left-4 w-1 h-1 rounded-full ${isDarkMode ? 'bg-[#7B61FF]' : 'bg-[#7968ED]'}`}
               animate={{ 
                 scale: [1, 1.5, 1],
                 opacity: [0.4, 1, 0.4]
@@ -394,7 +397,7 @@ const HeroSection = () => {
 
         {/* Additional floating elements around the card */}
         <motion.div
-          className={`absolute top-20 -left-8 w-20 h-20 ${isDarkMode ? 'bg-purple-500/20' : 'bg-purple-200/60'} rounded-2xl backdrop-blur-sm border ${isDarkMode ? 'border-purple-400/30' : 'border-purple-300/50'}`}
+          className={`absolute top-20 -left-8 w-20 h-20 ${isDarkMode ? 'bg-[#7B61FF]/20' : 'bg-[#7B61FF]/10'} rounded-2xl backdrop-blur-sm border ${isDarkMode ? 'border-[#7B61FF]/30' : 'border-[#7968ED]/30'}`}
           animate={{ 
             rotate: [0, 180, 360],
             scale: [0.8, 1, 0.8]
@@ -403,7 +406,7 @@ const HeroSection = () => {
         />
         
         <motion.div
-          className={`absolute bottom-16 -right-8 w-16 h-16 ${isDarkMode ? 'bg-purple-500/20' : 'bg-purple-200/60'} rounded-full backdrop-blur-sm border ${isDarkMode ? 'border-purple-400/30' : 'border-purple-300/50'}`}
+          className={`absolute bottom-16 -right-8 w-16 h-16 ${isDarkMode ? 'bg-[#7968ED]/20' : 'bg-[#7968ED]/10'} rounded-full backdrop-blur-sm border ${isDarkMode ? 'border-[#7968ED]/30' : 'border-[#7B61FF]/30'}`}
           animate={{ 
             y: [-15, 15, -15],
             x: [-5, 5, -5]

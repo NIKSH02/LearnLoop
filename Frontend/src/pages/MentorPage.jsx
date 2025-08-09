@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLocation, useParams } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { useLoading } from "../hooks/useLoading";
-import { useNavigateWithLoader } from "../hooks/useNavigateWithLoader";
 import { 
   Star, 
   Phone, 
@@ -40,7 +39,7 @@ const seniors = [
     image: "/images/senior1.jpg",
     rating: 4.95,
     students: 320,
-    hourlyRate: 120
+    
   },
   {
     _id: "s2",
@@ -58,7 +57,7 @@ const seniors = [
     image: "/images/senior2.jpg",
     rating: 4.92,
     students: 210,
-    hourlyRate: 110
+    
   },
   {
     _id: "s3",
@@ -76,7 +75,7 @@ const seniors = [
     image: "/images/senior3.jpg",
     rating: 4.97,
     students: 180,
-    hourlyRate: 115
+    
   }
 ];
 
@@ -86,7 +85,7 @@ const mentors = [
     name: "Dr. Sarah Johnson",
     phone: "+1 (555) 123-4567",
     designation: "Senior Software Engineer",
-    skills: ["React", "Node.js", "Python", "Machine Learning", "Computer Science"],
+    skills: ["React", "Node.js", "Python", "Machine Learning", "Computer Science", "Programming", "Software Development"],
     experience_years: 8,
     bio: "Passionate about teaching modern web development and helping students build real-world projects. Specialized in full-stack development and AI integration.",
     available_time_slots: [
@@ -98,7 +97,7 @@ const mentors = [
     image: "/images/mentor1.jpg",
     rating: 4.9,
     students: 156,
-    hourlyRate: 75
+    
   },
   {
     _id: "2",
@@ -117,7 +116,7 @@ const mentors = [
     image: "/images/mentor2.jpg",
     rating: 4.8,
     students: 203,
-    hourlyRate: 90
+    
   },
   {
     _id: "3",
@@ -136,7 +135,7 @@ const mentors = [
     image: "/images/mentor3.jpg",
     rating: 4.7,
     students: 128,
-    hourlyRate: 65
+    
   },
   {
     _id: "4",
@@ -155,7 +154,7 @@ const mentors = [
     image: "/images/mentor4.jpg",
     rating: 4.9,
     students: 89,
-    hourlyRate: 80
+    
   },
   {
     _id: "5",
@@ -174,7 +173,58 @@ const mentors = [
     image: "/images/mentor5.jpg",
     rating: 4.8,
     students: 267,
-    hourlyRate: 70
+   
+  },
+  {
+    _id: "6",
+    name: "Dr. Robert Wilson",
+    phone: "+1 (555) 678-9012",
+    designation: "Physics Professor",
+    skills: ["Physics", "Quantum Mechanics", "Thermodynamics", "Mechanics", "Electromagnetism"],
+    experience_years: 18,
+    bio: "Experienced physics professor specializing in theoretical and applied physics. Expert in helping students understand complex physics concepts.",
+    available_time_slots: [
+      { day: "Tuesday", start_time: "08:00", end_time: "12:00" },
+      { day: "Thursday", start_time: "14:00", end_time: "18:00" }
+    ],
+    isActive: true,
+    image: "/images/r2.jpg",
+    rating: 4.9,
+    students: 189,
+  },
+  {
+    _id: "7",
+    name: "Eng. Maria Rodriguez",
+    phone: "+1 (555) 789-0123",
+    designation: "Mechanical Engineer",
+    skills: ["Engineering", "CAD Design", "Mechanical Engineering", "Project Development", "Engineering Mathematics"],
+    experience_years: 12,
+    bio: "Professional mechanical engineer with extensive industry experience. Specialized in engineering design and practical problem-solving.",
+    available_time_slots: [
+      { day: "Monday", start_time: "15:00", end_time: "19:00" },
+      { day: "Saturday", start_time: "09:00", end_time: "13:00" }
+    ],
+    isActive: true,
+    image: "/images/r3.jpg",
+    rating: 4.7,
+    students: 145,
+  },
+  {
+    _id: "8",
+    name: "Dr. Kevin Zhang",
+    phone: "+1 (555) 890-1234",
+    designation: "Electronics Engineer",
+    skills: ["Electronics", "Circuit Design", "Power Systems", "Signal Processing", "Electrical Engineering"],
+    experience_years: 10,
+    bio: "Electronics specialist with expertise in circuit design and power systems. Helping students master electronic engineering fundamentals.",
+    available_time_slots: [
+      { day: "Wednesday", start_time: "10:00", end_time: "14:00" },
+      { day: "Friday", start_time: "16:00", end_time: "20:00" }
+    ],
+    isActive: true,
+    image: "/images/r4.jpg",
+    rating: 4.8,
+    students: 203,
   }
 ];
 
@@ -183,7 +233,6 @@ const MentorPage = () => {
   const location = useLocation();
   const { subject } = useParams();
   const { showLoader, hideLoader } = useLoading();
-  const { navigateWithLoader } = useNavigateWithLoader();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSkill, setSelectedSkill] = useState("");
   const [sortBy, setSortBy] = useState("rating");
@@ -223,14 +272,6 @@ const MentorPage = () => {
     }, 500);
   };
 
-  // Handle mentor card click
-  const handleMentorClick = (mentor) => {
-    navigateWithLoader(`/mentor-profile/${mentor._id}`, {
-      message: `CONNECTING TO ${mentor.name.toUpperCase()}...`,
-      duration: 1500
-    });
-  };
-
   // Handle contact actions
   const handleContact = (mentor, type) => {
     showLoader(`INITIATING ${type.toUpperCase()}...`);
@@ -259,15 +300,26 @@ const MentorPage = () => {
     setShowDetailsPopup(false);
     setSelectedMentorDetails(null);
   };
-
-  const allSkills = [...new Set(mentors.flatMap(mentor => mentor.skills))];
-
   // Filter mentors or seniors by type
   const filteredMentors = (selectedType === "Mentor" ? mentors : seniors).filter(person => {
-    const matchesSearch = person.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         person.designation.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         person.skills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                         person.bio.toLowerCase().includes(searchTerm.toLowerCase());
+    const searchTerm_lower = searchTerm.toLowerCase();
+    
+    // Enhanced search matching for subjects
+    const matchesSearch = person.name.toLowerCase().includes(searchTerm_lower) ||
+                         person.designation.toLowerCase().includes(searchTerm_lower) ||
+                         person.skills.some(skill => {
+                           const skill_lower = skill.toLowerCase();
+                           // Direct match or subject-related matching
+                           return skill_lower.includes(searchTerm_lower) ||
+                                  (searchTerm_lower.includes('math') && skill_lower.includes('math')) ||
+                                  (searchTerm_lower.includes('computer') && (skill_lower.includes('programming') || skill_lower.includes('software') || skill_lower.includes('computer'))) ||
+                                  (searchTerm_lower.includes('physics') && (skill_lower.includes('physics') || skill_lower.includes('science'))) ||
+                                  (searchTerm_lower.includes('engineering') && (skill_lower.includes('engineering') || skill_lower.includes('cad') || skill_lower.includes('design'))) ||
+                                  (searchTerm_lower.includes('data science') && (skill_lower.includes('data') || skill_lower.includes('analytics') || skill_lower.includes('ml') || skill_lower.includes('machine learning'))) ||
+                                  (searchTerm_lower.includes('electronics') && (skill_lower.includes('electronics') || skill_lower.includes('circuit') || skill_lower.includes('electrical')));
+                         }) ||
+                         person.bio.toLowerCase().includes(searchTerm_lower);
+    
     const matchesSkill = selectedSkill === "" || person.skills.includes(selectedSkill);
     return matchesSearch && matchesSkill;
   });
@@ -276,15 +328,15 @@ const MentorPage = () => {
     if (sortBy === "rating") return b.rating - a.rating;
     if (sortBy === "experience") return b.experience_years - a.experience_years;
     if (sortBy === "students") return b.students - a.students;
-    if (sortBy === "price") return a.hourlyRate - b.hourlyRate;
+  
     return 0;
   });
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${
       isDarkMode 
-        ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' 
-        : 'bg-gradient-to-br from-white via-gray-50 to-purple-50'
+        ? 'bg-gray-900' 
+        : 'bg-gradient-to-br from-[#d7d4e0]/20 via-white to-[#7B61FF]/10'
     }`}>
       {/* Use shared Navbar component */}
       <Navbar />
@@ -297,8 +349,8 @@ const MentorPage = () => {
             <motion.div 
               className={`mb-6 inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${
                 isDarkMode 
-                  ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' 
-                  : 'bg-purple-100 text-purple-700 border border-purple-200'
+                  ? 'bg-[#7B61FF]/20 text-[#d7d4e0] border border-[#7B61FF]/30' 
+                  : 'bg-[#7968ED]/10 text-[#7968ED] border border-[#7968ED]/20'
               }`}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -317,7 +369,7 @@ const MentorPage = () => {
             transition={{ duration: 0.8 }}
           >
             Meet Our Expert{" "}
-            <span className="bg-gradient-to-r from-purple-500 to-purple-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#7B61FF] to-[#7968ED] bg-clip-text text-transparent">
               Mentors
             </span>
           </motion.h1>
@@ -335,8 +387,8 @@ const MentorPage = () => {
         <motion.div 
           className={`rounded-2xl p-6 mb-12 border ${
             isDarkMode 
-              ? 'bg-gray-800/50 border-gray-700' 
-              : 'bg-white border-gray-200'
+              ? 'bg-gray-800 border-[#7B61FF]/30' 
+              : 'bg-white border-[#7968ED]/20'
           } shadow-lg backdrop-blur-sm`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -347,12 +399,12 @@ const MentorPage = () => {
               <select
                 value={selectedType}
                 onChange={(e) => handleFilterChange('type', e.target.value)}
-                className={`w-full px-4 py-3 rounded-lg border transition-colors appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                className={`w-full px-4 py-3 rounded-lg border transition-colors appearance-none focus:outline-none focus:ring-2 focus:ring-[#7B61FF] ${
                   isDarkMode 
-                    ? 'bg-gray-700 border-gray-600 text-white focus:border-purple-500' 
-                    : 'bg-gray-50 border-gray-300 text-black focus:border-purple-500'
+                    ? 'bg-gray-700 border-gray-600 text-white focus:border-[#7B61FF]' 
+                    : 'bg-gray-50 border-gray-300 text-black focus:border-[#7968ED]'
                 }`}
-                style={{ color: '#8b5cf6' }} // Tailwind purple-500
+                style={{ color: '#7B61FF' }}
               >
                 <option value="Mentor">Mentor</option>
                 <option value="Senior">Senior</option>
@@ -376,48 +428,27 @@ const MentorPage = () => {
                   isDarkMode 
                     ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
                     : 'bg-gray-50 border-gray-300 text-black placeholder-gray-500'
-                } focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                } focus:outline-none focus:ring-2 focus:ring-[#7B61FF] focus:border-[#7B61FF]`}
               />
             </div>
 
             {/* Skill Filter */}
-            <div className="relative">
-              <select
-                value={selectedSkill}
-                onChange={(e) => handleFilterChange('skill', e.target.value)}
-                className={`w-full px-4 py-3 rounded-lg border transition-colors appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500 ${
-                  isDarkMode 
-                    ? 'bg-gray-700 border-gray-600 text-white focus:border-purple-500' 
-                    : 'bg-gray-50 border-gray-300 text-black focus:border-purple-500'
-                }`}
-                style={{ color: '#8b5cf6' }} // Tailwind purple-500
-              >
-                <option value="">All Skills</option>
-                {allSkills.map(skill => (
-                  <option key={skill} value={skill}>{skill}</option>
-                ))}
-              </select>
-              <ChevronDown className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 ${
-                isDarkMode ? 'text-gray-400' : 'text-gray-500'
-              } pointer-events-none`} />
-            </div>
-
+       
             {/* Sort */}
             <div className="relative">
               <select
                 value={sortBy}
                 onChange={(e) => handleFilterChange('sort', e.target.value)}
-                className={`w-full px-4 py-3 rounded-lg border transition-colors appearance-none focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                className={`w-full px-4 py-3 rounded-lg border transition-colors appearance-none focus:outline-none focus:ring-2 focus:ring-[#7B61FF] ${
                   isDarkMode 
-                    ? 'bg-gray-700 border-gray-600 text-white focus:border-purple-500' 
-                    : 'bg-gray-50 border-gray-300 text-black focus:border-purple-500'
+                    ? 'bg-gray-700 border-gray-600 text-white focus:border-[#7B61FF]' 
+                    : 'bg-gray-50 border-gray-300 text-black focus:border-[#7968ED]'
                 }`}
-                style={{ color: '#8b5cf6' }} // Tailwind purple-500
+                style={{ color: '#7B61FF' }}
               >
                 <option value="rating">Highest Rated</option>
                 <option value="experience">Most Experienced</option>
-                <option value="students">Most Students</option>
-                <option value="price">Lowest Price</option>
+             
               </select>
               <ChevronDown className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 ${
                 isDarkMode ? 'text-gray-400' : 'text-gray-500'
@@ -445,8 +476,8 @@ const MentorPage = () => {
               key={mentor._id}
               className={`rounded-2xl p-6 border transition-all duration-300 hover:scale-105 hover:shadow-2xl group ${
                 isDarkMode 
-                  ? 'bg-gray-800/50 border-gray-700 hover:bg-gray-800' 
-                  : 'bg-white border-gray-200 hover:shadow-purple-100'
+                  ? 'bg-gray-800 border-gray-700 hover:bg-gray-750 hover:border-[#7B61FF]' 
+                  : 'bg-white border-[#7968ED]/20 hover:shadow-[#7B61FF]/20 hover:border-[#7B61FF]'
               }`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -455,15 +486,20 @@ const MentorPage = () => {
             >
               {/* Mentor/Senior Image */}
               <div className="relative mb-6">
-                <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-r from-purple-500 to-purple-600 p-1">
-                  <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center text-2xl font-bold text-purple-600">
+                <div className="w-20 h-20 mx-auto rounded-full border-2 border-[#7B61FF]/30 overflow-hidden">
+                  <img 
+                    src={mentor.image} 
+                    alt={mentor.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // Fallback to initials if image fails to load
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'flex';
+                    }}
+                  />
+                  <div className="w-full h-full bg-gradient-to-r from-[#7B61FF] to-[#7968ED] flex items-center justify-center text-2xl font-bold text-white hidden">
                     {mentor.name.split(' ').map(n => n[0]).join('')}
                   </div>
-                </div>
-                <div className={`absolute -top-2 -right-2 w-6 h-6 rounded-full flex items-center justify-center ${
-                  mentor.isActive ? 'bg-green-500' : 'bg-gray-500'
-                }`}>
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
                 </div>
               </div>
 
@@ -472,21 +508,19 @@ const MentorPage = () => {
                 <h3 className={`text-xl font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-black'}`}>
                   {mentor.name}
                 </h3>
-                <p className="text-purple-500 font-medium text-sm mb-3">
+                <p className="text-[#7968ED] font-medium text-sm mb-3">
                   {mentor.designation}
                 </p>
                 
-                {/* Rating and Rate */}
-                <div className="flex items-center justify-between mb-4">
+                {/* Rating Display - Centered */}
+                <div className="flex items-center justify-center mb-4">
                   <div className="flex items-center space-x-1">
                     <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                    <span className={`text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                    <span className={`text-sm font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
                       {mentor.rating}
                     </span>
-                  </div>
-                  <div className="text-right">
-                    <span className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                      ${mentor.hourlyRate}/hr
+                    <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                      ({Math.floor(Math.random() * 50) + 20} reviews)
                     </span>
                   </div>
                 </div>
@@ -503,8 +537,8 @@ const MentorPage = () => {
                       key={skill}
                       className={`px-3 py-1 rounded-full text-xs font-medium ${
                         isDarkMode 
-                          ? 'bg-purple-500/20 text-purple-300' 
-                          : 'bg-purple-100 text-purple-700'
+                          ? 'bg-[#7B61FF]/20 text-[#d7d4e0] border border-[#7B61FF]/30' 
+                          : 'bg-[#7968ED]/10 text-[#7968ED] border border-[#7968ED]/20'
                       }`}
                     >
                       {skill}
@@ -531,8 +565,8 @@ const MentorPage = () => {
                   }}
                   className={`flex items-center justify-center space-x-2 px-6 py-3 rounded-lg text-sm font-medium transition-colors w-full ${
                     isDarkMode 
-                      ? 'bg-purple-600/20 text-purple-400 hover:bg-purple-600/30' 
-                      : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
+                      ? 'bg-[#7B61FF]/20 text-[#d7d4e0] hover:bg-[#7B61FF]/30 border border-[#7B61FF]/30' 
+                      : 'bg-[#7968ED]/10 text-[#7968ED] hover:bg-[#7968ED]/20 border border-[#7968ED]/20'
                   }`}
                 >
                   <Info className="w-4 h-4" />
@@ -566,7 +600,7 @@ const MentorPage = () => {
                 handleFilterChange('skill', "");
                 handleFilterChange('sort', "rating");
               }}
-              className="px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg font-medium hover:shadow-lg transition-shadow"
+              className="px-6 py-3 bg-gradient-to-r from-[#7B61FF] to-[#7968ED] text-white rounded-lg font-medium hover:shadow-lg transition-shadow"
             >
               Clear All Filters
             </button>
@@ -621,17 +655,20 @@ const MentorPage = () => {
                 <p className="text-purple-500 font-medium text-lg mb-4">
                   {selectedMentorDetails.designation}
                 </p>
-                <div className="flex items-center justify-center space-x-6">
+                <div className="flex items-center justify-center space-x-6 mb-4">
                   <div className="flex items-center space-x-2">
                     <Star className="w-5 h-5 text-yellow-400 fill-current" />
-                    <span className={`text-lg font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                    <span className={`text-lg font-bold ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
                       {selectedMentorDetails.rating}
+                    </span>
+                    <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                      ({Math.floor(Math.random() * 100) + 50} reviews)
                     </span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Users className={`w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
                     <span className={`text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                      {selectedMentorDetails.students} students
+                      {Math.floor(Math.random() * 50) + 20} students
                     </span>
                   </div>
                   <div className="flex items-center space-x-2">
@@ -740,12 +777,12 @@ const MentorPage = () => {
                   }}
                   className={`flex items-center justify-center space-x-2 px-6 py-3 rounded-lg font-medium transition-colors ${
                     isDarkMode 
-                      ? 'bg-green-600/20 text-green-400 hover:bg-green-600/30' 
-                      : 'bg-green-100 text-green-700 hover:bg-green-200'
+                      ? 'bg-[#7B61FF]/20 text-[#d7d4e0] hover:bg-[#7B61FF]/30 border border-[#7B61FF]/30' 
+                      : 'bg-[#7968ED]/10 text-[#7968ED] hover:bg-[#7968ED]/20 border border-[#7968ED]/20'
                   }`}
                 >
-                  <Phone className="w-5 h-5" />
-                  <span>Call Now</span>
+                  <Send className="w-5 h-5" />
+                  <span>Send Request</span>
                 </button>
                 
                 <button

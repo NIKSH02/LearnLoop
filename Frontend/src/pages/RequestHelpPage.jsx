@@ -136,10 +136,10 @@ const RequestHelpPage = () => {
       onClick={() => onClick(id)}
       className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
         isActive
-          ? `bg-gradient-to-r from-purple-600 to-purple-800 text-white shadow-lg`
+          ? `bg-gradient-to-r from-[#7B61FF] to-[#7968ED] text-white shadow-lg`
           : isDarkMode
             ? 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 hover:text-white'
-            : 'bg-gray-100/50 text-gray-600 hover:bg-gray-200/50 hover:text-gray-900'
+            : 'bg-[#d7d4e0]/30 text-gray-600 hover:bg-[#d7d4e0]/50 hover:text-gray-900'
       }`}
       whileHover={{ scale: 1.02, y: -1 }}
       whileTap={{ scale: 0.98 }}
@@ -152,8 +152,8 @@ const RequestHelpPage = () => {
   return (
     <div className={`min-h-screen transition-all duration-500 ${
       isDarkMode 
-        ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-slate-900' 
-        : 'bg-gradient-to-br from-white via-gray-50 to-purple-50'
+        ? 'bg-gradient-to-br from-gray-900 via-[#7B61FF]/10 to-[#d7d4e0]/5' 
+        : 'bg-gradient-to-br from-white via-[#d7d4e0]/20 to-[#7B61FF]/10'
     }`}>
       <Navbar />
       
@@ -167,14 +167,14 @@ const RequestHelpPage = () => {
             transition={{ duration: 0.6 }}
           >
             <div className="flex items-center justify-center mb-6">
-              <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center shadow-xl`}>
+              <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br from-[#7B61FF] to-[#7968ED] flex items-center justify-center shadow-xl`}>
                 <MessageSquare className="w-8 h-8 text-white" />
               </div>
             </div>
             <h1 className={`text-4xl md:text-5xl font-black leading-tight mb-4 ${
               isDarkMode ? 'text-white' : 'text-gray-900'
             }`}>
-              Get <span className="bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">Expert Help</span>
+              Get <span className="bg-gradient-to-r from-[#7B61FF] to-[#7968ED] bg-clip-text text-transparent">Expert Help</span>
             </h1>
             <p className={`text-xl font-medium max-w-3xl mx-auto ${
               isDarkMode ? 'text-gray-300' : 'text-gray-600'
@@ -236,6 +236,9 @@ const RequestHelpPage = () => {
                     : 'bg-white/50 border-gray-200/50'
                 } backdrop-blur-xl border shadow-2xl`}>
                   
+                  {/* Session Type Selection */}
+              
+                  
                   {/* Question Input */}
                   <div className="mb-8">
                     <h3 className={`text-2xl font-bold mb-4 ${
@@ -248,7 +251,7 @@ const RequestHelpPage = () => {
                       onChange={(e) => setQuestionText(e.target.value)}
                       placeholder="Please provide a detailed description of your question or the concept you need help with..."
                       rows={6}
-                      className={`w-full px-6 py-4 rounded-2xl border-2 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none ${
+                      className={`w-full px-6 py-4 rounded-2xl border-2 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#7B61FF] focus:border-transparent resize-none ${
                         isDarkMode
                           ? 'bg-gray-700/50 border-gray-600 text-white placeholder-gray-400'
                           : 'bg-white/50 border-gray-200 text-gray-900 placeholder-gray-500'
@@ -267,8 +270,8 @@ const RequestHelpPage = () => {
                     <div
                       className={`border-2 border-dashed rounded-2xl p-8 text-center transition-all duration-300 cursor-pointer ${
                         isDarkMode
-                          ? 'border-gray-600 hover:border-purple-500 bg-gray-700/30'
-                          : 'border-gray-300 hover:border-purple-500 bg-gray-50/30'
+                          ? 'border-gray-600 hover:border-[#7B61FF] bg-gray-700/30'
+                          : 'border-gray-300 hover:border-[#7B61FF] bg-gray-50/30'
                       }`}
                       onClick={() => fileInputRef.current?.click()}
                     >
@@ -351,10 +354,10 @@ const RequestHelpPage = () => {
                             key={duration}
                             className={`flex items-center space-x-3 p-3 rounded-xl cursor-pointer transition-all duration-300 ${
                               sessionDuration === duration
-                                ? 'bg-gradient-to-r from-purple-600 to-purple-800 text-white'
+                                ? 'bg-gradient-to-r from-[#7B61FF] to-[#7968ED] text-white'
                                 : isDarkMode
                                   ? 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50'
-                                  : 'bg-gray-100/50 text-gray-700 hover:bg-gray-200/50'
+                                  : 'bg-[#d7d4e0]/20 text-gray-700 hover:bg-[#d7d4e0]/40'
                             }`}
                           >
                             <input
@@ -393,7 +396,7 @@ const RequestHelpPage = () => {
                     className={`w-full py-4 px-8 rounded-2xl font-bold text-lg transition-all duration-300 ${
                       !questionText.trim() || isSubmitting
                         ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-purple-600 to-purple-800 text-white hover:from-purple-700 hover:to-purple-900 shadow-lg hover:shadow-xl'
+                        : 'bg-gradient-to-r from-[#7B61FF] to-[#7968ED] text-white hover:from-[#7968ED] hover:to-[#7B61FF] shadow-lg hover:shadow-xl'
                     }`}
                     whileHover={questionText.trim() && !isSubmitting ? { scale: 1.02, y: -2 } : {}}
                     whileTap={questionText.trim() && !isSubmitting ? { scale: 0.98 } : {}}
@@ -427,8 +430,8 @@ const RequestHelpPage = () => {
                 {/* Search and Filter */}
                 <div className={`rounded-2xl p-6 mb-8 ${
                   isDarkMode 
-                    ? 'bg-gray-800/50 border-gray-700/50' 
-                    : 'bg-white/50 border-gray-200/50'
+                    ? 'bg-gray-800/50 border-[#7B61FF]/20' 
+                    : 'bg-[#d7d4e0]/10 border-[#7968ED]/20'
                 } backdrop-blur-xl border`}>
                   <div className="flex flex-col md:flex-row gap-4">
                     <div className="flex-1 relative">
@@ -438,7 +441,7 @@ const RequestHelpPage = () => {
                       <input
                         type="text"
                         placeholder="Search mentors by name or expertise..."
-                        className={`w-full pl-12 pr-4 py-3 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent ${
+                        className={`w-full pl-12 pr-4 py-3 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#7B61FF] focus:border-transparent ${
                           isDarkMode
                             ? 'bg-gray-700/50 border-gray-600 text-white placeholder-gray-400'
                             : 'bg-white/50 border-gray-200 text-gray-900 placeholder-gray-500'
@@ -447,8 +450,8 @@ const RequestHelpPage = () => {
                     </div>
                     <button className={`flex items-center space-x-2 px-6 py-3 rounded-xl border transition-all duration-300 ${
                       isDarkMode
-                        ? 'bg-gray-700/50 border-gray-600 text-gray-300 hover:bg-gray-600/50'
-                        : 'bg-white/50 border-gray-200 text-gray-700 hover:bg-gray-100/50'
+                        ? 'bg-gray-700/50 border-[#7B61FF]/30 text-gray-300 hover:bg-[#7B61FF]/10'
+                        : 'bg-[#d7d4e0]/20 border-[#7968ED]/30 text-gray-700 hover:bg-[#d7d4e0]/40'
                     }`}>
                       <Filter size={18} />
                       <span>Filter</span>
@@ -463,8 +466,8 @@ const RequestHelpPage = () => {
                       key={senior.id}
                       className={`rounded-2xl p-6 ${
                         isDarkMode 
-                          ? 'bg-gray-800/50 border-gray-700/50' 
-                          : 'bg-white/50 border-gray-200/50'
+                          ? 'bg-gray-800/50 border-[#7B61FF]/20' 
+                          : 'bg-[#d7d4e0]/10 border-[#7968ED]/20'
                       } backdrop-blur-xl border shadow-lg hover:shadow-xl transition-all duration-300`}
                       whileHover={{ scale: 1.02, y: -4 }}
                     >
@@ -472,7 +475,7 @@ const RequestHelpPage = () => {
                         <img
                           src={senior.avatar}
                           alt={senior.name}
-                          className="w-16 h-16 rounded-2xl object-cover border-2 border-purple-500/20"
+                          className="w-16 h-16 rounded-2xl object-cover border-2 border-[#7B61FF]/20"
                         />
                         <div className="flex-1">
                           <h3 className={`font-bold text-lg ${
@@ -481,7 +484,7 @@ const RequestHelpPage = () => {
                             {senior.name}
                           </h3>
                           <p className={`font-medium ${
-                            isDarkMode ? 'text-purple-400' : 'text-purple-600'
+                            isDarkMode ? 'text-[#d7d4e0]' : 'text-[#7968ED]'
                           }`}>
                             {senior.subject}
                           </p>
@@ -520,8 +523,8 @@ const RequestHelpPage = () => {
                               key={index}
                               className={`px-2 py-1 text-xs rounded-full ${
                                 isDarkMode 
-                                  ? 'bg-purple-500/20 text-purple-300' 
-                                  : 'bg-purple-100 text-purple-700'
+                                  ? 'bg-[#7B61FF]/20 text-[#d7d4e0]' 
+                                  : 'bg-[#d7d4e0]/30 text-[#7968ED]'
                               }`}
                             >
                               {specialty}
@@ -542,13 +545,13 @@ const RequestHelpPage = () => {
                       <div className="grid grid-cols-2 gap-3">
                         <button className={`py-2 px-4 rounded-xl font-semibold transition-all duration-300 ${
                           isDarkMode
-                            ? 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50 border border-gray-600'
-                            : 'bg-gray-100/50 text-gray-700 hover:bg-gray-200/50 border border-gray-200'
+                            ? 'bg-gray-700/50 text-gray-300 hover:bg-[#7B61FF]/20 border border-[#7B61FF]/30'
+                            : 'bg-[#d7d4e0]/20 text-gray-700 hover:bg-[#d7d4e0]/40 border border-[#7968ED]/30'
                         }`}>
                           <MessageSquare size={16} className="inline mr-2" />
                           Chat
                         </button>
-                        <button className="py-2 px-4 rounded-xl font-semibold text-white bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 transition-all duration-300">
+                        <button className="py-2 px-4 rounded-xl font-semibold text-white bg-gradient-to-r from-[#7B61FF] to-[#7968ED] hover:from-[#7968ED] hover:to-[#7B61FF] transition-all duration-300">
                           <Video size={16} className="inline mr-2" />
                           Session
                         </button>
@@ -569,8 +572,8 @@ const RequestHelpPage = () => {
               >
                 <div className={`rounded-2xl p-6 mb-8 ${
                   isDarkMode 
-                    ? 'bg-gray-800/50 border-gray-700/50' 
-                    : 'bg-white/50 border-gray-200/50'
+                    ? 'bg-gray-800/50 border-[#7B61FF]/20' 
+                    : 'bg-[#d7d4e0]/10 border-[#7968ED]/20'
                 } backdrop-blur-xl border`}>
                   <h3 className={`text-2xl font-bold mb-4 ${
                     isDarkMode ? 'text-white' : 'text-gray-900'
@@ -593,8 +596,8 @@ const RequestHelpPage = () => {
                         animate={{ opacity: 1, y: 0 }}
                         className={`rounded-2xl p-6 ${
                           isDarkMode 
-                            ? 'bg-gray-800/50 border-gray-700/50' 
-                            : 'bg-white/50 border-gray-200/50'
+                            ? 'bg-gray-800/50 border-[#7B61FF]/20' 
+                            : 'bg-[#d7d4e0]/10 border-[#7968ED]/20'
                         } backdrop-blur-xl border shadow-lg hover:shadow-xl transition-all duration-300`}
                       >
                         <div className="flex items-start space-x-4">

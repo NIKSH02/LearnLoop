@@ -12,16 +12,19 @@ import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import AboutPage from './pages/AboutPage';
 import MentorPage from './pages/MentorPage';
-import UserProfile from './pages/UserProfile'
+
+
 import RoleSelectionPage from './pages/RoleSelectionPage';
 import MentorProfile from './pages/MentorProfile';
 import RequestHelpPage from './pages/RequestHelpPage';
+import MeetYourGuide from './pages/MeetYourGuide';
 
 
 // Components
 import GlobalLoader from './components/GlobalLoader';
 import RolePopup from './components/RolePopup';
 import AIAssistant from './components/AIAssistant';
+
 
 
 // Styles
@@ -83,10 +86,8 @@ function App() {
             <div className="App min-h-screen">
               <Routes>
                 {/* Global Navigation Bar can be added here */}
-                <Route
-                path="/UserProfile"
-                element={ <UserProfile /> }
-                />
+              
+             
                 <Route 
                   path='/MentorProfile'
                   element={<MentorProfile />}
@@ -94,6 +95,10 @@ function App() {
                 <Route 
                   path='/request-help'
                   element={<RequestHelpPage />}
+                />
+                <Route 
+                  path='/meet-your-guide'
+                  element={<MeetYourGuide />}
                 />
                 {/* Home/Landing Page */}
                 <Route 
@@ -128,10 +133,7 @@ function App() {
                   path="/mentors" 
                   element={<MentorPage />} 
                 />
-                <Route 
-                  path="/mentors/:subject" 
-                  element={<MentorPage />} 
-                />
+              
                 <Route 
                   path="/teachers" 
                   element={<MentorPage />} 
