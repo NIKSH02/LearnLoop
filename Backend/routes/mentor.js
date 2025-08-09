@@ -3,6 +3,7 @@ import multer from "multer";
 import {
   registerMentor,
   getMentorProfile,
+  createMentorProfile,
   updateMentorProfile,
   updateMentorProfileImage,
   deleteMentorProfile,
@@ -40,6 +41,7 @@ router.use(protect);
 // Mentor registration and profile management
 router.post("/register", registerMentor);
 router.get("/profile", getMentorProfile);
+router.post("/profile", createMentorProfile);
 router.put("/profile", updateMentorProfile);
 router.delete("/profile", deleteMentorProfile);
 

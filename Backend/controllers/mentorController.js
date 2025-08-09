@@ -101,6 +101,67 @@ export const getMentorProfile = asyncHandler(async (req, res) => {
     );
 });
 
+// Create mentor profile (alternative to registerMentor for frontend compatibility)
+export const createMentorProfile = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const profileData = req.body;
+
+  // Check if user already has a mentor profile
+  const existingMentor = await Mentor.findOne({ user_id: userId });
+  if (existingMentor) {
+    throw new ApiError(400, "Mentor profile already exists");
+  }
+
+  // Validate required fields for mentor profile
+  const { name, phone, designation, bio, skills, experience_years } = profileData;
+  
+  if (!name || !phone || !designation || !bio) {
+    throw new ApiError(400, "Name, phone, designation, and bio are required");
+  }
+
+  // Validate phone number
+  if (!/^\d{10}$/.test(phone)) {
+    throw new ApiError(400, "Phone number must be exactly 10 digits");
+  }
+
+  if (!skills || !Array.isArray(skills) || skills.length === 0) {
+    throw new ApiError(400, "At least one skill is required");
+  }
+
+  if (experience_years === undefined || experience_years < 0) {
+    throw new ApiError(400, "Valid experience years are required");
+  }
+
+  // Create mentor profile
+  const mentor = await Mentor.create({
+    user_id: userId,
+    name: name.trim(),
+    phone: phone.trim(),
+    designation: designation.trim(),
+    bio: bio.trim(),
+    skills: skills.map(skill => skill.trim()),
+    experience_years: experience_years || 0,
+    available_time_slots: profileData.available_time_slots || [],
+    isActive: profileData.isActive !== undefined ? profileData.isActive : true,
+  });
+
+  // Populate user info
+  const mentorWithUser = await Mentor.findById(mentor._id).populate(
+    "user_id",
+    "email fullName"
+  );
+
+  // Update user role and profile completion status
+  await User.findByIdAndUpdate(userId, {
+    role: "mentor",
+    isProfileComplete: true,
+  });
+
+  res
+    .status(201)
+    .json(new ApiResponse(201, mentorWithUser, "Mentor profile created successfully"));
+});
+
 // Update mentor profile
 export const updateMentorProfile = asyncHandler(async (req, res) => {
   const userId = req.user._id;
@@ -110,19 +171,83 @@ export const updateMentorProfile = asyncHandler(async (req, res) => {
   delete updateFields.user_id;
   delete updateFields._id;
 
-  const mentor = await Mentor.findOneAndUpdate(
+  // Clean up the update fields
+  const cleanedFields = {};
+  
+  if (updateFields.name) cleanedFields.name = updateFields.name.trim();
+  if (updateFields.phone) {
+    const phone = updateFields.phone.trim();
+    if (!/^\d{10}$/.test(phone)) {
+      throw new ApiError(400, "Phone number must be exactly 10 digits");
+    }
+    cleanedFields.phone = phone;
+  }
+  if (updateFields.designation) cleanedFields.designation = updateFields.designation.trim();
+  if (updateFields.bio) cleanedFields.bio = updateFields.bio.trim();
+  if (updateFields.skills && Array.isArray(updateFields.skills)) {
+    cleanedFields.skills = updateFields.skills.map(skill => skill.trim());
+  }
+  if (updateFields.experience_years !== undefined) {
+    cleanedFields.experience_years = updateFields.experience_years;
+  }
+  if (updateFields.available_time_slots !== undefined) {
+    cleanedFields.available_time_slots = updateFields.available_time_slots;
+  }
+  if (updateFields.isActive !== undefined) {
+    cleanedFields.isActive = updateFields.isActive;
+  }
+
+  // Try to find and update existing mentor profile
+  let mentor = await Mentor.findOneAndUpdate(
     { user_id: userId },
-    updateFields,
+    cleanedFields,
     { new: true, runValidators: true }
   ).populate("user_id", "email fullName");
 
+  // If no mentor profile exists, create a new one
   if (!mentor) {
-    throw new ApiError(404, "Mentor profile not found");
-  }
+    // Get user info for creating new mentor profile
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new ApiError(404, "User not found");
+    }
 
-  res
-    .status(200)
-    .json(new ApiResponse(200, mentor, "Mentor profile updated successfully"));
+    // For creation, we need all required fields
+    const requiredFields = ['name', 'phone', 'designation', 'bio', 'skills', 'experience_years'];
+    const missingFields = requiredFields.filter(field => !cleanedFields[field]);
+    
+    if (missingFields.length > 0) {
+      throw new ApiError(400, `Missing required fields: ${missingFields.join(', ')}`);
+    }
+
+    // Create new mentor profile
+    mentor = await Mentor.create({
+      user_id: userId,
+      ...cleanedFields
+    });
+
+    // Populate user info
+    mentor = await Mentor.findById(mentor._id).populate("user_id", "email fullName");
+
+    // Update user role and profile completion status
+    await User.findByIdAndUpdate(userId, {
+      role: "mentor",
+      isProfileComplete: true,
+    });
+
+    res
+      .status(201)
+      .json(new ApiResponse(201, mentor, "Mentor profile created successfully"));
+  } else {
+    // Update user profile completion status if not already set
+    await User.findByIdAndUpdate(userId, {
+      isProfileComplete: true,
+    });
+
+    res
+      .status(200)
+      .json(new ApiResponse(200, mentor, "Mentor profile updated successfully"));
+  }
 });
 
 // Update mentor profile image
