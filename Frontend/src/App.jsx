@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 // Context Providers
@@ -14,20 +14,33 @@ import AboutPage from './pages/AboutPage';
 import MentorPage from './pages/MentorPage';
 import UserProfile from './pages/UserProfile'
 import RoleSelectionPage from './pages/RoleSelectionPage';
+import MentorProfile from './pages/MentorProfile';
+import RequestHelpPage from './pages/RequestHelpPage';
+
 
 // Components
-import AIAssistant from './components/AIAssistant';
+import GlobalLoader from './components/GlobalLoader';
 import RolePopup from './components/RolePopup';
+import AIAssistant from './components/AIAssistant';
 
 
 // Styles
 import './App.css';
-import MentorProfile from './pages/MentorProfile';
+
 
 // Simple Loading Provider implementation
 const LoadingProvider = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadingMessage, setLoadingMessage] = useState('LOADING...');
+  const [isLoading, setIsLoading] = useState(true); // Start with loading true
+  const [loadingMessage, setLoadingMessage] = useState('Initializing TutorLink...');
+
+  // Hide loader after initial load
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000); // Show loading for 3 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const showLoader = (message = 'LOADING...') => {
     setLoadingMessage(message);
@@ -49,14 +62,7 @@ const LoadingProvider = ({ children }) => {
   return (
     <LoadingContext.Provider value={value}>
       {children}
-      {isLoading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
-          <div className="text-center text-white">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-            <p className="text-lg font-medium">{loadingMessage}</p>
-          </div>
-        </div>
-      )}
+      <GlobalLoader isLoading={isLoading} loadingMessage={loadingMessage} />
     </LoadingContext.Provider>
   );
 };
@@ -84,6 +90,10 @@ function App() {
                 <Route 
                   path='/MentorProfile'
                   element={<MentorProfile />}
+                />
+                <Route 
+                  path='/request-help'
+                  element={<RequestHelpPage />}
                 />
                 {/* Home/Landing Page */}
                 <Route 
@@ -119,6 +129,10 @@ function App() {
                   element={<MentorPage />} 
                 />
                 <Route 
+                  path="/mentors/:subject" 
+                  element={<MentorPage />} 
+                />
+                <Route 
                   path="/teachers" 
                   element={<MentorPage />} 
                 />
@@ -126,12 +140,9 @@ function App() {
                 {/* AI Assistant */}
                 <Route 
                   path="/ai-assistant" 
-                  element={
-                    <ProtectedRoute>
-                      <AIAssistant />
-                    </ProtectedRoute>
-                  } 
+                  element={<AIAssistant />} 
                 />
+              
                 
                 {/* Contact Route - Can be a section on landing page */}
                 <Route 

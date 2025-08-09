@@ -1,9 +1,15 @@
 import React from "react";
 import { ArrowUpRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 
 const Images = () => {
   const { isDarkMode } = useTheme();
+  const navigate = useNavigate();
+
+  const handleRequestClick = () => {
+    navigate('/request-help');
+  };
 
   return (
     <section
@@ -23,7 +29,8 @@ const Images = () => {
         >
           {/* Top-right arrow */}
           <ArrowUpRight
-            className={`absolute top-6 right-6 w-6 h-6 cursor-pointer transform transition-all duration-300 hover:scale-125 hover:text-blue-500 ${
+            onClick={handleRequestClick}
+            className={`absolute top-6 right-6 w-6 h-6 cursor-pointer transform transition-all duration-300 hover:scale-125 hover:text-purple-500 ${
               isDarkMode ? "text-white" : "text-black"
             }`}
           />
@@ -31,8 +38,8 @@ const Images = () => {
           {/* Text Content */}
           <div>
             <p
-              className={`text-sm mb-4 transition-colors duration-300 ${
-                isDarkMode ? "text-gray-400" : "text-gray-500"
+              className={`text-sm mb-4 font-medium transition-colors duration-300 ${
+                isDarkMode ? "text-purple-400" : "text-purple-600"
               }`}
             >
               Welcome to Our Platform
@@ -43,20 +50,36 @@ const Images = () => {
                 isDarkMode ? "text-white" : "text-black"
               }`}
             >
-              Place Your Request or Ask Your Question <br />
-              and We'll Get Back to You
+              Place Your <span className="bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">Request</span> or Ask Your Question <br />
+              and We'll Get <span className="bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">Back to You</span>
             </h1>
           </div>
 
           <div
             className={`flex flex-wrap gap-6 items-center text-lg font-medium transition-colors duration-300 ${
-              isDarkMode ? "text-gray-200" : "text-black"
+              isDarkMode ? "text-gray-200" : "text-gray-800"
             }`}
           >
-            <span>Fast Response</span>
-            <span>Expert Help</span>
-            <span>Reliable Support</span>
-            <span>Available 24/7</span>
+            <span className={`transition-colors duration-300 ${
+              isDarkMode ? "hover:text-purple-400" : "hover:text-purple-600"
+            }`}>
+              <span className={`${isDarkMode ? "text-purple-400" : "text-purple-600"}`}>Fast</span> Response
+            </span>
+            <span className={`transition-colors duration-300 ${
+              isDarkMode ? "hover:text-purple-400" : "hover:text-purple-600"
+            }`}>
+              <span className={`${isDarkMode ? "text-purple-400" : "text-purple-600"}`}>Expert</span> Help
+            </span>
+            <span className={`transition-colors duration-300 ${
+              isDarkMode ? "hover:text-purple-400" : "hover:text-purple-600"
+            }`}>
+              <span className={`${isDarkMode ? "text-purple-400" : "text-purple-600"}`}>Reliable</span> Support
+            </span>
+            <span className={`transition-colors duration-300 ${
+              isDarkMode ? "hover:text-purple-400" : "hover:text-purple-600"
+            }`}>
+              Available <span className={`${isDarkMode ? "text-purple-400" : "text-purple-600"}`}>24/7</span>
+            </span>
           </div>
         </div>
 
@@ -69,7 +92,7 @@ const Images = () => {
           }`}
         >
           <img
-            src="/images/book.jpg"
+            src="/images/r8.jpg"
             alt="Books and Coffee"
             className={`w-[700px] h-[500px] object-cover shadow-xl transition-all duration-300 ${
               isDarkMode ? "opacity-80 contrast-110" : "opacity-100"

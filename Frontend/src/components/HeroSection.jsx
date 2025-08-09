@@ -4,19 +4,25 @@ import { useTheme } from "../context/ThemeContext";
 
 const slides = [
   { 
-    text: "Create a platform that connects students", 
+    text: "Connect Students with Expert Mentors", 
+    subtext: "Find the perfect tutor for any subject and unlock your potential",
     image: "r6.jpg",
-    highlight: "Connect & Learn"
+    highlight: "Connect & Learn",
+    color: "from-purple-600 to-purple-800"
   },
   { 
-    text: "who need help in specific subjects with their mentors or seniors who can tutor them", 
+    text: "Get Personalized Academic Support", 
+    subtext: "One-on-one guidance from experienced seniors and professionals",
     image: "r2.jpg",
-    highlight: "Expert Guidance"
+    highlight: "Expert Guidance",
+    color: "from-blue-600 to-purple-600"
   },
   { 
-    text: "enabling on-demand, subject-specific help", 
+    text: "Access On-Demand Learning", 
+    subtext: "Instant help whenever you need it, in any subject you choose",
     image: "r4.jpg",
-    highlight: "Instant Support"
+    highlight: "Instant Support",
+    color: "from-purple-600 to-indigo-600"
   },
 ];
 
@@ -25,223 +31,385 @@ const HeroSection = () => {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => setIndex((p) => (p + 1) % slides.length), 3000);
+    const interval = setInterval(() => setIndex((p) => (p + 1) % slides.length), 4000);
     return () => clearInterval(interval);
   }, []);
 
-  const pageBg = isDarkMode ? "#0b1220" : "#fbf7f2";
-
   return (
     <section
-      className={`relative flex flex-col md:flex-row items-center justify-center w-full h-screen px-6 transition-colors duration-500 overflow-hidden ${
+      className={`relative flex flex-col lg:flex-row items-center justify-between w-full min-h-screen px-6 lg:px-12 py-20 transition-all duration-700 overflow-hidden ${
         isDarkMode
-          ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 text-white"
-          : "bg-gradient-to-br from-white via-gray-50 to-gray-100 text-black"
+          ? "bg-gradient-to-br from-gray-900 via-gray-800 to-slate-900"
+          : "bg-gradient-to-br from-white via-gray-50 to-purple-50"
       }`}
-      style={{ "--page-bg": pageBg }}
     >
-      {/* Floating decorative elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Top-left */}
-        <div className="absolute top-8 left-8">
-          <div className={`w-20 h-20 rounded-2xl ${isDarkMode ? 'bg-purple-500/10' : 'bg-purple-100/80'} backdrop-blur-sm border ${isDarkMode ? 'border-purple-400/30' : 'border-purple-300/50'} flex items-center justify-center`}>
-            <div className={`w-3 h-3 rounded-full ${isDarkMode ? 'bg-purple-400' : 'bg-purple-600'} animate-pulse`}></div>
-          </div>
+      {/* Enhanced Background Elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Animated gradient orbs */}
+        <motion.div 
+          className={`absolute w-96 h-96 rounded-full opacity-20 ${isDarkMode ? 'bg-purple-500' : 'bg-purple-300'} blur-3xl`}
+          style={{ top: '-10%', right: '-10%' }}
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.1, 0.3, 0.1]
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div 
+          className={`absolute w-80 h-80 rounded-full opacity-20 ${isDarkMode ? 'bg-purple-700' : 'bg-purple-400'} blur-3xl`}
+          style={{ bottom: '-10%', left: '-10%' }}
+          animate={{ 
+            scale: [1.2, 1, 1.2],
+            opacity: [0.2, 0.1, 0.2]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
+        
+        {/* Grid pattern */}
+        <div className={`absolute inset-0 opacity-5 ${isDarkMode ? 'opacity-5' : 'opacity-10'}`}>
+          <div className="absolute inset-0" 
+               style={{
+                 backgroundImage: `linear-gradient(${isDarkMode ? '#6366f1' : '#8b5cf6'} 1px, transparent 1px), linear-gradient(90deg, ${isDarkMode ? '#6366f1' : '#8b5cf6'} 1px, transparent 1px)`,
+                 backgroundSize: '50px 50px'
+               }}
+          />
         </div>
-        {/* Top-right */}
-        <div className="absolute top-12 right-12">
-          <div className={`w-16 h-16 rounded-xl ${isDarkMode ? 'bg-pink-500/10' : 'bg-pink-100/80'} backdrop-blur-sm border ${isDarkMode ? 'border-pink-400/30' : 'border-pink-300/50'} rotate-12 animate-bounce`}></div>
-        </div>
-        {/* Bottom-left */}
-        <div className="absolute bottom-16 left-16">
-          <div className={`w-12 h-12 rounded-full ${isDarkMode ? 'bg-purple-500/20' : 'bg-purple-200/60'} animate-pulse`}></div>
-        </div>
-        {/* Bottom-right arrow */}
-        <div className="absolute bottom-12 right-16">
-          <motion.div
-            className={`w-14 h-14 rounded-full ${isDarkMode ? 'bg-gradient-to-br from-purple-600 to-pink-500' : 'bg-gradient-to-br from-purple-500 to-pink-400'} flex items-center justify-center cursor-pointer shadow-lg hover:shadow-xl transition-shadow border-2 ${isDarkMode ? 'border-white/20' : 'border-white/60'}`}
-            whileHover={{ scale: 1.1, rotate: 5 }}
-            whileTap={{ scale: 0.95 }}
-            animate={{ rotate: [0, 5, -5, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
-              <path d="M7 17L17 7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M17 7v10H7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </motion.div>
-        </div>
-        {/* Floating particles */}
-        <div className="absolute top-1/4 left-1/4">
-          <div className={`w-2 h-2 rounded-full ${isDarkMode ? 'bg-pink-400' : 'bg-pink-500'} animate-ping`}></div>
-        </div>
-        <div className="absolute top-3/4 right-1/4">
-          <div className={`w-3 h-3 rounded-full ${isDarkMode ? 'bg-purple-400' : 'bg-purple-500'} animate-bounce delay-700`}></div>
-        </div>
+
+        {/* Floating geometric shapes */}
+        <motion.div
+          className={`absolute top-20 left-20 w-16 h-16 ${isDarkMode ? 'bg-gradient-to-br from-purple-500 to-purple-700' : 'bg-gradient-to-br from-purple-600 to-purple-800'} rounded-2xl shadow-2xl`}
+          animate={{ 
+            rotate: [0, 180, 360],
+            y: [-10, 10, -10]
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className={`absolute top-32 right-32 w-12 h-12 ${isDarkMode ? 'bg-gradient-to-br from-blue-500 to-purple-500' : 'bg-gradient-to-br from-blue-600 to-purple-600'} rounded-full shadow-xl`}
+          animate={{ 
+            scale: [1, 1.3, 1],
+            x: [-5, 5, -5]
+          }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className={`absolute bottom-32 left-40 w-8 h-8 ${isDarkMode ? 'bg-purple-500' : 'bg-purple-600'} rounded-lg shadow-lg`}
+          animate={{ rotate: [0, 90, 180, 270, 360] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+        />
       </div>
 
-      {/* Text content */}
-      <div className="relative w-full md:w-1/2 flex flex-col items-center justify-center p-6 text-center md:text-left z-10">
+      {/* Enhanced Text Content */}
+      <div className="relative w-full lg:w-1/2 flex flex-col items-start justify-center p-6 text-left z-10 space-y-8">
+        {/* Badge */}
         <motion.div
           key={slides[index].highlight}
-          className={`mb-4 px-4 py-2 rounded-full text-sm font-medium ${
+          className={`inline-flex items-center px-6 py-3 rounded-full text-sm font-bold tracking-wide uppercase ${
             isDarkMode 
-              ? 'bg-purple-500/20 text-purple-300 border border-purple-400/30' 
-              : 'bg-purple-100 text-purple-700 border border-purple-300/40'
+              ? 'bg-gradient-to-r from-purple-500/20 to-purple-700/20 text-purple-300 border border-purple-400/30 backdrop-blur-sm' 
+              : 'bg-gradient-to-r from-purple-100 to-purple-200 text-purple-800 border border-purple-300/50 shadow-lg'
           }`}
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: -20, scale: 0.8 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
+          <div className={`w-2 h-2 rounded-full mr-3 ${isDarkMode ? 'bg-purple-400' : 'bg-purple-600'} animate-pulse`} />
           {slides[index].highlight}
         </motion.div>
 
+        {/* Main Heading */}
         <AnimatePresence mode="wait">
           <motion.h1
             key={slides[index].text}
-            className="text-3xl md:text-4xl lg:text-5xl font-bold leading-snug mb-6"
-            style={{ color: isDarkMode ? '#B9A8FF' : '#7B61FF' }}
-            initial={{ opacity: 0, y: 20 }}
+            className={`text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight tracking-tight ${
+              isDarkMode ? 'text-white' : 'text-gray-900'
+            }`}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.8 }}
+            exit={{ opacity: 0, y: -30 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            {slides[index].text}
+            {slides[index].text.split(' ').map((word, i) => (
+              <motion.span
+                key={i}
+                className={i === slides[index].text.split(' ').length - 1 || i === slides[index].text.split(' ').length - 2 
+                  ? `bg-gradient-to-r ${slides[index].color} bg-clip-text text-transparent` 
+                  : ''
+                }
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+              >
+                {word}{' '}
+              </motion.span>
+            ))}
           </motion.h1>
         </AnimatePresence>
 
+        {/* Subtitle */}
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={slides[index].subtext}
+            className={`text-lg md:text-xl font-medium leading-relaxed max-w-2xl ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-600'
+            }`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            {slides[index].subtext}
+          </motion.p>
+        </AnimatePresence>
+
+        {/* Enhanced Action Buttons */}
         <motion.div
-          className="flex items-center space-x-4"
+          className="flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
         >
-          {/* Primary Get Started Button with Arrow */}
-          <button 
-            className={`group px-8 py-4 rounded-full font-medium transition-all duration-300 flex items-center space-x-2 ${
-              isDarkMode
-                ? 'bg-purple-600 hover:bg-purple-700 text-white shadow-lg hover:shadow-purple-500/25'
-                : 'bg-purple-500 hover:bg-purple-600 text-white shadow-lg hover:shadow-purple-500/25'
-            } hover:scale-105 transform`}
+          <motion.button 
+            className={`group relative px-8 py-4 bg-gradient-to-r ${slides[index].color} text-white font-bold rounded-2xl shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 overflow-hidden`}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <span>Get Started</span>
-            <svg 
-              viewBox="0 0 24 24" 
-              width="18" 
-              height="18" 
-              fill="none" 
-              className="group-hover:translate-x-1 transition-transform duration-300"
-            >
-              <path 
-                d="M5 12h14m-7-7l7 7-7 7" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+            <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="relative flex items-center space-x-3">
+              <span className="text-lg">Start Learning</span>
+              <motion.svg 
+                viewBox="0 0 24 24" 
+                width="20" 
+                height="20" 
+                fill="none"
+                className="group-hover:translate-x-1 transition-transform duration-300"
+                whileHover={{ x: 3 }}
+              >
+                <path 
+                  d="M5 12h14m-7-7l7 7-7 7" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                />
+              </motion.svg>
+            </div>
+          </motion.button>
 
-          {/* Secondary Learn More Button */}
-          <button 
-            className={`px-6 py-4 rounded-full font-medium transition-all duration-300 border-2 ${
+          <motion.button 
+            className={`group px-8 py-4 font-bold rounded-2xl border-2 transition-all duration-300 ${
               isDarkMode
-                ? 'border-gray-500 hover:border-purple-400 text-gray-300 hover:text-purple-300 hover:bg-purple-500/10'
-                : 'border-gray-400 hover:border-purple-500 text-gray-700 hover:text-purple-600 hover:bg-purple-50'
-            } hover:scale-105 transform`}
+                ? 'border-gray-600 text-gray-300 hover:border-purple-400 hover:text-purple-300 hover:bg-purple-500/10'
+                : 'border-gray-300 text-gray-700 hover:border-purple-500 hover:text-purple-600 hover:bg-purple-50 hover:shadow-lg'
+            }`}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
           >
-            Learn More
-          </button>
+            <span className="text-lg">Watch Demo</span>
+          </motion.button>
         </motion.div>
 
-        <div className="flex space-x-2 mt-8">
+        {/* Enhanced Slide Indicators */}
+        <div className="flex items-center space-x-3 pt-6">
           {slides.map((_, i) => (
-            <div
+            <motion.button
               key={i}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              className={`relative overflow-hidden rounded-full transition-all duration-300 ${
                 i === index
-                  ? isDarkMode ? 'bg-purple-400' : 'bg-purple-600'
-                  : isDarkMode ? 'bg-gray-600' : 'bg-gray-400'
+                  ? 'w-12 h-3' 
+                  : 'w-3 h-3'
               }`}
-            />
+              onClick={() => setIndex(i)}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <div className={`absolute inset-0 rounded-full ${
+                i === index
+                  ? `bg-gradient-to-r ${slides[index].color}`
+                  : isDarkMode 
+                    ? 'bg-gray-600 hover:bg-gray-500' 
+                    : 'bg-gray-400 hover:bg-gray-500'
+              }`} />
+              {i === index && (
+                <motion.div
+                  className="absolute inset-0 bg-white/30 rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: '100%' }}
+                  transition={{ duration: 4, ease: "linear" }}
+                />
+              )}
+            </motion.button>
           ))}
         </div>
       </div>
 
-      {/* Image/Card */}
-      <div className="relative w-full md:w-1/2 flex items-center justify-center p-6 z-10">
+      {/* Enhanced Image/Card Section */}
+      <div className="relative w-full lg:w-1/2 flex items-center justify-center p-6 z-10">
         <motion.div
-          className={`relative rounded-[2rem] p-8 flex items-center justify-center  ${
-            isDarkMode ? "bg-gray-800/80 backdrop-blur-sm" : "bg-gray-50/80 backdrop-blur-sm"
-          } border ${isDarkMode ? 'border-gray-700/50' : 'border-gray-200/50'}`}
-          style={{ width: 420, height: 420 }}
+          className={`relative rounded-3xl overflow-hidden ${
+            isDarkMode 
+              ? "bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-xl border border-gray-700/50" 
+              : "bg-gradient-to-br from-white/90 to-gray-50/90 backdrop-blur-xl border border-gray-200/50"
+          } shadow-2xl`}
+          style={{ width: 480, height: 480 }}
+          initial={{ opacity: 0, scale: 0.8, y: 50 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
         >
-          {/* Notches */}
-          <div
-            className={`absolute w-26 h-20 rounded-[14px] ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}
-            style={{ top: "-16px", left: "-16px", borderBottomRightRadius: "14px" }}
-          >
-            <div className={`absolute bottom-2 right-2 w-3 h-3 rounded-full ${isDarkMode ? 'bg-purple-400' : 'bg-purple-600'} animate-pulse`}></div>
-          </div>
-          <div
-            className={`absolute w-16 h-16 rounded-[14px] ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}
-            style={{ bottom: "-16px", right: "-16px", borderTopLeftRadius: "14px" }}
-          >
-            <div className={`absolute top-2 left-2 w-3 h-3 rounded-full ${isDarkMode ? 'bg-pink-400' : 'bg-pink-600'} animate-bounce`}></div>
+          {/* Premium glass effect border */}
+          <div className="absolute inset-0 rounded-3xl">
+            <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${
+              isDarkMode 
+                ? 'from-white/10 via-transparent to-transparent' 
+                : 'from-white/40 via-transparent to-transparent'
+            }`} />
           </div>
 
-          {/* Rotating border */}
-          <div className="absolute inset-0 rounded-[2rem] pointer-events-none">
-            <motion.div
-              className={`absolute inset-0 rounded-[2rem] border-2 border-dashed ${isDarkMode ? 'border-purple-500/30' : 'border-purple-500/40'}`}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            />
-          </div>
-
-          {/* Decorative elements */}
-          <div className="absolute -top-6 -right-6 w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full animate-pulse shadow-lg flex items-center justify-center">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="white">
+          {/* Corner decorative elements */}
+          <motion.div
+            className={`absolute -top-4 -right-4 w-16 h-16 ${isDarkMode ? 'bg-gradient-to-br from-purple-500 to-purple-700' : 'bg-gradient-to-br from-purple-600 to-purple-800'} rounded-2xl shadow-xl flex items-center justify-center z-10`}
+            animate={{ 
+              rotate: [0, 360],
+              scale: [1, 1.1, 1]
+            }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
               <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z" />
             </svg>
-          </div>
-          <div className="absolute -bottom-6 -left-6 w-10 h-10 bg-gradient-to-br from-purple-600 to-purple-400 rounded-full animate-bounce shadow-lg flex items-center justify-center">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none">
+          </motion.div>
+
+          <motion.div
+            className={`absolute -bottom-4 -left-4 w-14 h-14 ${isDarkMode ? 'bg-gradient-to-br from-purple-500 to-purple-700' : 'bg-gradient-to-br from-purple-600 to-purple-800'} rounded-2xl shadow-xl flex items-center justify-center z-10`}
+            animate={{ 
+              rotate: [360, 0],
+              y: [-5, 5, -5]
+            }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
               <path d="M20 6L9 17L4 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
+          </motion.div>
+
+          {/* Enhanced rotating border */}
+          <div className="absolute inset-4 rounded-3xl pointer-events-none">
+            <motion.div
+              className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${slides[index].color} p-[2px]`}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            >
+              <div className={`w-full h-full rounded-3xl ${isDarkMode ? 'bg-gray-800' : 'bg-white'} opacity-90`} />
+            </motion.div>
           </div>
 
-          {/* Image that changes */}
-          <div className="relative">
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={slides[index].image}
-                src={`/images/${slides[index].image}`}
-                alt="slide"
-                className="object-contain max-w-[260px] max-h-[340px] rounded-xl shadow-lg"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 1.05 }}
-                transition={{ duration: 0.6 }}
-              />
-            </AnimatePresence>
+          {/* Main image container */}
+          <div className="relative p-8 h-full flex items-center justify-center">
+            <div className="relative">
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={slides[index].image}
+                  src={`/images/${slides[index].image}`}
+                  alt="slide"
+                  className="object-contain max-w-[320px] max-h-[400px] rounded-2xl shadow-2xl"
+                  initial={{ opacity: 0, scale: 0.8, rotateY: -90 }}
+                  animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+                  exit={{ opacity: 0, scale: 1.1, rotateY: 90 }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                />
+              </AnimatePresence>
 
-            {/* Overlay */}
-            <div className={`absolute inset-0 rounded-xl bg-gradient-to-t ${isDarkMode ? 'from-gray-900/20 to-transparent' : 'from-gray-50/20 to-transparent'} pointer-events-none`}></div>
+              {/* Premium image overlay */}
+              <div className={`absolute inset-0 rounded-2xl bg-gradient-to-t ${
+                isDarkMode 
+                  ? 'from-gray-900/30 via-transparent to-white/10' 
+                  : 'from-gray-100/30 via-transparent to-white/20'
+              } pointer-events-none`} />
+
+              {/* Floating stats cards */}
+              <motion.div
+                className={`absolute -top-6 -left-6 px-4 py-2 rounded-xl ${
+                  isDarkMode 
+                    ? 'bg-gray-800/90 border border-gray-700' 
+                    : 'bg-white/90 border border-gray-200'
+                } backdrop-blur-sm shadow-xl`}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1 }}
+              >
+                <div className={`text-2xl font-bold ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>
+                  1000+
+                </div>
+                <div className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                  Active Mentors
+                </div>
+              </motion.div>
+
+              <motion.div
+                className={`absolute -bottom-6 -right-6 px-4 py-2 rounded-xl ${
+                  isDarkMode 
+                    ? 'bg-gray-800/90 border border-gray-700' 
+                    : 'bg-white/90 border border-gray-200'
+                } backdrop-blur-sm shadow-xl`}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.2 }}
+              >
+                <div className={`text-2xl font-bold ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>
+                  5000+
+                </div>
+                <div className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                  Students Helped
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Animated particles */}
+            <motion.div
+              className={`absolute top-8 left-8 w-3 h-3 rounded-full ${isDarkMode ? 'bg-purple-400' : 'bg-purple-500'}`}
+              animate={{ 
+                y: [-10, 10, -10],
+                opacity: [0.5, 1, 0.5]
+              }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+              className={`absolute bottom-8 right-8 w-2 h-2 rounded-full ${isDarkMode ? 'bg-purple-400' : 'bg-purple-500'}`}
+              animate={{ 
+                x: [-8, 8, -8],
+                opacity: [0.3, 1, 0.3]
+              }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            />
+            <motion.div
+              className={`absolute top-1/2 left-4 w-1 h-1 rounded-full ${isDarkMode ? 'bg-purple-400' : 'bg-purple-500'}`}
+              animate={{ 
+                scale: [1, 1.5, 1],
+                opacity: [0.4, 1, 0.4]
+              }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            />
           </div>
-
-          {/* Floating small elements */}
-          <motion.div
-            className={`absolute top-4 left-4 w-6 h-6 rounded-full ${isDarkMode ? 'bg-pink-400/80' : 'bg-pink-500/80'}`}
-            animate={{ y: [-2, 2, -2] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className={`absolute bottom-4 right-4 w-4 h-4 rounded-full ${isDarkMode ? 'bg-purple-400/80' : 'bg-purple-500/80'}`}
-            animate={{ x: [-2, 2, -2] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          />
         </motion.div>
+
+        {/* Additional floating elements around the card */}
+        <motion.div
+          className={`absolute top-20 -left-8 w-20 h-20 ${isDarkMode ? 'bg-purple-500/20' : 'bg-purple-200/60'} rounded-2xl backdrop-blur-sm border ${isDarkMode ? 'border-purple-400/30' : 'border-purple-300/50'}`}
+          animate={{ 
+            rotate: [0, 180, 360],
+            scale: [0.8, 1, 0.8]
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        />
+        
+        <motion.div
+          className={`absolute bottom-16 -right-8 w-16 h-16 ${isDarkMode ? 'bg-purple-500/20' : 'bg-purple-200/60'} rounded-full backdrop-blur-sm border ${isDarkMode ? 'border-purple-400/30' : 'border-purple-300/50'}`}
+          animate={{ 
+            y: [-15, 15, -15],
+            x: [-5, 5, -5]
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
       </div>
     </section>
   );

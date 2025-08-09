@@ -12,7 +12,7 @@ const RolePopup = ({ open, onClose }) => {
     
     // Navigate based on role selection
     if (role === 'mentor') {
-      navigate('/mentors');
+      navigate('/MentorProfile');
     } else if (role === 'student') {
       navigate('/UserProfile'); // Navigate to user profile page for students
     }

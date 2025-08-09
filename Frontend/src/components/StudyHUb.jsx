@@ -36,8 +36,10 @@ const StudyHub = () => {
   const navigate = useNavigate();
 
   const handleSubjectClick = (subjectName) => {
+    console.log('Subject clicked:', subjectName); // Debug log
     // Navigate to mentor page with subject in URL for better UX
     const subjectSlug = subjectName.toLowerCase().replace(/\s+/g, '-');
+    console.log('Navigating to:', `/mentors/${subjectSlug}`); // Debug log
     navigate(`/mentors/${subjectSlug}`, { 
       state: { selectedSubject: subjectName } 
     });
@@ -73,7 +75,11 @@ const StudyHub = () => {
             {subjects.map((subject, index) => (
               <div
                 key={index}
-                onClick={() => handleSubjectClick(subject.name)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleSubjectClick(subject.name);
+                }}
                 className={`border-2 rounded-2xl shadow-lg p-6 flex flex-col items-center text-center cursor-pointer transform transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:-translate-y-3 group relative overflow-hidden ${
                   isDarkMode 
                     ? 'bg-gradient-to-br from-gray-800 to-gray-900 border-gray-600 hover:bg-gradient-to-br hover:from-gray-700 hover:to-gray-800' 

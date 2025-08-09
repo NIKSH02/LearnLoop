@@ -1,9 +1,20 @@
+
 import React from "react";
 import { ArrowUpRight, BookOpen, Brain, Target, Sparkles, GraduationCap } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
+import { useNavigate } from "react-router-dom";
+
 
 export default function StudyMitraCard() {
   const { isDarkMode } = useTheme();
+  const navigate = useNavigate();
+
+  const handleNavigateToAI = () => {
+    navigate('/ai-assistant');
+  };
+  
+
+ 
 
   return (
     <section
@@ -135,7 +146,8 @@ export default function StudyMitraCard() {
         >
           {/* Top-right arrow */}
           <ArrowUpRight
-            className={`absolute top-6 right-6 w-6 h-6 cursor-pointer transform transition-all duration-300 hover:scale-125 hover:text-blue-500 ${
+            onClick={handleNavigateToAI}
+            className={`absolute top-6 right-6 w-6 h-6 cursor-pointer transform transition-all duration-300 hover:scale-125 hover:text-purple-500 ${
               isDarkMode ? "text-white" : "text-black"
             }`}
           />
@@ -143,8 +155,8 @@ export default function StudyMitraCard() {
           {/* Text Content */}
           <div>
             <p
-              className={`text-sm mb-4 transition-colors duration-300 ${
-                isDarkMode ? "text-gray-400" : "text-gray-500"
+              className={`text-sm mb-4 font-medium transition-colors duration-300 ${
+                isDarkMode ? "text-purple-400" : "text-purple-600"
               }`}
             >
               Introducing Your Personal AI
@@ -155,7 +167,7 @@ export default function StudyMitraCard() {
                 isDarkMode ? "text-white" : "text-black"
               }`}
             >
-              I am your Study Mitra <br />
+              I am your <span className="bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">Study Mitra</span> <br />
               Your AI Learning Companion
             </h1>
 
@@ -164,30 +176,38 @@ export default function StudyMitraCard() {
                 isDarkMode ? "text-gray-300" : "text-gray-700"
               }`}
             >
-              Helping you learn smarter, faster, and better every day with personalized AI assistance.
+              Helping you learn smarter, faster, and better every day with <span className={`font-semibold ${isDarkMode ? "text-purple-400" : "text-purple-600"}`}>personalized AI assistance</span>.
             </p>
           </div>
 
           {/* Feature Tags */}
           <div
             className={`flex flex-wrap gap-4 items-center text-sm font-medium transition-colors duration-300 ${
-              isDarkMode ? "text-gray-200" : "text-black"
+              isDarkMode ? "text-gray-200" : "text-gray-800"
             }`}
           >
-            <span className="flex items-center gap-2">
-              <Brain className="w-4 h-4" />
+            <span className={`flex items-center gap-2 transition-colors duration-300 ${
+              isDarkMode ? "hover:text-purple-400" : "hover:text-purple-600"
+            }`}>
+              <Brain className={`w-4 h-4 ${isDarkMode ? "text-purple-400" : "text-purple-600"}`} />
               Smart Learning
             </span>
-            <span className="flex items-center gap-2">
-              <Target className="w-4 h-4" />
+            <span className={`flex items-center gap-2 transition-colors duration-300 ${
+              isDarkMode ? "hover:text-purple-400" : "hover:text-purple-600"
+            }`}>
+              <Target className={`w-4 h-4 ${isDarkMode ? "text-purple-400" : "text-purple-600"}`} />
               Goal Focused
             </span>
-            <span className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4" />
+            <span className={`flex items-center gap-2 transition-colors duration-300 ${
+              isDarkMode ? "hover:text-purple-400" : "hover:text-purple-600"
+            }`}>
+              <Sparkles className={`w-4 h-4 ${isDarkMode ? "text-purple-400" : "text-purple-600"}`} />
               AI Powered
             </span>
-            <span className="flex items-center gap-2">
-              <GraduationCap className="w-4 h-4" />
+            <span className={`flex items-center gap-2 transition-colors duration-300 ${
+              isDarkMode ? "hover:text-purple-400" : "hover:text-purple-600"
+            }`}>
+              <GraduationCap className={`w-4 h-4 ${isDarkMode ? "text-purple-400" : "text-purple-600"}`} />
               Expert Guidance
             </span>
           </div>
