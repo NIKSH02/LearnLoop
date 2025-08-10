@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import { Clock, Users, BookOpen, Calendar, Trophy, CheckCircle, Vote, MapPin } from 'lucide-react';
+import { Clock, Users, BookOpen, Calendar, Trophy, CheckCircle, Vote, MapPin, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer.jsx';
 
-const PollPage = ({ 
+// Poll Card Component
+const SubjectPollCard = ({ 
   poll, 
   onVote, 
   hasVoted = false, 
@@ -48,253 +52,249 @@ const PollPage = ({
     return '📚';
   };
 
-  const isActive = poll.isActive && poll.timeRemaining > 0;
-  const totalVotes = poll.totalVotes || 0;
-  const winningSubject = poll.winner;
+  const isActive = poll && poll.isActive && poll.timeRemaining > 0;
+  const totalVotes = poll ? poll.totalVotes || 0 : 0;
+  const winningSubject = poll ? poll.winner : null;
+
+  if (!poll) {
+    return (
+      <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6 text-center">
+        <p className="text-gray-500">Poll data not available</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-xl">
+    <div className="bg-gradient-to-br from-white via-[#7B61FF]/3 to-[#7968ED]/5 rounded-2xl shadow-2xl border border-gray-100 overflow-hidden transition-all duration-300">
       {/* Header */}
-      <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-4 text-white">
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <h3 className="text-lg font-semibold mb-1">{poll.title}</h3>
-            <p className="text-indigo-100 text-sm opacity-90">{poll.description}</p>
-          </div>
-          <div className="flex items-center space-x-2 ml-4">
-            {hasVoted && (
-              <div className="flex items-center bg-green-500 bg-opacity-20 px-2 py-1 rounded-full">
-                <CheckCircle className="w-4 h-4 mr-1" />
-                <span className="text-xs font-medium">Voted</span>
-              </div>
-            )}
-            <div className={`px-2 py-1 rounded-full text-xs font-medium ${
-              isActive ? 'bg-green-500 bg-opacity-20' : 'bg-red-500 bg-opacity-20'
-            }`}>
-              {isActive ? 'Active' : poll.status === 'ended' ? 'Ended' : 'Inactive'}
-            </div>
-          </div>
+      <div className="bg-gradient-to-r from-[#7B61FF] to-[#7968ED] p-6 text-white relative overflow-hidden">
+        {/* Background pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" 
+               style={{
+                 backgroundImage: `radial-gradient(circle at 20% 80%, rgba(255,255,255,0.2) 0%, transparent 50%), 
+                                   radial-gradient(circle at 80% 20%, rgba(255,255,255,0.2) 0%, transparent 50%)`
+               }}
+          />
         </div>
         
-        <div className="flex items-center justify-between mt-3 pt-3 border-t border-indigo-400 border-opacity-30">
-          <div className="flex items-center space-x-4 text-sm">
-            <div className="flex items-center">
-              <Clock className="w-4 h-4 mr-1" />
-              <span>{formatTimeRemaining(poll.timeRemaining)}</span>
+        <div className="relative z-10">
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex-1">
+              <h3 className="text-xl font-bold mb-2 leading-tight">{poll.title}</h3>
+              <p className="text-[#d7d4e0] opacity-90 leading-relaxed">{poll.description}</p>
             </div>
-            <div className="flex items-center">
-              <Users className="w-4 h-4 mr-1" />
-              <span>{totalVotes} votes</span>
+            <div className="flex items-center space-x-3 ml-6">
+              {hasVoted && (
+                <div className="flex items-center bg-green-500 bg-opacity-25 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                  <CheckCircle className="w-4 h-4 mr-1.5" />
+                  <span className="text-xs font-semibold">Voted</span>
+                </div>
+              )}
+              <div className={`px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-sm ${
+                isActive ? 'bg-green-500 bg-opacity-25 text-green-100' : 'bg-red-500 bg-opacity-25 text-red-100'
+              }`}>
+                {isActive ? 'Active Poll' : poll.status === 'ended' ? 'Poll Ended' : 'Inactive'}
+              </div>
             </div>
           </div>
-          <div className="text-sm">
-            <span className="font-medium">Weekend Session Poll</span>
+          
+          <div className="flex items-center justify-between pt-4 border-t border-[#d7d4e0] border-opacity-30">
+            <div className="flex items-center space-x-6 text-sm">
+              <div className="flex items-center bg-white bg-opacity-15 px-3 py-1.5 rounded-full">
+                <Clock className="w-4 h-4 mr-2" />
+                <span className="font-medium">{formatTimeRemaining(poll.timeRemaining)}</span>
+              </div>
+              <div className="flex items-center bg-white bg-opacity-15 px-3 py-1.5 rounded-full">
+                <Users className="w-4 h-4 mr-2" />
+                <span className="font-medium">{totalVotes} votes</span>
+              </div>
+            </div>
+            <div className="text-sm font-semibold bg-white bg-opacity-15 px-3 py-1.5 rounded-full">
+              Weekly Session Poll
+            </div>
           </div>
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-4">
+      <div className="p-6 bg-gradient-to-br from-white via-gray-50/50 to-[#7B61FF]/5">
         {/* Poll Stats */}
-        <div className="flex items-center justify-between mb-4 p-3 bg-gray-50 rounded-lg">
-          <div className="text-center">
-            <div className="text-lg font-semibold text-gray-800">{poll.participationRate || 0}%</div>
-            <div className="text-xs text-gray-600">Participation</div>
+        <div className="grid grid-cols-3 gap-4 mb-6">
+          <div className="text-center p-4 bg-gradient-to-br from-[#7B61FF]/10 to-[#7968ED]/10 rounded-xl border border-[#7B61FF]/20">
+            <div className="text-2xl font-bold text-[#7B61FF] mb-1">{poll.participationRate || 0}%</div>
+            <div className="text-xs font-medium text-gray-600 uppercase tracking-wide">Participation</div>
           </div>
-          <div className="text-center">
-            <div className="text-lg font-semibold text-gray-800">{poll.eligibleStudentCount || 0}</div>
-            <div className="text-xs text-gray-600">Eligible Students</div>
+          <div className="text-center p-4 bg-gradient-to-br from-[#7968ED]/10 to-[#7B61FF]/10 rounded-xl border border-[#7968ED]/20">
+            <div className="text-2xl font-bold text-[#7968ED] mb-1">{poll.eligibleStudentCount || 0}</div>
+            <div className="text-xs font-medium text-gray-600 uppercase tracking-wide">Eligible Students</div>
           </div>
-          <div className="text-center">
-            <div className="text-lg font-semibold text-gray-800">{poll.subjectOptions?.length || 0}</div>
-            <div className="text-xs text-gray-600">Subject Options</div>
+          <div className="text-center p-4 bg-gradient-to-br from-[#7B61FF]/10 to-[#7968ED]/10 rounded-xl border border-[#7B61FF]/20">
+            <div className="text-2xl font-bold text-[#7B61FF] mb-1">{poll.subjectOptions?.length || 0}</div>
+            <div className="text-xs font-medium text-gray-600 uppercase tracking-wide">Subject Options</div>
           </div>
         </div>
 
-        {/* Winner Display (if poll ended) */}
-        {winningSubject && poll.status === 'ended' && (
-          <div className="mb-4 p-4 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg">
-            <div className="flex items-center mb-2">
-              <Trophy className="w-5 h-5 text-green-600 mr-2" />
-              <h4 className="font-semibold text-green-800">Winning Subject Session</h4>
+        {/* Show results only after voting or if poll ended */}
+        {(showResults || hasVoted || poll.status === 'ended') && winningSubject ? (
+          <div className="mb-6 p-6 bg-gradient-to-r from-green-50 via-emerald-50 to-green-50 border-2 border-green-200 rounded-2xl shadow-lg">
+            <div className="flex items-center mb-4">
+              <div className="p-2 bg-green-500 rounded-full mr-3">
+                <Trophy className="w-6 h-6 text-white" />
+              </div>
+              <h4 className="text-lg font-bold text-green-800">🎉 Winning Subject - Next Weekend Session</h4>
             </div>
-            <div className="bg-white p-3 rounded-lg">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center space-x-2">
-                  <span className="text-2xl">{getSubjectIcon(winningSubject.subjectName)}</span>
+            <div className="bg-white p-5 rounded-xl shadow-sm border border-green-100">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center space-x-3">
+                  <span className="text-3xl">{getSubjectIcon(winningSubject.subjectName)}</span>
                   <div>
-                    <h5 className="font-semibold text-gray-800">{winningSubject.subjectName}</h5>
-                    <p className="text-sm text-gray-600">{winningSubject.subjectCode}</p>
+                    <h5 className="text-lg font-bold text-gray-800">{winningSubject.subjectName}</h5>
+                    <p className="text-sm font-medium text-gray-600">{winningSubject.subjectCode}</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-sm font-medium text-green-600">{winningSubject.votes} votes</div>
+                  <div className="text-lg font-bold text-green-600">{winningSubject.votes} votes</div>
+                  <div className="text-xs text-green-500 font-medium">Winner!</div>
                 </div>
               </div>
-              <div className="border-t pt-2 mt-2">
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center text-gray-600">
-                    <Calendar className="w-4 h-4 mr-1" />
-                    <span>{winningSubject.sessionDate}</span>
+              <div className="border-t border-gray-100 pt-3 mt-3">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+                  <div className="flex items-center text-gray-600 bg-gray-50 p-2 rounded-lg">
+                    <Calendar className="w-4 h-4 mr-2" />
+                    <span className="font-medium">{winningSubject.sessionDate}</span>
                   </div>
-                  <div className="flex items-center text-gray-600">
-                    <Clock className="w-4 h-4 mr-1" />
-                    <span>{winningSubject.sessionTime}</span>
+                  <div className="flex items-center text-gray-600 bg-gray-50 p-2 rounded-lg">
+                    <Clock className="w-4 h-4 mr-2" />
+                    <span className="font-medium">{winningSubject.sessionTime}</span>
                   </div>
-                  <div className="flex items-center text-gray-600">
-                    <MapPin className="w-4 h-4 mr-1" />
-                    <span>{winningSubject.venue || 'Online'}</span>
+                  <div className="flex items-center text-gray-600 bg-gray-50 p-2 rounded-lg">
+                    <MapPin className="w-4 h-4 mr-2" />
+                    <span className="font-medium">{winningSubject.venue || 'Online'}</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        )}
-
-        {/* Subject Options */}
-        <div className="space-y-3">
-          <h4 className="font-medium text-gray-800 mb-2 flex items-center">
-            <Vote className="w-4 h-4 mr-2" />
-            {poll.status === 'ended' ? 'Final Results' : 'Vote for Weekend Session Subject'}
-          </h4>
-          
-          {poll.subjectOptions?.map((subject, index) => {
-            const votePercentage = totalVotes > 0 ? Math.round((subject.votesReceived / totalVotes) * 100) : 0;
-            const isSelected = selectedSubject === index;
-            const isWinner = winningSubject && subject._id === winningSubject.subjectId;
+        ) : (
+          /* Voting Interface - only shown before voting */
+          <div className="space-y-4">
+            <div className="flex items-center justify-between mb-4">
+              <h4 className="text-lg font-bold text-gray-800 flex items-center">
+                <div className="p-2 bg-gradient-to-r from-[#7B61FF] to-[#7968ED] rounded-full mr-3">
+                  <Vote className="w-5 h-5 text-white" />
+                </div>
+                Vote for Weekend Session Subject
+              </h4>
+              <div className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                Select your preference
+              </div>
+            </div>
             
-            return (
-              <div
-                key={index}
-                className={`border rounded-lg p-4 transition-all duration-200 ${
-                  isWinner
-                    ? 'border-green-500 bg-green-50 shadow-md'
-                    : isSelected 
-                    ? 'border-indigo-500 bg-indigo-50 shadow-md' 
-                    : showResults || hasVoted || !isActive
-                    ? 'border-gray-200 bg-gray-50'
-                    : 'border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 cursor-pointer'
-                }`}
-                onClick={() => {
-                  if (!hasVoted && !showResults && isActive) {
-                    setSelectedSubject(isSelected ? null : index);
-                  }
-                }}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="text-3xl">{getSubjectIcon(subject.name)}</div>
-                    
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-2">
-                        <h5 className="font-semibold text-gray-800">{subject.name}</h5>
-                        {isWinner && (
-                          <div className="flex items-center bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
-                            <Trophy className="w-3 h-3 mr-1" />
-                            <span className="text-xs font-medium">Winner</span>
-                          </div>
-                        )}
+            {poll.subjectOptions?.map((subject, index) => {
+              const isSelected = selectedSubject === index;
+              
+              return (
+                <div
+                  key={index}
+                  className={`border-2 rounded-2xl p-5 transition-all duration-300 cursor-pointer ${
+                    isSelected 
+                      ? 'border-[#7B61FF] bg-gradient-to-br from-[#7B61FF]/10 to-[#7968ED]/10 shadow-lg' 
+                      : 'border-gray-200 bg-gradient-to-br from-gray-50 to-white shadow-sm'
+                  }`}
+                  onClick={() => {
+                    if (!hasVoted && !showResults && isActive) {
+                      setSelectedSubject(isSelected ? null : index);
+                    }
+                  }}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4 flex-1">
+                      <div className={`text-4xl p-3 rounded-2xl ${
+                        isSelected ? 'bg-[#7B61FF]/20' : 'bg-gray-100'
+                      }`}>
+                        {getSubjectIcon(subject.name)}
                       </div>
-                      <p className="text-sm text-gray-600">{subject.code}</p>
-                      {subject.description && (
-                        <p className="text-xs text-gray-500 mt-1">{subject.description}</p>
-                      )}
-                      <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
-                        {subject.proposedDate && (
-                          <div className="flex items-center">
-                            <Calendar className="w-3 h-3 mr-1" />
-                            <span>{subject.proposedDate}</span>
-                          </div>
+                      
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-3 mb-2">
+                          <h5 className="text-lg font-bold text-gray-800">{subject.name}</h5>
+                        </div>
+                        <p className="text-sm font-medium text-gray-600 mb-1">{subject.code}</p>
+                        {subject.description && (
+                          <p className="text-sm text-gray-500 mb-3 leading-relaxed">{subject.description}</p>
                         )}
-                        {subject.proposedTime && (
-                          <div className="flex items-center">
-                            <Clock className="w-3 h-3 mr-1" />
-                            <span>{subject.proposedTime}</span>
-                          </div>
-                        )}
-                        {subject.expectedMentor && (
-                          <div className="flex items-center">
-                            <BookOpen className="w-3 h-3 mr-1" />
-                            <span>{subject.expectedMentor}</span>
-                          </div>
-                        )}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
+                          {subject.proposedDate && (
+                            <div className="flex items-center bg-gray-100 p-2 rounded-lg">
+                              <Calendar className="w-3 h-3 mr-1.5 text-[#7B61FF]" />
+                              <span className="font-medium">{subject.proposedDate}</span>
+                            </div>
+                          )}
+                          {subject.proposedTime && (
+                            <div className="flex items-center bg-gray-100 p-2 rounded-lg">
+                              <Clock className="w-3 h-3 mr-1.5 text-[#7968ED]" />
+                              <span className="font-medium">{subject.proposedTime}</span>
+                            </div>
+                          )}
+                          {subject.expectedMentor && (
+                            <div className="flex items-center bg-gray-100 p-2 rounded-lg">
+                              <BookOpen className="w-3 h-3 mr-1.5 text-[#7B61FF]" />
+                              <span className="font-medium">{subject.expectedMentor}</span>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  
-                  <div className="text-right">
-                    {(showResults || hasVoted) && (
-                      <div className="text-sm">
-                        <div className="font-semibold text-gray-800">{subject.votesReceived} votes</div>
-                        <div className="text-xs text-gray-600">{votePercentage}%</div>
-                      </div>
-                    )}
-                    {isSelected && !hasVoted && !showResults && (
-                      <div className="w-5 h-5 rounded-full bg-indigo-500 flex items-center justify-center">
-                        <div className="w-2 h-2 rounded-full bg-white"></div>
-                      </div>
-                    )}
+                    
+                    <div className="text-right ml-4">
+                      {isSelected && (
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#7B61FF] to-[#7968ED] flex items-center justify-center shadow-lg">
+                          <div className="w-3 h-3 rounded-full bg-white"></div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-                
-                {/* Progress bar for results */}
-                {(showResults || hasVoted) && (
-                  <div className="mt-3">
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div 
-                        className={`h-2 rounded-full transition-all duration-500 ${
-                          isWinner 
-                            ? 'bg-gradient-to-r from-green-500 to-emerald-500'
-                            : 'bg-gradient-to-r from-indigo-500 to-purple-500'
-                        }`}
-                        style={{ width: `${votePercentage}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
 
-        {/* Action Buttons */}
-        <div className="mt-4 flex items-center justify-between">
-          <button
-            onClick={() => setShowResults(!showResults)}
-            className="text-sm text-indigo-600 hover:text-indigo-800 font-medium transition-colors"
-            disabled={!hasVoted && totalVotes === 0}
-          >
-            {showResults ? 'Hide Results' : 'View Results'}
-          </button>
-          
-          {!hasVoted && isActive && (
+        {/* Action Buttons - only show before voting */}
+        {!showResults && !hasVoted && isActive && (
+          <div className="mt-6 flex items-center justify-center">
             <button
               onClick={handleVote}
               disabled={selectedSubject === null || isLoading}
-              className={`px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 ${
+              className={`flex items-center px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform ${
                 selectedSubject !== null && !isLoading
-                  ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-md hover:shadow-lg'
+                  ? 'bg-gradient-to-r from-[#7B61FF] to-[#7968ED] text-white shadow-lg hover:shadow-xl hover:-translate-y-1'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }`}
             >
-              {isLoading ? 'Submitting Vote...' : 'Submit Vote'}
+              {isLoading ? (
+                <>
+                  <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-3"></div>
+                  Submitting Vote...
+                </>
+              ) : (
+                <>
+                  <span className="mr-3 text-xl">🗳️</span>
+                  Submit Vote
+                </>
+              )}
             </button>
-          )}
-          
-          {hasVoted && (
-            <div className="flex items-center text-green-600 text-sm font-medium">
-              <CheckCircle className="w-4 h-4 mr-1" />
-              Vote Submitted
-            </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-// Example usage component with sample data
-const SubjectPollExample = () => {
+// Main PollPage component with sample data
+const PollPage = () => {
+  const navigate = useNavigate();
   const [polls, setPolls] = useState([
     {
       _id: '1',
@@ -429,26 +429,98 @@ const SubjectPollExample = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Weekend Session Polls</h1>
-          <p className="text-gray-600">Vote for which subject sessions you want on weekends</p>
-        </div>
-        
-        <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
-          {polls.map(poll => (
-            <SubjectPollCard
-              key={poll._id}
-              poll={poll}
-              onVote={handleVote}
-              hasVoted={votedPolls.has(poll._id)}
-              isLoading={loading.has(poll._id)}
-            />
-          ))}
+    <>
+      {/* Navbar */}
+      <Navbar />
+      
+      {/* Main Content */}
+      <div className="min-h-screen bg-gradient-to-br from-[#7B61FF]/8 via-white to-[#7968ED]/8 pt-20">
+        <div className="max-w-6xl mx-auto px-6 py-8">
+          {/* Header Section */}
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center mb-6">
+              <button
+                onClick={() => navigate('/')}
+                className="mr-4 p-3 rounded-full bg-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:bg-[#7B61FF]/10"
+              >
+                <ArrowLeft className="w-6 h-6 text-[#7B61FF]" />
+              </button>
+              <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-[#7B61FF] to-[#7968ED] bg-clip-text text-transparent">
+                Weekend Session Polls
+              </h1>
+            </div>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+              🗳️ Vote for which subject sessions you want on weekends and help shape your learning experience
+            </p>
+            <div className="mt-6 flex items-center justify-center space-x-8 text-sm font-medium">
+              <div className="flex items-center text-[#7B61FF]">
+                <div className="w-3 h-3 bg-[#7B61FF] rounded-full mr-2 animate-pulse"></div>
+                Active Polls
+              </div>
+              <div className="flex items-center text-gray-500">
+                <div className="w-3 h-3 bg-gray-400 rounded-full mr-2"></div>
+                Ended Polls
+              </div>
+            </div>
+          </div>
+          
+          {/* Polls Grid - Vertical Layout */}
+          <div className="space-y-8">
+            {polls.map((poll, index) => (
+              <div key={poll._id} className="transform transition-all duration-500 hover:scale-[1.02]">
+                <SubjectPollCard
+                  poll={poll}
+                  onVote={handleVote}
+                  hasVoted={votedPolls.has(poll._id)}
+                  isLoading={loading.has(poll._id)}
+                />
+                {index < polls.length - 1 && (
+                  <div className="mt-8 flex items-center justify-center">
+                    <div className="w-32 h-px bg-gradient-to-r from-transparent via-[#7B61FF]/30 to-transparent"></div>
+                    <div className="mx-4 p-2 bg-white rounded-full shadow-md">
+                      <div className="w-2 h-2 bg-gradient-to-r from-[#7B61FF] to-[#7968ED] rounded-full"></div>
+                    </div>
+                    <div className="w-32 h-px bg-gradient-to-r from-transparent via-[#7968ED]/30 to-transparent"></div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          
+          {/* Footer Info */}
+          <div className="mt-16 text-center">
+            <div className="bg-gradient-to-r from-[#7B61FF]/10 to-[#7968ED]/10 rounded-2xl p-8 border border-[#7B61FF]/20">
+              <h3 className="text-xl font-bold text-gray-800 mb-4">📊 How It Works</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                <div className="text-center">
+                  <div className="w-12 h-12 bg-gradient-to-r from-[#7B61FF] to-[#7968ED] rounded-full flex items-center justify-center mx-auto mb-3">
+                    <span className="text-white font-bold">1</span>
+                  </div>
+                  <h4 className="font-semibold text-gray-800 mb-2">Choose Your Subject</h4>
+                  <p className="text-gray-600">Select the subject you want to study this weekend</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-12 h-12 bg-gradient-to-r from-[#7968ED] to-[#7B61FF] rounded-full flex items-center justify-center mx-auto mb-3">
+                    <span className="text-white font-bold">2</span>
+                  </div>
+                  <h4 className="font-semibold text-gray-800 mb-2">Cast Your Vote</h4>
+                  <p className="text-gray-600">Submit your vote and see real-time results</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-12 h-12 bg-gradient-to-r from-[#7B61FF] to-[#7968ED] rounded-full flex items-center justify-center mx-auto mb-3">
+                    <span className="text-white font-bold">3</span>
+                  </div>
+                  <h4 className="font-semibold text-gray-800 mb-2">Join the Session</h4>
+                  <p className="text-gray-600">Attend the winning subject's weekend session</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+      
+      <Footer />
+    </>
   );
 };
 

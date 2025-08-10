@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLocation, useParams } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { useLoading } from "../hooks/useLoading";
+import Footer from "../components/Footer.jsx";
 import { 
   Star, 
   Phone, 
@@ -819,6 +820,8 @@ const MentorPage = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      
+      <Footer />
     </div>
   );
 };

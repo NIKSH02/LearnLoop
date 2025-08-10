@@ -1,8 +1,10 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Navbar from '../components/Navbar.jsx';
-
+import Footer from '../components/Footer.jsx';
 import TeamMember from '../components/TeamMember.jsx';
+import { useTheme } from '../context/ThemeContext';
+import { BookOpen, Users, Heart, Star, Award, Target, Zap, Shield } from 'lucide-react';
 
   
 
@@ -28,6 +30,7 @@ const staggerContainer = {
 };
 
 const AboutPage = () => {
+  const { isDarkMode } = useTheme();
   const heroRef = useRef(null);
   const storyRef = useRef(null);
   const valuesRef = useRef(null);
@@ -40,36 +43,40 @@ const AboutPage = () => {
 
   const values = [
     {
-      icon: "🌱",
-      title: "Sustainability",
-      description: "We're committed to eco-friendly practices and sustainable materials in all our products."
+      icon: <BookOpen size={40} className="text-[#7B61FF]" />,
+      title: "Quality Education",
+      description: "We connect students with experienced mentors who provide personalized guidance and expert knowledge."
     },
     {
-      icon: "✨",
-      title: "Quality",
-      description: "Every piece is crafted with attention to detail and built to last for generations."
+      icon: <Users size={40} className="text-[#7968ED]" />,
+      title: "Community Driven",
+      description: "Building a supportive learning community where students and mentors grow together."
     },
     {
-      icon: "🎨",
-      title: "Design Excellence",
-      description: "Our designs blend functionality with aesthetic appeal to enhance your living spaces."
+      icon: <Target size={40} className="text-[#7B61FF]" />,
+      title: "Goal Oriented",
+      description: "Focused on helping students achieve their academic and career objectives through structured mentorship."
     },
     {
-      icon: "🤝",
-      title: "Customer First",
-      description: "Your satisfaction is our priority. We provide exceptional service at every step."
+      icon: <Heart size={40} className="text-[#7968ED]" />,
+      title: "Passion for Learning",
+      description: "We believe in the transformative power of education and the importance of accessible learning."
     }
   ];
 
   const stats = [
-    { number: "50K+", label: "Happy Customers" },
-    { number: "10+", label: "Years Experience" },
-    { number: "500+", label: "Products Sold" },
-    { number: "98%", label: "Customer Satisfaction" }
+    { number: "10K+", label: "Active Students" },
+    { number: "5+", label: "Years Experience" },
+    { number: "2K+", label: "Expert Mentors" },
+    { number: "95%", label: "Success Rate" }
   ];
 
   return (
-    <div className="bg-[#0d0d0d] text-white font-['Inter'] min-h-screen">
+    <div className={`min-h-screen font-['Inter'] transition-all duration-700 ${
+      isDarkMode
+        ? "bg-gradient-to-br from-gray-900 via-gray-800 to-slate-900"
+        : "bg-gradient-to-br from-white via-gray-50 to-[#7B61FF]/5"
+    }`}>
       <Navbar />
       
       {/* Hero Section */}
@@ -81,11 +88,13 @@ const AboutPage = () => {
         className="relative py-20 px-4 overflow-hidden"
       >
         {/* Background Effects */}
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
           {[...Array(8)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute rounded-full bg-blue-500"
+              className={`absolute rounded-full ${
+                i % 2 === 0 ? 'bg-[#7B61FF]' : 'bg-[#7968ED]'
+              }`}
               initial={{ opacity: 0.1 }}
               animate={{
                 opacity: [0.1, 0.3, 0.1],
@@ -108,18 +117,38 @@ const AboutPage = () => {
           ))}
         </div>
 
+        {/* Floating geometric shapes */}
+        <motion.div
+          className={`absolute top-20 left-20 w-16 h-16 bg-gradient-to-br from-[#7B61FF] to-[#7968ED] rounded-2xl shadow-2xl`}
+          animate={{ 
+            rotate: [0, 180, 360],
+            y: [-10, 10, -10]
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className={`absolute top-32 right-32 w-12 h-12 bg-gradient-to-br from-[#7968ED] to-[#7B61FF] rounded-full shadow-xl`}
+          animate={{ 
+            scale: [1, 1.3, 1],
+            x: [-5, 5, -5]
+          }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        />
+
         <div className="relative max-w-6xl mx-auto text-center">
           <motion.h1 
             variants={fadeInUp}
-            className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-blue-200 to-blue-400 bg-clip-text text-transparent"
+            className={`text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-[#7B61FF] via-[#7968ED] to-[#7B61FF] bg-clip-text text-transparent`}
           >
-            About ThakurStore
+            About Learn Loop
           </motion.h1>
           <motion.p 
             variants={fadeInUp}
-            className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed"
+            className={`text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-600'
+            }`}
           >
-            We're passionate about creating beautiful, functional spaces that reflect your unique style and enhance your everyday life.
+            Empowering students through personalized mentorship and expert guidance. Connect with experienced tutors and unlock your academic potential.
           </motion.p>
           <TeamMember />
         </div>
@@ -136,25 +165,49 @@ const AboutPage = () => {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <motion.div variants={fadeInUp} className="space-y-6">
-              <h2 className="text-4xl md:text-5xl font-bold text-blue-400 mb-6">Our Story</h2>
-              <p className="text-gray-300 text-lg leading-relaxed">
-                Founded in 2014, ThakurStore began as a small family business with a simple mission: to bring high-quality, affordable furniture to homes across the country. What started in a small workshop has grown into a trusted brand known for exceptional craftsmanship and customer service.
+              <h2 className={`text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#7B61FF] to-[#7968ED] bg-clip-text text-transparent`}>
+                Our Story
+              </h2>
+              <p className={`text-lg leading-relaxed ${
+                isDarkMode ? 'text-gray-300' : 'text-gray-600'
+              }`}>
+                Founded in 2020, Learn Loop began with a simple mission: to democratize access to quality education through personalized mentorship. What started as a small platform connecting students with tutors has grown into a comprehensive learning ecosystem.
               </p>
-              <p className="text-gray-300 text-lg leading-relaxed">
-                Today, we continue to honor our commitment to quality while embracing innovation and sustainable practices. Every piece we create tells a story of dedication, skill, and passion for beautiful design.
+              <p className={`text-lg leading-relaxed ${
+                isDarkMode ? 'text-gray-300' : 'text-gray-600'
+              }`}>
+                Today, we continue to innovate in the education space, leveraging technology to create meaningful connections between learners and mentors. Every interaction on our platform tells a story of growth, achievement, and the transformative power of quality education.
               </p>
             </motion.div>
             <motion.div 
               variants={fadeInUp}
               className="relative"
             >
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <img 
-                  src="/images/mob17.jpg" 
-                  alt="Our workshop" 
-                  className="w-full h-[400px] object-cover transition-transform duration-500 hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+              <div className={`relative overflow-hidden rounded-2xl shadow-2xl border ${
+                isDarkMode ? 'border-gray-700/30' : 'border-gray-200/30'
+              }`}>
+                <div className={`w-full h-[400px] flex items-center justify-center ${
+                  isDarkMode 
+                    ? 'bg-gradient-to-br from-gray-800 to-gray-900' 
+                    : 'bg-gradient-to-br from-gray-100 to-gray-200'
+                }`}>
+                  <div className="text-center">
+                    <BookOpen size={80} className="text-[#7B61FF] mx-auto mb-4" />
+                    <h3 className={`text-2xl font-bold ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
+                      Education Excellence
+                    </h3>
+                    <p className={`mt-2 ${
+                      isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                    }`}>
+                      Transforming lives through learning
+                    </p>
+                  </div>
+                </div>
+                <div className={`absolute inset-0 bg-gradient-to-t ${
+                  isDarkMode ? 'from-gray-900/50 to-transparent' : 'from-white/50 to-transparent'
+                }`}></div>
               </div>
             </motion.div>
           </div>
@@ -168,13 +221,21 @@ const AboutPage = () => {
         initial="hidden"
         animate={valuesInView ? "visible" : "hidden"}
         variants={staggerContainer}
-        className="py-20 px-4 bg-gradient-to-b from-gray-900/50 to-transparent"
+        className={`py-20 px-4 ${
+          isDarkMode 
+            ? 'bg-gradient-to-b from-gray-900/50 to-transparent' 
+            : 'bg-gradient-to-b from-[#7B61FF]/5 to-transparent'
+        }`}
       >
         <div className="max-w-6xl mx-auto">
           <motion.div variants={fadeInUp} className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-blue-400 mb-6">Our Values</h2>
-            <p className="text-gray-300 text-lg max-w-3xl mx-auto">
-              These core principles guide everything we do and help us deliver exceptional experiences to our customers.
+            <h2 className={`text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#7B61FF] to-[#7968ED] bg-clip-text text-transparent`}>
+              Our Values
+            </h2>
+            <p className={`text-lg max-w-3xl mx-auto ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-600'
+            }`}>
+              These core principles guide everything we do and help us deliver exceptional learning experiences to our students.
             </p>
           </motion.div>
           
@@ -186,13 +247,26 @@ const AboutPage = () => {
               <motion.div
                 key={index}
                 variants={fadeInUp}
-                className=" backdrop-blur-sm rounded-2xl text-center transition-all duration-300 border border-gray-700/30"
+                className={`p-8 rounded-2xl text-center transition-all duration-300 border backdrop-blur-sm hover:shadow-2xl hover:scale-105 ${
+                  isDarkMode
+                    ? 'bg-gray-800/50 border-gray-700/30 hover:border-[#7B61FF]/50'
+                    : 'bg-white/50 border-gray-200/30 hover:border-[#7968ED]/50'
+                }`}
+                whileHover={{ y: -5 }}
               >
-                <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(138, 65, 198, 0.8)">
-                  <div className="text-4xl mb-4">{value.icon}</div>
-                  <h3 className="text-xl font-bold text-white-400 mb-4">{value.title}</h3>
-                  <p className="text-white-300 leading-relaxed">{value.description}</p>
-                </SpotlightCard>
+                <div className="mb-4 flex justify-center">
+                  {value.icon}
+                </div>
+                <h3 className={`text-xl font-bold mb-4 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>
+                  {value.title}
+                </h3>
+                <p className={`leading-relaxed ${
+                  isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                }`}>
+                  {value.description}
+                </p>
               </motion.div>
             ))}
           </motion.div>
@@ -213,16 +287,26 @@ const AboutPage = () => {
             className="grid grid-cols-2 md:grid-cols-4 gap-8"
           >
             {stats.map((stat, index) => (
-              
               <motion.div
                 key={index}
                 variants={fadeInUp}
-                className="text-center"
+                className={`text-center p-6 rounded-2xl transition-all duration-300 ${
+                  isDarkMode
+                    ? 'bg-gray-800/30 hover:bg-gray-800/50'
+                    : 'bg-white/30 hover:bg-white/50'
+                } backdrop-blur-sm border ${
+                  isDarkMode ? 'border-gray-700/30' : 'border-gray-200/30'
+                } hover:border-[#7B61FF]/50`}
+                whileHover={{ scale: 1.05, y: -5 }}
               >
-                <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(138, 65, 198, 0.8)">
-                  <div className="text-4xl md:text-5xl font-bold text-white-400 mb-2">{stat.number}</div>
-                  <div className="text-white-300 text-lg">{stat.label}</div>
-                </SpotlightCard>
+                <div className={`text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-[#7B61FF] to-[#7968ED] bg-clip-text text-transparent`}>
+                  {stat.number}
+                </div>
+                <div className={`text-lg ${
+                  isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                }`}>
+                  {stat.label}
+                </div>
               </motion.div>
             ))}
           </motion.div>
@@ -239,16 +323,21 @@ const AboutPage = () => {
         className="py-20 px-4"
       >
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-blue-400 mb-6">Ready to Transform Your Space?</h2>
-          <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-            Discover our collection of premium furniture and let us help you create the home of your dreams.
+          <h2 className={`text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#7B61FF] to-[#7968ED] bg-clip-text text-transparent`}>
+            Ready to Start Learning?
+          </h2>
+          <p className={`text-lg mb-8 max-w-2xl mx-auto ${
+            isDarkMode ? 'text-gray-300' : 'text-gray-600'
+          }`}>
+            Join thousands of students who have transformed their academic journey through our personalized mentorship platform.
           </p>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="bg-gradient-to-r from-[#7B61FF] to-[#7968ED] text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+            onClick={() => window.location.href = '/mentors'}
           >
-            Explore Our Collection
+            Find Your Mentor
           </motion.button>
         </div>
       </motion.section>

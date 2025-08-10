@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import Footer from "../components/Footer.jsx";
 import {
   User,
   Phone,
@@ -2167,6 +2168,8 @@ const MentorProfile = () => {
           animation: fadeIn 0.3s ease-out;
         }
       `}</style>
+      
+      <Footer />
     </div>
   );
 };

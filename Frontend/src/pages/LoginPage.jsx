@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigateWithLoader } from '../hooks/useNavigateWithLoader.js';
 import { useTheme } from '../context/ThemeContext';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer.jsx';
 
 const LoginPage = () => {
   const { navigateWithLoader } = useNavigateWithLoader();
@@ -477,6 +478,8 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 };

@@ -12,6 +12,8 @@ import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import AboutPage from './pages/AboutPage';
 import MentorPage from './pages/MentorPage';
+import Notifications from './pages/Notifications';
+import PollPage from './pages/PollPage';
 
 
 import RoleSelectionPage from './pages/RoleSelectionPage';
@@ -109,6 +111,7 @@ function App() {
 
                 {/* Public Pages */}
                 <Route path="/about" element={<AboutPage />} />
+                <Route path="/poll" element={<PollPage />} />
 
                 {/* Role Selection */}
                 <Route path="/role-selection" element={<RoleSelectionPage />} />

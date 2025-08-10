@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Footer from '../components/Footer.jsx';
 import { 
   Upload, 
   FileText, 
@@ -702,6 +703,8 @@ const RequestHelpPage = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      
+      <Footer />
     </div>
   );
 };

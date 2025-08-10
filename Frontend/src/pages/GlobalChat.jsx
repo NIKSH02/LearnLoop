@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import { useAuth } from '../hooks/useAuth';
 import { Navigate } from 'react-router-dom';
 import SideBar from '../components/SideBar';
+import Footer from '../components/Footer.jsx';
 
 const GlobalChat = () => {
   const { user, isAuthenticated } = useAuth();
@@ -435,6 +436,8 @@ const GlobalChat = () => {
           </button>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 };

@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer.jsx';
 
 const MeetYourGuide = () => {
   const { isDarkMode } = useTheme();
@@ -497,6 +498,8 @@ const MeetYourGuide = () => {
           </motion.div>
         )}
       </div>
+      
+      <Footer />
     </div>
   );
 };

@@ -150,12 +150,12 @@ const GlobalLoader = ({ isLoading, loadingMessage = 'LOADING...' }) => {
             ))}
           </div>
 
-          {/* Loading Text and Progress - Compact Design */}
-          <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 text-center z-40">
+          {/* Loading Text and Progress - Moved Lower */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center z-40">
             <h2 className={`text-2xl md:text-3xl font-bold mb-3 ${
               isDarkMode ? 'text-white' : 'text-gray-900'
             }`}>
-              Welcome to <span className="bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">TutorLink</span>
+              Welcome to <span className="bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">Learn Loop</span>
             </h2>
             
             <p className={`text-base md:text-lg mb-4 ${

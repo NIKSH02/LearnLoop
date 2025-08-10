@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import { useTheme } from "../context/ThemeContext";
+import Footer from "../components/Footer.jsx";
 import NotificationService from "../services/notificationService";
 import { useAuth } from "../context/AuthContext";
 
@@ -522,6 +523,8 @@ const Notifications = () => {
           )}
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 };

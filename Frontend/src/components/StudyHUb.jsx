@@ -40,7 +40,7 @@ const StudyHub = () => {
     // Navigate to mentor page with subject as URL parameter for filtering
     const subjectSlug = subjectName.toLowerCase().replace(/\s+/g, '-');
     console.log('Navigating to:', `/mentors/${subjectSlug}`); // Debug log
-    navigate(`/mentors/${subjectSlug}`);
+    navigate(`/mentors`);
   };
 
   return (

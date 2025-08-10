@@ -200,15 +200,113 @@ const HeroSection = () => {
           </motion.button>
 
           <motion.button 
-            className={`group px-8 py-4 font-bold rounded-2xl border-2 transition-all duration-300 ${
+            onClick={() => navigate('/poll')}
+            className={`group relative px-8 py-4 font-bold rounded-2xl border-2 transition-all duration-300 overflow-hidden ${
               isDarkMode
-                ? 'border-gray-600 text-gray-300 hover:border-[#7B61FF] hover:text-[#7B61FF] hover:bg-[#7B61FF]/10'
-                : 'border-gray-300 text-gray-700 hover:border-[#7968ED] hover:text-[#7968ED] hover:bg-[#7B61FF]/5 hover:shadow-lg'
-            }`}
+                ? 'border-[#7B61FF] text-[#7B61FF] hover:bg-[#7B61FF] hover:text-white hover:shadow-[#7B61FF]/50'
+                : 'border-[#7968ED] text-[#7968ED] hover:bg-[#7968ED] hover:text-white hover:shadow-[#7968ED]/50'
+            } hover:shadow-2xl`}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
+            animate={{ 
+              boxShadow: [
+                '0 0 0 0 rgba(123, 97, 255, 0)',
+                '0 0 0 10px rgba(123, 97, 255, 0.1)',
+                '0 0 0 20px rgba(123, 97, 255, 0)',
+              ]
+            }}
+            transition={{ 
+              duration: 2, 
+              repeat: Infinity, 
+              ease: "easeInOut" 
+            }}
           >
-            <span className="text-lg">Watch Demo</span>
+            {/* Pulsating background effect */}
+            <motion.div
+              className={`absolute inset-0 rounded-2xl opacity-30 ${
+                isDarkMode ? 'bg-[#7B61FF]' : 'bg-[#7968ED]'
+              }`}
+              animate={{ 
+                scale: [1, 1.05, 1],
+                opacity: [0.1, 0.3, 0.1]
+              }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
+            />
+            
+            {/* Button content */}
+            <div className="relative flex items-center space-x-3">
+              {/* Poll icon with rotating animation */}
+              <motion.svg 
+                viewBox="0 0 24 24" 
+                width="24" 
+                height="24" 
+                fill="none"
+                className="group-hover:scale-110 transition-transform duration-300"
+                animate={{ 
+                  rotateY: [0, 360],
+                }}
+                transition={{ 
+                  duration: 3, 
+                  repeat: Infinity, 
+                  ease: "easeInOut" 
+                }}
+              >
+                <path 
+                  d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" 
+                  fill="currentColor"
+                />
+                <motion.circle 
+                  cx="7" 
+                  cy="7" 
+                  r="2" 
+                  fill="currentColor"
+                  animate={{ 
+                    scale: [1, 1.2, 1],
+                  }}
+                  transition={{ 
+                    duration: 1.5, 
+                    repeat: Infinity, 
+                    ease: "easeInOut" 
+                  }}
+                />
+                <motion.circle 
+                  cx="17" 
+                  cy="17" 
+                  r="2" 
+                  fill="currentColor"
+                  animate={{ 
+                    scale: [1.2, 1, 1.2],
+                  }}
+                  transition={{ 
+                    duration: 1.5, 
+                    repeat: Infinity, 
+                    ease: "easeInOut" 
+                  }}
+                />
+              </motion.svg>
+              
+              <span className="text-lg">Join Polls</span>
+              
+              {/* Floating pulse indicator */}
+              <motion.div 
+                className={`w-3 h-3 rounded-full ${
+                  isDarkMode ? 'bg-[#7B61FF]' : 'bg-[#7968ED]'
+                }`}
+                animate={{ 
+                  scale: [1, 1.5, 1],
+                  opacity: [1, 0.5, 1]
+                }}
+                transition={{ 
+                  duration: 1, 
+                  repeat: Infinity, 
+                  ease: "easeInOut" 
+                }}
+              />
+            </div>
           </motion.button>
         </motion.div>
 

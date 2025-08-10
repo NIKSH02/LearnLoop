@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, User, ArrowLeft, Shield, CheckCircle, Users, BookOpen, Star } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer.jsx';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -548,6 +549,8 @@ const SignUpPage = () => {
           </div>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 };

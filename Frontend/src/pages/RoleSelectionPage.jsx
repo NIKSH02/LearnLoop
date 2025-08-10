@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import RolePopup from "../components/RolePopup";
 import { useTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
+import Footer from "../components/Footer.jsx";
 
 const RoleSelectionPage = () => {
   const navigate = useNavigate();
@@ -63,6 +64,7 @@ const RoleSelectionPage = () => {
       }`}
     >
       <RolePopup open={true} onClose={handleClose} />
+      <Footer />
     </div>
   );
 };

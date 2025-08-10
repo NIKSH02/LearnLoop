@@ -3,7 +3,6 @@ import multer from "multer";
 import {
   registerMentor,
   getMentorProfile,
-  createMentorProfile,
   updateMentorProfile,
   completeMentorProfile,
   updateMentorProfileImage,
