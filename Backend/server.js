@@ -113,6 +113,10 @@ app.get("/", (req, res) => {
   res.send("Welcome to the Learnloop API");
 });
 
+app.get("*", (req, res) => {
+  res.send("Welcome to the Learnloop API");
+});
+
 // Graceful shutdown handling
 const gracefulShutdown = (signal) => {
   console.log(`\n${signal} received. Starting graceful shutdown...`);
