@@ -5,6 +5,7 @@ import {
   updateUserInfo,
   getAllUsers,
   deleteUser,
+  allUser,
 } from "../controllers/userController.js";
 import { protect } from "../middlewares/authMiddleware.js";
 
@@ -12,6 +13,10 @@ const router = express.Router();
 
 // Protected routes (require authentication)
 router.use(protect);
+
+// chat route 
+
+router.route('/').get( allUser);
 
 // Get current user profile
 router.get("/profile", getCurrentUser);

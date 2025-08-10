@@ -129,3 +129,18 @@ export const deleteUser = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, {}, "User account deleted successfully"));
 });
+
+
+// search for all user controller 
+
+export const allUser = asyncHandler( async ( req, res ) => {
+  let keyword = req.query.search ? {
+    $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+  } : null ; 
+
+  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+  res.send(users);
+})

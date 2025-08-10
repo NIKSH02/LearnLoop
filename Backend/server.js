@@ -76,8 +76,12 @@ import pollRoutes from "./routes/poll.js";
 import userRoutes from "./routes/user.js";
 
 //global
-import locationChatSocket from './locationChatSocket.js';
+import groupChatSocket from './groupChatSocket.js';
 import groupchatroute from './routes/groupChat.route.js'
+
+// privte chat 
+import chatRoutes from "./routes/chat.route.js";
+import messageRoutes from "./routes/Message.route.js";
 
 // New routes for mentorship platform
 app.use("/api/mentors", mentorRoutes);
@@ -93,13 +97,16 @@ app.use("/api/user", userRoutes);
 
 // global
 app.use('/api/messages', groupchatroute);
+// private chat
+app.use("/api/chat", chatRoutes);
+app.use("/api/message", messageRoutes);
 
 // 404 Route Not Found handler
 app.use((req, res, next) => {
   next(new ApiError(404, "Route not found"));
 });
 
-const socketHandler = locationChatSocket(io);
+const socketHandler = groupChatSocket(io);
 
 // Graceful shutdown handling
 const gracefulShutdown = (signal) => {

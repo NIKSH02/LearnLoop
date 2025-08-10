@@ -1,6 +1,6 @@
 import GroupMessage from './models/GroupChatMessage.js';
 
-const locationChatSocket = (io) => {
+const groupChatSocket = (io) => {
   // Store active users per location
   const activeUsers = new Map(); // location -> Set of userIds
   const userSockets = new Map(); // userId -> socketId
@@ -215,4 +215,4 @@ const locationChatSocket = (io) => {
   return { cleanup };
 };
 
-export default locationChatSocket;
+export default groupChatSocket;

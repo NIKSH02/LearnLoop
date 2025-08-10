@@ -28,6 +28,7 @@ import RolePopup from "./components/RolePopup";
 
 // Styles
 import "./App.css";
+import PersonalChatUI from "./pages/PersonalChatui";
 
 // Simple Loading Provider implementation
 const LoadingProvider = ({ children }) => {
@@ -85,6 +86,7 @@ function App() {
                 <Route path="/StudentProfile" element={<StudentProfile />} />
                 <Route path="/MentorProfile" element={<MentorProfile />} />
                 <Route path='/chat' element={<GlobalChat />} />
+                <Route path='/privatechat' element={<PersonalChatUI />} />
                 {/* Home/Landing Page */}
                 <Route path="/" element={<LandingPage />} />
 
