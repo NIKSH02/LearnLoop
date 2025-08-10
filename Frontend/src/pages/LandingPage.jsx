@@ -5,6 +5,8 @@ import HeroSection from "../components/HeroSection.jsx";
 import Images from "../components/Images.jsx";
 import StudyHub from "../components/StudyHUb.jsx";
 import StudyMitraCard from "../components/StudyMitraCard.jsx";
+import Footer from "../components/Footer.jsx";
+
 import RoleGuard from "../components/RoleGuard.jsx";
 
 // Icons commented out since dock is not used
@@ -69,7 +71,10 @@ const items = [
         <HeroSection />
         <StudyMitraCard />
         <Images />
+       
         <StudyHub />
+
+        <Footer />
 
         {/* Dock navigation - temporarily commented out */}
         {/* <div className="my-class" style={{ zIndex: "10", position: 'fixed', bottom: "0",left: "50%"}}>

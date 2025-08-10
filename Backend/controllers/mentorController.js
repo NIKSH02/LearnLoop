@@ -248,6 +248,7 @@ export const completeMentorProfile = asyncHandler(async (req, res) => {
     { new: true, runValidators: true }
   ).populate("user_id", "email fullName username");
 
+  // If no mentor profile exists, create a new one
   if (!mentor) {
     throw new ApiError(404, "Mentor profile not found");
   }

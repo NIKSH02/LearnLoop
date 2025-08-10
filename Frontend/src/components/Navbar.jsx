@@ -129,7 +129,7 @@ const Navbar = () => {
                     isDarkMode ? "text-white" : "text-gray-900"
                   } group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-purple-800 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300`}
                 >
-                  TutorLink
+                  Learn Loop
                 </span>
                 <span
                   className={`text-xs font-medium ${

@@ -5,20 +5,18 @@ import {
   MicOff, 
   Image as ImageIcon, 
   X, 
-  Volume2, 
-  Settings,
+  Volume2,
   Bot,
-  User,
-  Languages
+  User
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import Navbar from './Navbar';
 
 const AIAssistant = () => {
   const { isDarkMode } = useTheme();
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
-  const [selectedLanguage, setSelectedLanguage] = useState('');
-  const [showLanguageModal, setShowLanguageModal] = useState(true);
+  const [selectedLanguage, setSelectedLanguage] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,6 +42,18 @@ const AIAssistant = () => {
 
   const [selectedAI] = useState(aiNames[0]);
 
+  // Initialize with welcome message and language selection
+  useEffect(() => {
+    const initialWelcomeMessage = {
+      id: Date.now(),
+      text: `Hello! I am your ${selectedAI.name}, ${selectedAI.description}. \n\nI'm here to help you with your studies, homework, and any academic questions you might have.\n\nWhich language are you most comfortable with?`,
+      sender: 'ai',
+      timestamp: new Date(),
+      showLanguageOptions: true
+    };
+    setMessages([initialWelcomeMessage]);
+  }, [selectedAI]);
+
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
@@ -54,29 +64,31 @@ const AIAssistant = () => {
 
   const handleLanguageSelect = (language) => {
     setSelectedLanguage(language);
-    setShowLanguageModal(false);
-    const welcomeMessage = {
+    
+    // Add confirmation message
+    const confirmationMessage = {
       id: Date.now(),
       text: getWelcomeMessage(language.code),
       sender: 'ai',
       timestamp: new Date(),
       language: language.code
     };
-    setMessages([welcomeMessage]);
+    setMessages(prev => [...prev, confirmationMessage]);
   };
 
   const getWelcomeMessage = (langCode) => {
     const welcomeMessages = {
-      'en': `Hello! I'm ${selectedAI.name}, your ${selectedAI.description}. I'm here to help you with your studies, homework, and any academic questions you might have. How can I assist you today?`,
-      'hi': `नमस्ते! मैं ${selectedAI.name} हूँ, आपका ${selectedAI.description}। मैं आपकी पढ़ाई, होमवर्क और किसी भी शैक्षणिक प्रश्न में आपकी मदद करने के लिए यहाँ हूँ। आज मैं आपकी कैसे सहायता कर सकता हूँ?`,
-      'mr': `नमस्कार! मी ${selectedAI.name} आहे, तुमचा ${selectedAI.description}। मी तुमच्या अभ्यासात, गृहपाठात आणि कोणत्याही शैक्षणिक प्रश्नात मदत करण्यासाठी येथे आहे। आज मी तुमची कशी मदत करू शकतो?`,
-      'hinglish': `Hello! Main ${selectedAI.name} hun, aapka ${selectedAI.description}। Main aapki studies, homework aur koi bhi academic questions mein help karne ke liye yahan hun. Aaj main aapki kaise madad kar sakta hun?`
+      'en': `Perfect! I'll communicate with you in English. Now I'm ready to help you with your studies, homework, assignments, or any academic questions. What would you like to work on today?`,
+      'hi': `बहुत बढ़िया! मैं आपसे हिंदी में बात करूंगा। अब मैं आपकी पढ़ाई, गृहकार्य, असाइनमेंट या किसी भी शैक्षणिक प्रश्न में मदद करने के लिए तैयार हूं। आज आप किस पर काम करना चाहते हैं?`,
+      'mr': `उत्तम! मी तुमच्याशी मराठीत बोलेन। आता मी तुमच्या अभ्यासात, गृहपाठात, असाइनमेंटमध्ये किंवा कोणत्याही शैक्षणिक प्रश्नात मदत करण्यासाठी तयार आहे। आज तुम्ही कशावर काम करू इच्छिता?`,
+      'hinglish': `Great choice! Main aapse Hinglish mein baat karunga। Ab main aapki studies, homework, assignments ya koi bhi academic questions mein help karne ke liye ready hun। Aaj aap kis topic pe work karna chahte hain?`
     };
     return welcomeMessages[langCode] || welcomeMessages['en'];
   };
 
   const handleSendMessage = async () => {
     if (!inputText.trim() && !uploadedImage) return;
+    if (!selectedLanguage) return; // Don't send messages without language selection
 
     const userMessage = {
       id: Date.now(),
@@ -165,7 +177,7 @@ const AIAssistant = () => {
   };
 
   const speakText = (text) => {
-    if ('speechSynthesis' in window) {
+    if ('speechSynthesis' in window && selectedLanguage) {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = selectedLanguage.code === 'hi' ? 'hi-IN' : 
                       selectedLanguage.code === 'mr' ? 'mr-IN' : 'en-US';
@@ -175,57 +187,16 @@ const AIAssistant = () => {
 
   return (
     <div className={`min-h-screen transition-all duration-300 ${
-      isDarkMode 
+        isDarkMode 
         ? 'bg-gradient-to-br from-gray-900 via-black to-gray-800' 
         : 'bg-gradient-to-br from-blue-50 via-white to-purple-50'
     }`}>
       
-      {/* Language Selection Modal */}
-      {showLanguageModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className={`rounded-3xl p-8 max-w-md w-full mx-4 ${
-            isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'
-          }`}>
-            <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Languages className="w-8 h-8 text-white" />
-              </div>
-              <h2 className={`text-2xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                Choose Your Language
-              </h2>
-              <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
-                Select your preferred language for the conversation
-              </p>
-            </div>
-            
-            <div className="space-y-3">
-              {languages.map((lang) => (
-                <button
-                  key={lang.code}
-                  onClick={() => handleLanguageSelect(lang)}
-                  className={`w-full p-4 rounded-xl border-2 transition-all duration-300 hover:scale-105 ${
-                    isDarkMode 
-                      ? 'border-gray-600 hover:border-blue-500 bg-gray-700 hover:bg-gray-600' 
-                      : 'border-gray-200 hover:border-blue-500 bg-gray-50 hover:bg-blue-50'
-                  }`}
-                >
-                  <div className="flex items-center space-x-3">
-                    <span className="text-2xl">{lang.flag}</span>
-                    <span className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                      {lang.name}
-                    </span>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
+      {/* Navigation Bar */}
+      <Navbar />
+      
       {/* Main Chat Interface */}
-      <div className="max-w-6xl mx-auto p-6 h-screen flex flex-col">
-        
-        {/* Header */}
+      <div className="max-w-6xl mx-auto p-6 flex flex-col" style={{ minHeight: 'calc(100vh - 80px)', paddingTop: '100px' }}>        {/* Header */}
         <div className={`rounded-2xl p-6 mb-6 ${
           isDarkMode 
             ? 'bg-gray-800/50 border border-gray-700' 
@@ -241,21 +212,10 @@ const AIAssistant = () => {
                   {selectedAI.name}
                 </h1>
                 <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  {selectedAI.description} • {selectedLanguage.name}
+                  {selectedAI.description} • {selectedLanguage?.name || 'Select Language'}
                 </p>
               </div>
             </div>
-            
-            <button
-              onClick={() => setShowLanguageModal(true)}
-              className={`p-2 rounded-lg transition-all duration-300 hover:scale-110 ${
-                isDarkMode 
-                  ? 'bg-gray-700 hover:bg-gray-600 text-gray-300' 
-                  : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-              }`}
-            >
-              <Settings className="w-5 h-5" />
-            </button>
           </div>
         </div>
 
@@ -281,8 +241,33 @@ const AIAssistant = () => {
                   {message.image && (
                     <img src={message.image} alt="Uploaded" className="w-full rounded-lg mb-2" />
                   )}
-                  <p className="text-sm">{message.text}</p>
-                  {message.sender === 'ai' && (
+                  <p className="text-sm whitespace-pre-line">{message.text}</p>
+                  
+                  {/* Language Selection Buttons */}
+                  {message.showLanguageOptions && (
+                    <div className="mt-4 space-y-2">
+                      {languages.map((lang) => (
+                        <button
+                          key={lang.code}
+                          onClick={() => handleLanguageSelect(lang)}
+                          className={`w-full p-3 rounded-lg border-2 transition-all duration-300 hover:scale-105 text-left ${
+                            isDarkMode 
+                              ? 'border-gray-600 hover:border-blue-500 bg-gray-600 hover:bg-gray-500' 
+                              : 'border-gray-300 hover:border-blue-500 bg-white hover:bg-blue-50'
+                          }`}
+                        >
+                          <div className="flex items-center space-x-3">
+                            <span className="text-lg">{lang.flag}</span>
+                            <span className={`font-medium text-sm ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                              {lang.name}
+                            </span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  
+                  {message.sender === 'ai' && !message.showLanguageOptions && (
                     <button
                       onClick={() => speakText(message.text)}
                       className="mt-2 p-1 rounded opacity-70 hover:opacity-100 transition-opacity"
@@ -369,17 +354,18 @@ const AIAssistant = () => {
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-              placeholder={`Type your message in ${selectedLanguage.name}...`}
+              placeholder={`Type your message in ${selectedLanguage?.name || 'your selected language'}...`}
+              disabled={!selectedLanguage}
               className={`flex-1 p-3 rounded-xl border-none outline-none transition-all duration-300 ${
                 isDarkMode 
                   ? 'bg-gray-700 text-white placeholder-gray-400' 
                   : 'bg-gray-100 text-gray-900 placeholder-gray-500'
-              }`}
+              } ${!selectedLanguage ? 'opacity-50 cursor-not-allowed' : ''}`}
             />
 
             <button
               onClick={handleSendMessage}
-              disabled={!inputText.trim() && !uploadedImage}
+              disabled={(!inputText.trim() && !uploadedImage) || !selectedLanguage}
               className="p-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-xl transition-all duration-300 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Send className="w-5 h-5" />

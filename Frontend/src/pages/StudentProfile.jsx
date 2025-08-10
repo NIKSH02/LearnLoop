@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import Footer from "../components/Footer.jsx";
 import {
   User,
   GraduationCap,
@@ -1803,6 +1804,8 @@ const StudentProfile = () => {
           </div>
         </main>
       </div>
+      
+      <Footer />
     </div>
   );
 };

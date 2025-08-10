@@ -1,13 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { signinService, sendOtpService, loginWithOtpService } from '../services/authService';
 import { Link } from 'react-router-dom';
-import { Eye, EyeOff, Mail, Lock, ArrowLeft } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, ArrowLeft, LogIn, Smartphone, Users, BookOpen, Star } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigateWithLoader } from '../hooks/useNavigateWithLoader.js';
+import { useTheme } from '../context/ThemeContext';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer.jsx';
 
 const LoginPage = () => {
   const { navigateWithLoader } = useNavigateWithLoader();
   const { login } = useAuth();
+  const { isDarkMode } = useTheme();
   const [loginMethod, setLoginMethod] = useState('password');
   const [usernameOrEmail, setUsernameOrEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -43,7 +47,7 @@ const LoginPage = () => {
     setMessageType('success');
     try {
       const response = await signinService({ usernameOrEmail, password });
-      login(response.data); // Store user data in context
+      login(response.data);
       setMessage('Login successful! Redirecting...');
       setMessageType('success');
       setTimeout(() => {
@@ -114,7 +118,7 @@ const LoginPage = () => {
     }
     try {
       const response = await loginWithOtpService({ email, otp });
-      login(response.data); // Store user data in context
+      login(response.data);
       setMessage('Login successful via OTP! Redirecting...');
       setMessageType('success');
       clearTimeout(otpTimerRef.current);
@@ -132,186 +136,350 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div className="relative">
-          {/* Back Button */}
-          <Link
-            to="/"
-            className="absolute -top-2 -left-2 flex items-center text-white/70 hover:text-white transition-colors duration-200"
-          >
-            <ArrowLeft size={20} />
-            <span className="ml-1 text-sm">Back to Home</span>
-          </Link>
-
-          {/* Header */}
-          <div className="text-center pt-8">
-            <h2 className="text-4xl font-bold text-white mb-2">Welcome Back</h2>
-            <p className="text-gray-300">Sign in to your account</p>
-          </div>
-
-          {/* Main Card */}
-          <div 
-            className="mt-8 bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 shadow-2xl"
-            style={{
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-            }}
-          >
-            {/* Message */}
-            {message && (
-              <div className={`mb-6 p-3 rounded-lg text-sm ${
-                messageType === 'error' 
-                  ? 'bg-red-500/20 text-red-200 border border-red-500/30' 
-                  : 'bg-green-500/20 text-green-200 border border-green-500/30'
-              }`}>
-                {message}
+    <div className={`min-h-screen ${
+      isDarkMode 
+        ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' 
+        : 'bg-gradient-to-br from-[#e7e9ec] via-[#d7d4e0] to-[#e7e9ec]'
+    }`}>
+      <Navbar />
+      
+      {/* Main Content */}
+      <div className="pt-24 pb-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            
+            {/* Left Side - Welcome Content */}
+            <div className="hidden lg:block">
+              <div className="text-center lg:text-left">
+                <h1 className={`text-5xl font-bold mb-6 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>
+                  Welcome Back to{' '}
+                  <span className="bg-gradient-to-r from-[#9e8eef] to-[#8676ed] bg-clip-text text-transparent">
+                    TutorLink
+                  </span>
+                </h1>
+                <p className={`text-xl mb-8 ${
+                  isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                }`}>
+                  Continue your learning journey with personalized tutoring and expert guidance
+                </p>
+                
+                {/* Features Grid */}
+                <div className="grid grid-cols-1 gap-6 mb-8">
+                  <div className={`flex items-center space-x-4 p-4 rounded-xl ${
+                    isDarkMode ? 'bg-gray-800/50' : 'bg-white/60'
+                  }`}>
+                    <div className="w-12 h-12 bg-gradient-to-r from-[#9e8eef] to-[#8676ed] rounded-lg flex items-center justify-center">
+                      <Users className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                        Expert Tutors
+                      </h3>
+                      <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        Connect with qualified tutors in your field
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className={`flex items-center space-x-4 p-4 rounded-xl ${
+                    isDarkMode ? 'bg-gray-800/50' : 'bg-white/60'
+                  }`}>
+                    <div className="w-12 h-12 bg-gradient-to-r from-[#9e8eef] to-[#8676ed] rounded-lg flex items-center justify-center">
+                      <BookOpen className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                        Personalized Learning
+                      </h3>
+                      <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        Tailored lessons based on your goals
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className={`flex items-center space-x-4 p-4 rounded-xl ${
+                    isDarkMode ? 'bg-gray-800/50' : 'bg-white/60'
+                  }`}>
+                    <div className="w-12 h-12 bg-gradient-to-r from-[#9e8eef] to-[#8676ed] rounded-lg flex items-center justify-center">
+                      <Star className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                        Track Progress
+                      </h3>
+                      <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        Monitor your learning achievements
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
-            )}
-
-            {/* Login Method Toggle */}
-            <div className="flex mb-6 bg-white/5 rounded-lg p-1">
-              <button
-                onClick={() => { setLoginMethod('password'); setMessage(''); setShowOtpSection(false); setOtp(''); setEmail(''); }}
-                className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 ${
-                  loginMethod === 'password'
-                    ? 'bg-white/20 text-white shadow-lg'
-                    : 'text-gray-300 hover:text-white'
-                }`}
-              >
-                Password Login
-              </button>
-              <button
-                onClick={() => { setLoginMethod('email'); setMessage(''); setShowOtpSection(false); setOtp(''); setUsernameOrEmail(''); setPassword(''); }}
-                className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 ${
-                  loginMethod === 'email'
-                    ? 'bg-white/20 text-white shadow-lg'
-                    : 'text-gray-300 hover:text-white'
-                }`}
-              >
-                Email OTP
-              </button>
             </div>
 
-            {/* Form */}
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-              {loginMethod === 'password' ? (
-                <>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-                    <input
-                      type="text"
-                      placeholder="Username or Email"
-                      value={usernameOrEmail}
-                      onChange={(e) => setUsernameOrEmail(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
-                    />
+            {/* Right Side - Login Form */}
+            <div className="max-w-md mx-auto w-full">
+              <div className={`rounded-2xl p-8 shadow-xl border ${
+                isDarkMode 
+                  ? 'bg-gray-800/60 border-gray-700/50 backdrop-blur-sm' 
+                  : 'bg-white/70 border-white/50 backdrop-blur-sm'
+              }`}>
+                
+                {/* Header */}
+                <div className="text-center mb-8">
+                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 ${
+                    isDarkMode ? 'bg-[#9e8eef]/20' : 'bg-[#9e8eef]/10'
+                  }`}>
+                    <LogIn className="text-[#9e8eef]" size={32} />
                   </div>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="w-full pl-10 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200"
-                    >
-                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </button>
+                  <h2 className={`text-3xl font-bold mb-2 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}>
+                    Sign In
+                  </h2>
+                  <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                    Access your learning dashboard
+                  </p>
+                </div>
+
+                {/* Message */}
+                {message && (
+                  <div className={`mb-6 p-4 rounded-lg text-sm font-medium ${
+                    messageType === 'error' 
+                      ? isDarkMode
+                        ? 'bg-red-900/20 text-red-400 border border-red-800/50' 
+                        : 'bg-red-50 text-red-700 border border-red-200'
+                      : isDarkMode
+                        ? 'bg-green-900/20 text-green-400 border border-green-800/50'
+                        : 'bg-green-50 text-green-700 border border-green-200'
+                  }`}>
+                    {message}
                   </div>
+                )}
+
+                {/* Login Method Toggle */}
+                <div className={`flex rounded-xl p-1 mb-6 ${
+                  isDarkMode ? 'bg-gray-700/30' : 'bg-[#e7e9ec]/60'
+                }`}>
                   <button
-                    type="submit"
-                    onClick={handleLoginWithPassword}
-                    disabled={!usernameOrEmail || !password}
-                    className={`w-full py-3 rounded-lg font-medium transition-all duration-200 ${
-                      (!usernameOrEmail || !password)
-                        ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-purple-600 to-violet-600 text-white hover:from-purple-700 hover:to-violet-700 transform hover:scale-[1.02] shadow-lg'
+                    onClick={() => { setLoginMethod('password'); setMessage(''); setShowOtpSection(false); setOtp(''); setEmail(''); }}
+                    className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-200 flex items-center justify-center space-x-2 ${
+                      loginMethod === 'password'
+                        ? 'bg-[#9e8eef] text-white shadow-lg'
+                        : isDarkMode
+                          ? 'text-gray-400 hover:text-white'
+                          : 'text-gray-600 hover:text-gray-800'
                     }`}
                   >
-                    Sign In
+                    <Lock size={16} />
+                    <span>Password</span>
                   </button>
-                </>
-              ) : (
-                <>
-                  <div className="flex space-x-2">
-                    <div className="relative flex-1">
-                      <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-                      <input
-                        type="email"
-                        placeholder="Email address"
-                        value={email}
-                        onChange={(e) => { setEmail(e.target.value); setShowOtpSection(false); setOtp(''); setMessage(''); }}
-                        className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
-                      />
-                    </div>
-                    <button
-                      type="button"
-                      onClick={handleSendOtpLogin}
-                      disabled={!email || showOtpSection}
-                      className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
-                        (!email || showOtpSection)
-                          ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                          : 'bg-gradient-to-r from-purple-600 to-violet-600 text-white hover:from-purple-700 hover:to-violet-700'
-                      }`}
-                    >
-                      Send OTP
-                    </button>
-                  </div>
-                  {showOtpSection && (
-                    <div className="space-y-4">
-                      <input
-                        type="text"
-                        maxLength="6"
-                        placeholder="Enter 6-digit OTP"
-                        value={otp}
-                        onChange={(e) => setOtp(e.target.value)}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
-                      />
-                      <div className="flex justify-between items-center text-sm text-gray-300">
-                        <span>Time remaining: {otpTimer}s</span>
-                        <button
-                          type="button"
-                          onClick={handleResendOtpLogin}
-                          disabled={!canResendOtp}
-                          className={`font-medium ${canResendOtp ? 'text-purple-400 hover:text-purple-300' : 'text-gray-500 cursor-not-allowed'}`}
-                        >
-                          Resend OTP
-                        </button>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={handleOtpSubmitLogin}
-                        className="w-full py-3 rounded-lg font-medium bg-gradient-to-r from-purple-600 to-violet-600 text-white hover:from-purple-700 hover:to-violet-700 transform hover:scale-[1.02] shadow-lg transition-all duration-200"
-                      >
-                        Verify OTP
-                      </button>
-                    </div>
-                  )}
-                </>
-              )}
-            </form>
+                  <button
+                    onClick={() => { setLoginMethod('email'); setMessage(''); setShowOtpSection(false); setOtp(''); setUsernameOrEmail(''); setPassword(''); }}
+                    className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-200 flex items-center justify-center space-x-2 ${
+                      loginMethod === 'email'
+                        ? 'bg-[#9e8eef] text-white shadow-lg'
+                        : isDarkMode
+                          ? 'text-gray-400 hover:text-white'
+                          : 'text-gray-600 hover:text-gray-800'
+                    }`}
+                  >
+                    <Smartphone size={16} />
+                    <span>OTP</span>
+                  </button>
+                </div>
 
-            {/* Footer */}
-            <div className="mt-6 text-center">
-              <p className="text-gray-300 text-sm">
-                Don't have an account?{' '}
-                <Link 
-                  to="/signup" 
-                  className="font-medium text-purple-400 hover:text-purple-300 transition-colors duration-200"
-                >
-                  Sign up here
-                </Link>
-              </p>
+                {/* Form */}
+                <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+                  {loginMethod === 'password' ? (
+                    <>
+                      {/* Username/Email */}
+                      <div>
+                        <label className={`block text-sm font-medium mb-2 ${
+                          isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                        }`}>
+                          Username or Email
+                        </label>
+                        <div className="relative">
+                          <Mail className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${
+                            isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                          }`} size={18} />
+                          <input
+                            type="text"
+                            placeholder="Enter your username or email"
+                            value={usernameOrEmail}
+                            onChange={(e) => setUsernameOrEmail(e.target.value)}
+                            className={`w-full pl-10 pr-4 py-3 rounded-lg border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#9e8eef]/50 focus:border-[#9e8eef] ${
+                              isDarkMode 
+                                ? 'bg-gray-700/50 border-gray-600 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-200 text-gray-900 placeholder-gray-500'
+                            }`}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Password */}
+                      <div>
+                        <label className={`block text-sm font-medium mb-2 ${
+                          isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                        }`}>
+                          Password
+                        </label>
+                        <div className="relative">
+                          <Lock className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${
+                            isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                          }`} size={18} />
+                          <input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Enter your password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className={`w-full pl-10 pr-12 py-3 rounded-lg border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#9e8eef]/50 focus:border-[#9e8eef] ${
+                              isDarkMode 
+                                ? 'bg-gray-700/50 border-gray-600 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-200 text-gray-900 placeholder-gray-500'
+                            }`}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className={`absolute right-3 top-1/2 transform -translate-y-1/2 transition-colors duration-200 ${
+                              isDarkMode 
+                                ? 'text-gray-400 hover:text-white' 
+                                : 'text-gray-500 hover:text-gray-700'
+                            }`}
+                          >
+                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                          </button>
+                        </div>
+                      </div>
+
+                      <button
+                        type="submit"
+                        onClick={handleLoginWithPassword}
+                        disabled={!usernameOrEmail || !password}
+                        className={`w-full py-3 rounded-lg font-medium transition-all duration-200 ${
+                          (!usernameOrEmail || !password)
+                            ? isDarkMode
+                              ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                              : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                            : 'bg-gradient-to-r from-[#9e8eef] to-[#8676ed] text-white hover:from-[#8676ed] hover:to-[#9e8eef] transform hover:scale-[1.02] shadow-lg'
+                        }`}
+                      >
+                        Sign In
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      {/* Email OTP Section */}
+                      <div>
+                        <label className={`block text-sm font-medium mb-2 ${
+                          isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                        }`}>
+                          Email Address
+                        </label>
+                        <div className="flex space-x-2">
+                          <div className="relative flex-1">
+                            <Mail className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${
+                              isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                            }`} size={18} />
+                            <input
+                              type="email"
+                              placeholder="Enter your email"
+                              value={email}
+                              onChange={(e) => { setEmail(e.target.value); setShowOtpSection(false); setOtp(''); setMessage(''); }}
+                              className={`w-full pl-10 pr-4 py-3 rounded-lg border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#9e8eef]/50 focus:border-[#9e8eef] ${
+                                isDarkMode 
+                                  ? 'bg-gray-700/50 border-gray-600 text-white placeholder-gray-400' 
+                                  : 'bg-white/80 border-gray-200 text-gray-900 placeholder-gray-500'
+                              }`}
+                            />
+                          </div>
+                          <button
+                            type="button"
+                            onClick={handleSendOtpLogin}
+                            disabled={!email || showOtpSection}
+                            className={`px-6 py-3 rounded-lg font-medium whitespace-nowrap transition-all duration-200 ${
+                              (!email || showOtpSection)
+                                ? isDarkMode
+                                  ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                                  : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                                : 'bg-gradient-to-r from-[#9e8eef] to-[#8676ed] text-white hover:from-[#8676ed] hover:to-[#9e8eef] shadow-lg'
+                            }`}
+                          >
+                            Send OTP
+                          </button>
+                        </div>
+
+                        {showOtpSection && (
+                          <div className={`mt-4 space-y-4 p-4 rounded-lg border ${
+                            isDarkMode 
+                              ? 'bg-gray-700/30 border-gray-600' 
+                              : 'bg-[#e7e9ec]/30 border-gray-200'
+                          }`}>
+                            <input
+                              type="text"
+                              maxLength="6"
+                              placeholder="Enter 6-digit OTP"
+                              value={otp}
+                              onChange={(e) => setOtp(e.target.value)}
+                              className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#9e8eef]/50 focus:border-[#9e8eef] ${
+                                isDarkMode 
+                                  ? 'bg-gray-600/50 border-gray-500 text-white placeholder-gray-400' 
+                                  : 'bg-white border-gray-200 text-gray-900 placeholder-gray-500'
+                              }`}
+                            />
+                            <div className={`flex justify-between items-center text-sm ${
+                              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                            }`}>
+                              <span>Time remaining: {otpTimer}s</span>
+                              <button
+                                type="button"
+                                onClick={handleResendOtpLogin}
+                                disabled={!canResendOtp}
+                                className={`font-medium ${
+                                  canResendOtp 
+                                    ? 'text-[#9e8eef] hover:text-[#8676ed]' 
+                                    : isDarkMode ? 'text-gray-600 cursor-not-allowed' : 'text-gray-400 cursor-not-allowed'
+                                }`}
+                              >
+                                Resend OTP
+                              </button>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={handleOtpSubmitLogin}
+                              className="w-full py-3 rounded-lg font-medium bg-gradient-to-r from-[#9e8eef] to-[#8676ed] text-white hover:from-[#8676ed] hover:to-[#9e8eef] transform hover:scale-[1.02] shadow-lg transition-all duration-200"
+                            >
+                              Verify OTP
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  )}
+                </form>
+
+                {/* Footer */}
+                <div className="mt-6 text-center">
+                  <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    Don't have an account?{' '}
+                    <Link 
+                      to="/signup" 
+                      className="font-medium text-[#9e8eef] hover:text-[#8676ed] transition-colors duration-200"
+                    >
+                      Sign up here
+                    </Link>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 };
