@@ -108,6 +108,10 @@ app.use((req, res, next) => {
 
 const socketHandler = groupChatSocket(io);
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the Learnloop API");
+});
+
 // Graceful shutdown handling
 const gracefulShutdown = (signal) => {
   console.log(`\n${signal} received. Starting graceful shutdown...`);
