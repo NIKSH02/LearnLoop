@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import ChatNav from '../components/ChatNav';
 import { useAuth } from '../context/AuthContext';
 import SideBar from '../components/SideBar'
-import Footer from '../components/Footer.jsx';
+
 
 const GlobalChat = () => {
   const { user, isLoggedIn } = useAuth();
@@ -648,8 +648,6 @@ const GlobalChat = () => {
           }
         `}</style>
       </div>
-      
-      <Footer />
     </div>
   );
 };

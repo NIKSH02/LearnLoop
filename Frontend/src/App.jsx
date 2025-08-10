@@ -16,6 +16,9 @@ import RoleSelectionPage from "./pages/RoleSelectionPage";
 import StudentProfile from "./pages/StudentProfile";
 import MentorProfile from "./pages/MentorProfile";
 import Notifications from "./pages/Notifications";
+import PollPage from "./pages/PollPage";
+import PersonalChatUi from "./pages/PersonalChatUi";
+import GlobalChat from "./pages/GlobalChat";
 // Components
 import GlobalLoader from './components/GlobalLoader';
 import RolePopup from './components/RolePopup';
@@ -83,6 +86,8 @@ function App() {
                 {/* Global Navigation Bar can be added here */}
                 <Route path="/StudentProfile" element={<StudentProfile />} />
                 <Route path="/MentorProfile" element={<MentorProfile />} />
+                <Route path="/privatechat" element={<PersonalChatUi />} />
+                <Route path="/chat" element={<GlobalChat />} />
                 {/* Home/Landing Page */}
                 <Route path="/" element={<LandingPage />} />
 

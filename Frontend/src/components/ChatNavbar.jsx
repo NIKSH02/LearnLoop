@@ -1,8 +1,9 @@
 import axios from "axios";
-import { Search, Bell, Settings, ChevronDown, X, Filter, Menu, MessageCircle, Loader, LucideLoader, Loader2 } from "lucide-react";
+import { Search, Bell, Settings, ChevronDown, X, Filter, Menu, MessageCircle, Loader, LucideLoader, Loader2, House } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import Cookies from "js-cookie";
 import { ChatState } from '../context/chatProvider.jsx';
+import { useNavigate } from "react-router-dom";
 
 
 export default function ChatNavbar() {
@@ -16,6 +17,9 @@ export default function ChatNavbar() {
   const [isLoading, setIsLoading ] = useState(false);
   const searchRef = useRef(null);
   const mobileMenuRef = useRef(null);
+
+
+  const navigate = useNavigate();
 
   const token = Cookies.get("accessToken"); // works if cookie is not HttpOnly
   console.log("token in cookie", token);
@@ -375,6 +379,9 @@ export default function ChatNavbar() {
           {/* Settings button - Hidden on small mobile */}
           <button className="hidden sm:flex p-2 text-gray-600 hover:text-gray-900 hover:bg-white/80 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
             <Settings className="h-5 w-5" />
+          </button>
+          <button onClick={() => navigate('/')} className="hidden sm:flex p-2 text-gray-600 hover:text-gray-900 hover:bg-white/80 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <House  className="h-5 w-5" />
           </button>
 
           {/* Notification button */}

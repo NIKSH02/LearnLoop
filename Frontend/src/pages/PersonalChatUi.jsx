@@ -145,90 +145,91 @@ const PersonalChatUI = () => {
 
   // Enhanced mock messages with more variety
   const mockMessages = {
-    'conv_1': [
-      {
-        id: 'msg1',
-        senderId: 'raj_kumar',
-        senderName: 'Raj Kumar',
-        receiverId: user?.userId,
-        receiverName: user?.userName,
-        message: 'Hi! I need 50kg premium basmati rice for my restaurant chain. Can you supply by tomorrow morning? 🍚',
-        timestamp: new Date(Date.now() - 35 * 60 * 1000),
-        type: 'text',
-        status: 'read'
-      },
-      {
-        id: 'msg2',
-        senderId: user?.userId,
-        senderName: user?.userName,
-        receiverId: 'raj_kumar',
-        receiverName: 'Raj Kumar',
-        message: 'Absolutely! I have fresh stock of premium basmati. What\'s your preferred grade?',
-        timestamp: new Date(Date.now() - 33 * 60 * 1000),
-        type: 'text',
-        status: 'read'
-      },
-      {
-        id: 'msg3',
-        senderId: 'raj_kumar',
-        senderName: 'Raj Kumar',
-        receiverId: user?.userId,
-        receiverName: user?.userName,
-        message: 'Grade A would be perfect. What\'s your best rate for bulk orders? 💰',
-        timestamp: new Date(Date.now() - 32 * 60 * 1000),
-        type: 'text',
-        status: 'read'
-      },
-      {
-        id: 'msg4',
-        senderId: user?.userId,
-        senderName: user?.userName,
-        receiverId: 'raj_kumar',
-        receiverName: 'Raj Kumar',
-        message: '₹75 per kg for Grade A basmati, 50kg bulk order. Free delivery within city limits! 🚚',
-        timestamp: new Date(Date.now() - 30 * 60 * 1000),
-        type: 'text',
-        status: 'read'
-      },
-      {
-        id: 'msg5',
-        senderId: 'raj_kumar',
-        senderName: 'Raj Kumar',
-        receiverId: user?.userId,
-        receiverName: user?.userName,
-        message: 'Perfect! I\'ll place the order now 🛒',
-        timestamp: new Date(Date.now() - 2 * 60 * 1000),
-        type: 'text',
-        status: 'delivered'
-      }
-    ],
-    'conv_2': [
-      {
-        id: 'msg5',
-        senderId: 'priya_sharma',
-        senderName: 'Priya Sharma',
-        receiverId: user?.userId,
-        receiverName: user?.userName,
-        message: 'Thanks for the amazing service! The vegetables were super fresh ⭐',
-        timestamp: new Date(Date.now() - 75 * 60 * 1000),
-        type: 'text',
-        status: 'read'
-      }
-    ],
-    'conv_3': [
-      {
-        id: 'msg6',
-        senderId: 'vikram_singh',
-        senderName: 'Vikram Singh',
-        receiverId: user?.userId,
-        receiverName: user?.userName,
-        message: 'Can you send me photos of your best tomatoes? Looking for restaurant quality 🍅',
-        timestamp: new Date(Date.now() - 12 * 60 * 60 * 1000),
-        type: 'text',
-        status: 'delivered'
-      }
-    ]
-  };
+  'conv_1': [
+    {
+      id: 'msg1',
+      senderId: 'vendor_123',
+      senderName: 'Campus Supplies Vendor',
+      receiverId: user?.userId,
+      receiverName: user?.userName,
+      message: 'Hi! We have a new batch of high-quality stationery sets. Would you like to check them out for your semester? ✏️📚',
+      timestamp: new Date(Date.now() - 35 * 60 * 1000),
+      type: 'text',
+      status: 'read'
+    },
+    {
+      id: 'msg2',
+      senderId: user?.userId,
+      senderName: user?.userName,
+      receiverId: 'vendor_123',
+      receiverName: 'Campus Supplies Vendor',
+      message: 'Yes, I’m interested. Do you have any student discount offers?',
+      timestamp: new Date(Date.now() - 33 * 60 * 1000),
+      type: 'text',
+      status: 'read'
+    },
+    {
+      id: 'msg3',
+      senderId: 'vendor_123',
+      senderName: 'Campus Supplies Vendor',
+      receiverId: user?.userId,
+      receiverName: user?.userName,
+      message: 'Absolutely! 15% off for all students with a valid ID card. 🎓',
+      timestamp: new Date(Date.now() - 32 * 60 * 1000),
+      type: 'text',
+      status: 'read'
+    },
+    {
+      id: 'msg4',
+      senderId: user?.userId,
+      senderName: user?.userName,
+      receiverId: 'vendor_123',
+      receiverName: 'Campus Supplies Vendor',
+      message: 'Perfect. I’ll take one stationery set with extra notebooks.',
+      timestamp: new Date(Date.now() - 30 * 60 * 1000),
+      type: 'text',
+      status: 'read'
+    },
+    {
+      id: 'msg5',
+      senderId: 'vendor_123',
+      senderName: 'Campus Supplies Vendor',
+      receiverId: user?.userId,
+      receiverName: user?.userName,
+      message: 'Order confirmed! I’ll deliver it to your hostel tomorrow morning 🚚',
+      timestamp: new Date(Date.now() - 2 * 60 * 1000),
+      type: 'text',
+      status: 'delivered'
+    }
+  ],
+  'conv_2': [
+    {
+      id: 'msg6',
+      senderId: 'vendor_456',
+      senderName: 'Canteen Vendor',
+      receiverId: user?.userId,
+      receiverName: user?.userName,
+      message: 'Thanks for always ordering from us! Glad you liked the fresh juice yesterday 🥤',
+      timestamp: new Date(Date.now() - 75 * 60 * 1000),
+      type: 'text',
+      status: 'read'
+    }
+  ],
+  'conv_3': [
+    {
+      id: 'msg7',
+      senderId: 'vendor_789',
+      senderName: 'Library Vendor',
+      receiverId: user?.userId,
+      receiverName: user?.userName,
+      message: 'Would you like me to send photos of the new academic reference books? 📖',
+      timestamp: new Date(Date.now() - 12 * 60 * 60 * 1000),
+      type: 'text',
+      status: 'delivered'
+    }
+  ]
+};
+
 
   // Quick reactions
   const quickReactions = ['❤️', '👍', '😊', '🔥', '👏', '☕'];
@@ -650,7 +651,7 @@ const PersonalChatUI = () => {
               >
                 💬 Chats
               </button>
-              <button
+              {/* <button
                 onClick={() => setActiveTab('groups')}
                 className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                   activeTab === 'groups'
@@ -659,7 +660,7 @@ const PersonalChatUI = () => {
                 }`}
               >
                 👥 Groups
-              </button>
+              </button> */}
             </div>
           </div>
           

@@ -10,6 +10,7 @@ import {
   Sparkles,
   User,
   Settings,
+  MessageCircle,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -200,6 +201,18 @@ const Navbar = () => {
                   >
                     <User size={18} />
                     <span>Profile</span>
+                  </motion.button>
+                  <motion.button
+                    onClick={() => navigate('/privatechat')}
+                    className={`flex items-center space-x-2 px-4 py-3 font-semibold rounded-xl transition-all duration-300 ${
+                      isDarkMode
+                        ? "bg-gray-800/50 hover:bg-gray-700/50 text-gray-300 hover:text-white border border-gray-700/50"
+                        : "bg-gray-100/50 hover:bg-gray-200/50 text-gray-600 hover:text-gray-900 border border-gray-200/50"
+                    } backdrop-blur-sm hover:scale-105`}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <span><MessageCircle /></span>
                   </motion.button>
 
                   <motion.button
