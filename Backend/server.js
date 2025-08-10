@@ -54,8 +54,8 @@ app.use(
 app.use(cookieParser());
 
 // Helper: Log static file serving for debug
-console.log("Serving static files from:", path.resolve("uploads"));
-app.use("/uploads", express.static("uploads"));
+// console.log("Serving static files from:", path.resolve("uploads"));
+// app.use("/uploads", express.static("uploads"));
 
 // Add debug middleware to log all requests
 app.use((req, res, next) => {
