@@ -30,7 +30,7 @@ connectDB();
 // server defining 
 const io = new socketIo(httpServer, {
   cors: {
-    origin: ["http://localhost:5173", "http://localhost:5174", "https://learnloop-sykx.onrender.com"],
+    origin: ["http://localhost:5173", "http://localhost:5174", "https://learnloop-sykx.onrender.com/"],
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -42,7 +42,7 @@ const io = new socketIo(httpServer, {
 app.use(
   cors({
     origin: [
-      "https://learnloop-sykx.onrender.com",
+      "https://learnloop-sykx.onrender.com/",
       "http://localhost:5173",
       "http://localhost:5174", // add any other frontend URLs you use
     ],
@@ -54,8 +54,8 @@ app.use(
 app.use(cookieParser());
 
 // Helper: Log static file serving for debug
-// console.log("Serving static files from:", path.resolve("uploads"));
-// app.use("/uploads", express.static("uploads"));
+console.log("Serving static files from:", path.resolve("uploads"));
+app.use("/uploads", express.static("uploads"));
 
 // Add debug middleware to log all requests
 app.use((req, res, next) => {
@@ -110,10 +110,6 @@ app.use((req, res, next) => {
 const socketHandler = groupChatSocket(io);
 
 app.get("/", (req, res) => {
-  res.send("Welcome to the Learnloop API");
-});
-
-app.get("*", (req, res) => {
   res.send("Welcome to the Learnloop API");
 });
 
