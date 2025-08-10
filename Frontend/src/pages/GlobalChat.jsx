@@ -1,25 +1,51 @@
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
-import { useAuth } from '../hooks/useAuth';
 import { Navigate } from 'react-router-dom';
-import SideBar from '../components/SideBar';
+import ChatNav from '../components/ChatNav';
+import { useAuth } from '../context/AuthContext';
+import SideBar from '../components/SideBar'
 
 const GlobalChat = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isLoggedIn } = useAuth();
 
-  console.log('user in location chat : ' , JSON.stringify(user));
-  console.log("isauth in location chat. " , isAuthenticated);
-  // Redirect if not authenticated
-  if (!isAuthenticated || !user) {
-    return <Navigate to="/" replace />;
+  console.log('user in chat : ' , JSON.stringify(user));
+  console.log("isauth in chat. " , isLoggedIn);
+
+  // Add loading check for user
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-white via-purple-50 to-indigo-100 relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-purple-200 to-indigo-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
+          <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-300 to-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-60 animate-pulse delay-300"></div>
+        </div>
+        
+        <div className="relative z-10 flex flex-col items-center space-y-6 backdrop-blur-sm bg-white/20 p-12 rounded-3xl border border-white/20 shadow-2xl">
+          {/* Enhanced loading spinner */}
+          <div className="relative">
+            <div className="w-16 h-16 border-4 border-purple-200 border-t-[#7968ed] rounded-full animate-spin"></div>
+            <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-r-purple-300 rounded-full animate-spin animate-reverse delay-150"></div>
+          </div>
+          <div className="text-gray-700 font-semibold text-lg animate-pulse">Loading your conversations...</div>
+          <div className="flex space-x-2">
+            <div className="w-2 h-2 bg-[#7968ed] rounded-full animate-bounce"></div>
+            <div className="w-2 h-2 bg-[#7968ed] rounded-full animate-bounce delay-100"></div>
+            <div className="w-2 h-2 bg-[#7968ed] rounded-full animate-bounce delay-200"></div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
-  const normalizedLocation = (user.address?.city || 'Unknown Location').trim().toLowerCase();
+  const normalizedLocation = ('Unknown Location').trim().toLowerCase();
   const currentUser = {
     userId: user._id,
-    userName: user.name,
-    location: (user.address?.city || 'Unknown Location').trim().toLowerCase()
+    userName: user.fullName,
+    location: ('Student Connect').trim().toLowerCase()
   };
+
+  console.log("currentuser in chat : ", JSON.stringify(currentUser))
 
   // State management
   const [messages, setMessages] = useState([]);
@@ -30,6 +56,7 @@ const GlobalChat = () => {
   const [typingUsers, setTypingUsers] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [error, setError] = useState(null);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   // Refs
   const socketRef = useRef(null);
@@ -38,7 +65,7 @@ const GlobalChat = () => {
 
   // Initialize socket connection
   useEffect(() => {
-    const serverUrl ='https://vendorverse-uzqz.onrender.com';
+    const serverUrl ='http://localhost:5001';
     
     socketRef.current = io(serverUrl, {
       transports: ['websocket', 'polling'],
@@ -130,7 +157,7 @@ const GlobalChat = () => {
     const loadChatHistory = async () => {
       try {
         setIsLoading(true);
-        const serverUrl = 'https://vendorverse-uzqz.onrender.com';
+        const serverUrl = 'http://localhost:5001';
         const response = await fetch(`${serverUrl}/api/messages/${encodeURIComponent(currentUser.location)}/recent`);
         
         if (response.ok) {
@@ -240,200 +267,385 @@ const GlobalChat = () => {
   };
 
   const MessageBubble = ({ message, isOwn }) => (
-    <div className={`flex mb-4 ${isOwn ? 'justify-end' : 'justify-start'}`}>
-      <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-        isOwn 
-          ? 'bg-orange-500 text-white' 
-          : 'bg-gray-100 text-gray-800'
+    <div className={`flex mb-6 ${isOwn ? 'justify-end' : 'justify-start'} group`}>
+      <div className={`relative max-w-sm lg:max-w-md transition-all duration-300 hover:scale-[1.02] ${
+        isOwn ? 'order-1' : 'order-2'
       }`}>
-        {!isOwn && (
-          <div className="text-xs font-semibold mb-1 text-gray-600">
-            {message.senderName}
-          </div>
-        )}
-        <div className="break-words">{message.message}</div>
-        <div className={`text-xs mt-1 ${
-          isOwn ? 'text-orange-100' : 'text-gray-500'
+        {/* Message bubble with glassmorphism effect */}
+        <div className={`px-6 py-4 rounded-2xl backdrop-blur-sm border transition-all duration-300 ${
+          isOwn 
+            ? 'bg-gradient-to-br from-[#7968ed] to-[#8b7aef] text-white border-white/20 shadow-lg hover:shadow-xl shadow-purple-500/25' 
+            : 'bg-white/80 text-gray-800 border-gray-200/50 shadow-lg hover:shadow-xl hover:bg-white/90'
         }`}>
-          {formatTime(message.timestamp)}
+          {!isOwn && (
+            <div className="flex items-center mb-2">
+              <div className="w-6 h-6 bg-gradient-to-br from-[#7968ed] to-purple-600 rounded-full flex items-center justify-center mr-2">
+                <span className="text-xs font-bold text-white">
+                  {message.senderName?.charAt(0)?.toUpperCase()}
+                </span>
+              </div>
+              <div className="text-xs font-semibold text-[#7968ed]">
+                {message.senderName}
+              </div>
+            </div>
+          )}
+          <div className="break-words leading-relaxed">{message.message}</div>
+          <div className={`text-xs mt-2 opacity-70 ${
+            isOwn ? 'text-purple-100' : 'text-gray-500'
+          }`}>
+            {formatTime(message.timestamp)}
+          </div>
         </div>
+
+        {/* Message tail */}
+        <div className={`absolute top-4 w-3 h-3 transform rotate-45 ${
+          isOwn 
+            ? '-right-1 bg-gradient-to-br from-[#7968ed] to-[#8b7aef]' 
+            : '-left-1 bg-white/80 border-l border-b border-gray-200/50'
+        }`}></div>
       </div>
     </div>
   );
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading chat...</p>
+      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-white via-purple-50 to-indigo-100 relative overflow-hidden">
+        {/* Animated background */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-[#7968ed]/20 to-purple-300/20 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-purple-400/20 to-pink-300/20 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-300"></div>
+        </div>
+        
+        <div className="relative z-10 text-center backdrop-blur-sm bg-white/30 p-12 rounded-3xl border border-white/30 shadow-2xl">
+          <div className="relative mb-8">
+            <div className="w-20 h-20 border-4 border-purple-200 border-t-[#7968ed] rounded-full animate-spin"></div>
+            <div className="absolute inset-0 w-20 h-20 border-4 border-transparent border-r-purple-300 rounded-full animate-spin animate-reverse delay-150"></div>
+          </div>
+          <p className="text-gray-700 font-semibold text-xl mb-4">Loading chat...</p>
+          <div className="flex justify-center space-x-2">
+            <div className="w-3 h-3 bg-[#7968ed] rounded-full animate-bounce"></div>
+            <div className="w-3 h-3 bg-[#7968ed] rounded-full animate-bounce delay-100"></div>
+            <div className="w-3 h-3 bg-[#7968ed] rounded-full animate-bounce delay-200"></div>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
-      <SideBar location={  user.address.city  } />
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b px-4 py-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-sm">
-                {currentUser.location.split(',')[0].charAt(0)}
+    <div className ='flex flex-col' >
+      <div>
+        <SideBar />
+      </div>
+      <div className="flex flex-col h-screen bg-gradient-to-br from-white via-purple-50/30 to-indigo-50/30 relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-r from-[#7968ed]/10 to-purple-300/10 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-gradient-to-r from-purple-400/10 to-indigo-300/10 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-700"></div>
+        </div>
+        <ChatNav />
+        {/* Enhanced Header */}
+        <header className="relative z-10 backdrop-blur-md bg-white/80 shadow-lg border-b border-white/20 px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              {/* Enhanced location avatar */}
+              <div className="relative">
+                <div className="w-14 h-14 bg-gradient-to-br from-[#7968ed] to-purple-600 rounded-2xl flex items-center justify-center shadow-lg transform hover:scale-105 transition-all duration-200">
+                  <span className="text-white font-bold text-lg drop-shadow-sm">
+                    {currentUser.location.split(',')[0].charAt(0).toUpperCase()}
+                  </span>
+                </div>
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 border-2 border-white rounded-full animate-pulse"></div>
+              </div>
+      
+              <div>
+                <h1 className="font-bold text-xl text-gray-800 mb-1">{currentUser.location}</h1>
+                <div className="flex items-center space-x-3">
+                  <p className="text-sm text-gray-600 font-medium">
+                    {activeUsers} active users
+                  </p>
+                  {!isConnected && (
+                    <span className="text-xs text-red-500 bg-red-50 px-2 py-1 rounded-full">
+                      Disconnected
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+      
+            {/* Enhanced connection status */}
+            <div className="flex items-center space-x-3">
+              <div className={`relative w-4 h-4 rounded-full transition-all duration-300 ${
+                isConnected ? 'bg-green-400 shadow-lg shadow-green-400/50' : 'bg-red-400 shadow-lg shadow-red-400/50'
+              }`}>
+                {isConnected && (
+                  <div className="absolute inset-0 w-4 h-4 bg-green-400 rounded-full animate-ping opacity-75"></div>
+                )}
+              </div>
+              <span className={`text-sm font-semibold transition-colors duration-300 ${
+                isConnected ? 'text-green-600' : 'text-red-600'
+              }`}>
+                {isConnected ? 'Online' : 'Offline'}
               </span>
             </div>
-            <div>
-              <h1 className="font-semibold text-gray-800">{currentUser.location}</h1>
-              <p className="text-sm text-gray-500">
-                {activeUsers} active users
-                {!isConnected && ' • Disconnected'}
-              </p>
+          </div>
+        </header>
+        {/* Enhanced Error Banner */}
+        {error && (
+          <div className="relative z-10 bg-gradient-to-r from-red-50 to-pink-50 border border-red-200 text-red-700 px-6 py-4 shadow-sm animate-slide-down">
+            <div className="flex items-center space-x-2">
+              <svg className="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="font-medium">{error}</span>
             </div>
           </div>
-          <div className="flex items-center space-x-2">
-            <div className={`w-3 h-3 rounded-full ${
-              isConnected ? 'bg-green-500' : 'bg-red-500'
-            }`}></div>
-            <span className="text-sm text-gray-600">
-              {isConnected ? 'Online' : 'Offline'}
-            </span>
-          </div>
-        </div>
-      </header>
-
-      {/* Error Banner */}
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 text-sm">
-          {error}
-        </div>
-      )}
-
-      {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-2">
-        {messages.length === 0 ? (
-          <div className="text-center text-gray-500 mt-20">
-            <div className="text-4xl mb-4">💬</div>
-            <p>No messages yet. Start the conversation!</p>
-          </div>
-        ) : (
-          messages.map((message) => (
-            <MessageBubble
-              key={message._id}
-              message={message}
-              isOwn={message.senderId === currentUser.userId}
-            />
-          ))
         )}
-
-        {/* Typing Indicator */}
-        {typingUsers.length > 0 && (
-          <div className="flex justify-start mb-4">
-            <div className="bg-gray-200 px-4 py-2 rounded-lg max-w-xs">
-              <div className="flex items-center space-x-2">
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+        {/* Enhanced Messages Area */}
+        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-2 relative z-10 scrollbar-thin scrollbar-thumb-purple-300/50 scrollbar-track-transparent">
+          {messages.length === 0 ? (
+            <div className="text-center mt-32 animate-fade-in">
+              <div className="relative inline-block mb-8">
+                <div className="text-8xl animate-bounce delay-300">💬</div>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#7968ed]/20 to-purple-400/20 rounded-full blur-2xl transform scale-150"></div>
+              </div>
+              <p className="text-gray-600 text-xl font-medium mb-2">No messages yet</p>
+              <p className="text-gray-500">Start the conversation and connect with others!</p>
+              <div className="mt-6 flex justify-center space-x-2">
+                <div className="w-2 h-2 bg-[#7968ed] rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-[#7968ed] rounded-full animate-pulse delay-150"></div>
+                <div className="w-2 h-2 bg-[#7968ed] rounded-full animate-pulse delay-300"></div>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {messages.map((message, index) => (
+                <div
+                  key={message._id}
+                  className="animate-fade-in-up"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  <MessageBubble
+                    message={message}
+                    isOwn={message.senderId === currentUser.userId}
+                  />
                 </div>
-                <span className="text-xs text-gray-600">
-                  {typingUsers.length === 1 
-                    ? `${typingUsers[0].userName} is typing...`
-                    : `${typingUsers.length} people are typing...`
-                  }
+              ))}
+            </div>
+          )}
+          {/* Enhanced Typing Indicator */}
+          {typingUsers.length > 0 && (
+            <div className="flex justify-start mb-4 animate-fade-in">
+              <div className="bg-white/90 backdrop-blur-sm px-5 py-3 rounded-2xl max-w-xs border border-gray-200/50 shadow-lg">
+                <div className="flex items-center space-x-3">
+                  <div className="flex space-x-1">
+                    <div className="w-2.5 h-2.5 bg-[#7968ed] rounded-full animate-bounce"></div>
+                    <div className="w-2.5 h-2.5 bg-[#7968ed] rounded-full animate-bounce delay-150"></div>
+                    <div className="w-2.5 h-2.5 bg-[#7968ed] rounded-full animate-bounce delay-300"></div>
+                  </div>
+                  <span className="text-sm text-gray-600 font-medium">
+                    {typingUsers.length === 1
+                      ? `${typingUsers[0].userName} is typing...`
+                      : `${typingUsers.length} people are typing...`
+                    }
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+        {/* Enhanced Message Input */}
+        <div className="relative z-10 backdrop-blur-md bg-white/90 border-t border-white/30 px-6 py-4 shadow-2xl">
+          <form onSubmit={handleSendMessage} className="flex items-center space-x-4">
+            {/* Enhanced Attachment Button */}
+            <button
+              type="button"
+              className="group flex-shrink-0 w-12 h-12 bg-gradient-to-br from-gray-100 to-gray-200 hover:from-[#7968ed]/10 hover:to-purple-200/50 rounded-2xl flex items-center justify-center transition-all duration-300 hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={!isConnected}
+            >
+              <svg className="w-6 h-6 text-gray-600 group-hover:text-[#7968ed] transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+              </svg>
+            </button>
+            {/* Enhanced Message Input */}
+            <div className="flex-1 relative">
+              <input
+                type="text"
+                value={newMessage}
+                onChange={handleTyping}
+                placeholder={isConnected ? "Type your message..." : "Connecting..."}
+                className="w-full px-6 py-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200/50 focus:outline-none focus:ring-2 focus:ring-[#7968ed]/50 focus:border-[#7968ed]/30 disabled:opacity-50 transition-all duration-300 hover:bg-white/90 hover:shadow-md placeholder-gray-400 text-gray-800 font-medium"
+                disabled={!isConnected}
+                maxLength={1000}
+              />
+              {newMessage && (
+                <div className="absolute right-4 bottom-2 text-xs text-gray-400 bg-white/80 px-2 py-1 rounded-full">
+                  {newMessage.length}/1000
+                </div>
+              )}
+            </div>
+            {/* Enhanced Emoji Button */}
+            <button
+              type="button"
+              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+              className="group flex-shrink-0 w-12 h-12 bg-gradient-to-br from-gray-100 to-gray-200 hover:from-[#7968ed]/10 hover:to-purple-200/50 rounded-2xl flex items-center justify-center transition-all duration-300 hover:scale-105 hover:shadow-lg disabled:opacity-50"
+              disabled={!isConnected}
+            >
+              <svg className="w-6 h-6 text-gray-600 group-hover:text-[#7968ed] transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </button>
+            {/* Enhanced Send Button */}
+            <button
+              type="submit"
+              disabled={!isConnected || !newMessage.trim()}
+              className="group flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#7968ed] to-purple-600 hover:from-[#8b7aef] hover:to-purple-700 disabled:from-gray-300 disabled:to-gray-400 rounded-2xl flex items-center justify-center transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/30 disabled:cursor-not-allowed disabled:shadow-none"
+            >
+              <svg className="w-6 h-6 text-white transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+              </svg>
+            </button>
+          </form>
+          {/* Enhanced Connection Status */}
+          {!isConnected && (
+            <div className="flex items-center justify-center mt-3 animate-fade-in">
+              <div className="backdrop-blur-sm bg-red-50/80 border border-red-200/50 rounded-full px-4 py-2 shadow-lg">
+                <span className="text-sm text-red-600 flex items-center font-medium">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mr-2 animate-pulse"></div>
+                  Reconnecting to server...
                 </span>
               </div>
             </div>
-          </div>
-        )}
-
-        <div ref={messagesEndRef} />
-      </div>
-
-      {/* Message Input */}
-      <div className="bg-white border-t px-4 py-3">
-        <form onSubmit={handleSendMessage} className="flex items-center space-x-3">
-          {/* Attachment Button */}
-          <button
-            type="button"
-            className="flex-shrink-0 w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
-            disabled={!isConnected}
-          >
-            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-            </svg>
-          </button>
-
-          {/* Message Input */}
-          <div className="flex-1 relative">
-            <input
-              type="text"
-              value={newMessage}
-              onChange={handleTyping}
-              placeholder={isConnected ? "Type a message..." : "Connecting..."}
-              className="w-full px-4 py-3 bg-gray-100 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent disabled:opacity-50"
-              disabled={!isConnected}
-              maxLength={1000}
-            />
-            {newMessage && (
-              <div className="absolute right-3 bottom-1 text-xs text-gray-400">
-                {newMessage.length}/1000
+          )}
+        </div>
+        {/* Enhanced Quick Actions (Mobile) */}
+        {/* <div className="md:hidden relative z-10 backdrop-blur-md bg-white/90 border-t border-white/30 px-6 py-3 shadow-2xl">
+          <div className="flex justify-center space-x-8">
+            <button className="group flex flex-col items-center text-gray-600 hover:text-[#7968ed] transition-all duration-300 transform hover:scale-105">
+              <div className="w-10 h-10 bg-gray-100 group-hover:bg-[#7968ed]/10 rounded-xl flex items-center justify-center mb-1 transition-all duration-300">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857M17 11a3 3 0 11-6 0 3 3 0 016 0zm-3-7a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
               </div>
-            )}
+              <span className="text-xs font-medium">Users</span>
+            </button>
+      
+            <button
+              onClick={scrollToBottom}
+              className="group flex flex-col items-center text-gray-600 hover:text-[#7968ed] transition-all duration-300 transform hover:scale-105"
+            >
+              <div className="w-10 h-10 bg-gray-100 group-hover:bg-[#7968ed]/10 rounded-xl flex items-center justify-center mb-1 transition-all duration-300">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+              </div>
+              <span className="text-xs font-medium">Scroll</span>
+            </button>
+            <button className="group flex flex-col items-center text-gray-600 hover:text-[#7968ed] transition-all duration-300 transform hover:scale-105">
+              <div className="w-10 h-10 bg-gray-100 group-hover:bg-[#7968ed]/10 rounded-xl flex items-center justify-center mb-1 transition-all duration-300">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <span className="text-xs font-medium">Settings</span>
+            </button>
           </div>
-
-          {/* Send Button */}
+        </div> */}
+        {/* Enhanced Floating Action Button for scroll to bottom */}
+        {messages.length > 0 && (
           <button
-            type="submit"
-            disabled={!isConnected || !newMessage.trim()}
-            className="flex-shrink-0 w-10 h-10 bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 rounded-full flex items-center justify-center transition-colors"
-          >
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-            </svg>
-          </button>
-        </form>
-
-        {/* Connection Status */}
-        {!isConnected && (
-          <div className="flex items-center justify-center mt-2">
-            <span className="text-xs text-red-500 flex items-center">
-              <div className="w-2 h-2 bg-red-500 rounded-full mr-2 animate-pulse"></div>
-              Reconnecting...
-            </span>
-          </div>
-        )}
-      </div>
-
-      {/* Quick Actions (Mobile) */}
-      <div className="md:hidden bg-white border-t px-4 py-2">
-        <div className="flex justify-center space-x-6">
-          <button className="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
-            <svg className="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857M17 11a3 3 0 11-6 0 3 3 0 016 0zm-3-7a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            <span className="text-xs">Users</span>
-          </button>
-          
-          <button 
             onClick={scrollToBottom}
-            className="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors"
+            className="fixed bottom-24 right-6 z-20 w-14 h-14 bg-gradient-to-br from-[#7968ed] to-purple-600 hover:from-[#8b7aef] hover:to-purple-700 rounded-full shadow-2xl hover:shadow-purple-500/30 flex items-center justify-center transition-all duration-300 hover:scale-110 animate-bounce-gentle"
           >
-            <svg className="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
-            <span className="text-xs">Scroll</span>
           </button>
-
-          <button className="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
-            <svg className="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            <span className="text-xs">Settings</span>
-          </button>
-        </div>
+        )}
+        {/* Custom CSS for animations */}
+        <style jsx>{`
+          @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+          @keyframes fade-in-up {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          @keyframes slide-down {
+            from {
+              transform: translateY(-100%);
+              opacity: 0;
+            }
+            to {
+              transform: translateY(0);
+              opacity: 1;
+            }
+          }
+          @keyframes bounce-gentle {
+            0%, 100% {
+              transform: translateY(0);
+            }
+            50% {
+              transform: translateY(-10px);
+            }
+          }
+          .animate-fade-in {
+            animation: fade-in 0.5s ease-out;
+          }
+          .animate-fade-in-up {
+            animation: fade-in-up 0.6s ease-out both;
+          }
+          .animate-slide-down {
+            animation: slide-down 0.4s ease-out;
+          }
+          .animate-bounce-gentle {
+            animation: bounce-gentle 2s infinite;
+          }
+          .animate-reverse {
+            animation-direction: reverse;
+          }
+          .scrollbar-thin {
+            scrollbar-width: thin;
+          }
+          .scrollbar-thumb-purple-300\/50::-webkit-scrollbar-thumb {
+            background-color: rgba(196, 181, 253, 0.5);
+            border-radius: 9999px;
+          }
+          .scrollbar-track-transparent::-webkit-scrollbar-track {
+            background-color: transparent;
+          }
+          ::-webkit-scrollbar {
+            width: 6px;
+          }
+          ::-webkit-scrollbar-track {
+            background: transparent;
+          }
+          ::-webkit-scrollbar-thumb {
+            background: rgba(121, 104, 237, 0.3);
+            border-radius: 9999px;
+          }
+          ::-webkit-scrollbar-thumb:hover {
+            background: rgba(121, 104, 237, 0.5);
+          }
+          /* Enhanced glassmorphism effects */
+          .backdrop-blur-md {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+          }
+          .backdrop-blur-sm {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+          }
+        `}</style>
       </div>
     </div>
   );

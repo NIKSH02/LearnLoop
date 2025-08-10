@@ -1,4 +1,4 @@
-const GroupMessage = require("./models/GroupMessage");
+import GroupMessage from './models/GroupChatMessage.js';
 
 const locationChatSocket = (io) => {
   // Store active users per location
@@ -215,4 +215,4 @@ const locationChatSocket = (io) => {
   return { cleanup };
 };
 
-module.exports = locationChatSocket;
+export default locationChatSocket;

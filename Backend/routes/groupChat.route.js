@@ -1,17 +1,15 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   getMessagesByLocation,
   getRecentMessages,
-  getLocationStats,
-} = require("../controllers/groupChat.controller")
+  getLocationStats
+} from "../controllers/groupChat.controller.js";
 
 const router = express.Router();
 
-
 // API Routes for Group Chat
-router.get('/:location/recent', getRecentMessages);
-router.get('/:location', getMessagesByLocation);
-router.get('/:location/stats', getLocationStats);
+router.get("/:location/recent", getRecentMessages);
+router.get("/:location", getMessagesByLocation);
+router.get("/:location/stats", getLocationStats);
 
-
-module.exports = router
+export default router;

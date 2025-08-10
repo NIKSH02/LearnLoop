@@ -1,7 +1,6 @@
 //group msg 
 
-const mongoose = require('mongoose');
-
+import mongoose from 'mongoose';
 const groupMessageSchema = new mongoose.Schema({
   senderId: {
     type: String,
@@ -32,4 +31,4 @@ const groupMessageSchema = new mongoose.Schema({
 // Create compound index for efficient location-based message retrieval
 groupMessageSchema.index({ location: 1, timestamp: -1 });
 
-module.exports = mongoose.model('GroupMessage', groupMessageSchema);
+export default mongoose.model('GroupMessage', groupMessageSchema);

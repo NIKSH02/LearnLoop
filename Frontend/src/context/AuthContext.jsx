@@ -38,7 +38,8 @@ export const AuthProvider = ({ children }) => {
     try {
       const loginStatus = localStorage.getItem("isLoggedIn");
       const userData = localStorage.getItem("userData");
-
+      console.log("Checking auth status:", { loginStatus, userData });
+      console.log("Current user data:", userData ? JSON.parse(userData) : null);
       if (loginStatus === "true") {
         setIsLoggedIn(true);
         if (userData) {
@@ -48,6 +49,7 @@ export const AuthProvider = ({ children }) => {
           // Fetch fresh user data from backend to check role
           try {
             const currentUserResponse = await UserService.getCurrentUser();
+            console.log("Current user response:", currentUserResponse);
             if (currentUserResponse.success) {
               const freshUserData = currentUserResponse.data;
 

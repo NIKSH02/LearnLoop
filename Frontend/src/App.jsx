@@ -21,6 +21,7 @@ import RoleSelectionPage from "./pages/RoleSelectionPage";
 import StudentProfile from "./pages/StudentProfile";
 import MentorProfile from "./pages/MentorProfile";
 import Notifications from "./pages/Notifications";
+import GlobalChat from './pages/GlobalChat'
 // Components
 import AIAssistant from "./components/AIAssistant";
 import RolePopup from "./components/RolePopup";
@@ -83,6 +84,7 @@ function App() {
                 {/* Global Navigation Bar can be added here */}
                 <Route path="/StudentProfile" element={<StudentProfile />} />
                 <Route path="/MentorProfile" element={<MentorProfile />} />
+                <Route path='/chat' element={<GlobalChat />} />
                 {/* Home/Landing Page */}
                 <Route path="/" element={<LandingPage />} />
 
