@@ -92,7 +92,7 @@ export default function ChatNavbar() {
           Authorization : `Bearer ${token}`
         }
       }
-      const { data } = await axios.get(`http://localhost:5001/api/users?search=${searchQuery}`, config);
+      const { data } = await axios.get(`https://learnloopb.onrender.com/api/users?search=${searchQuery}`, config);
       setIsLoading(false);
       console.log("data from search " , data);
       setSearchResult(data);
@@ -112,7 +112,7 @@ export default function ChatNavbar() {
           Authorization: `Bearer ${token}`,
         },
       };
-      const { data } = await axios.post(`http://localhost:5001/api/chat`, { userId }, config);
+      const { data } = await axios.post(`https://learnloopb.onrender.com/api/chat`, { userId }, config);
       console.log('data feom access chat', data)
 
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);

@@ -66,7 +66,7 @@ const GlobalChat = () => {
 
   // Initialize socket connection
   useEffect(() => {
-    const serverUrl ='http://localhost:5001';
+    const serverUrl ='https://learnloopb.onrender.com';
     
     socketRef.current = io(serverUrl, {
       transports: ['websocket', 'polling'],
@@ -158,7 +158,7 @@ const GlobalChat = () => {
     const loadChatHistory = async () => {
       try {
         setIsLoading(true);
-        const serverUrl = 'http://localhost:5001';
+        const serverUrl = 'https://learnloopb.onrender.com';
         const response = await fetch(`${serverUrl}/api/messages/${encodeURIComponent(currentUser.location)}/recent`);
         
         if (response.ok) {

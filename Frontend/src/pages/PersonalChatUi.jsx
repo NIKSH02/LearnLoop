@@ -551,7 +551,7 @@ const PersonalChatUI = () => {
         },
       };
 
-      const { data } = await axios.get("http://localhost:5001/api/chat", config);
+      const { data } = await axios.get("https://learnloopb.onrender.com/api/chat", config);
       setChats(data);
       setConversations(chats);
       console.log("fetched chats; :", conversations);

@@ -12,7 +12,7 @@ class NotificationService {
     try {
       const token = localStorage.getItem("token");
       this.socket = io(
-        import.meta.env.VITE_API_URL || "http://localhost:5001",
+        import.meta.env.VITE_API_URL || "https://learnloopb.onrender.com",
         {
           auth: { token },
           transports: ["websocket", "polling"],
