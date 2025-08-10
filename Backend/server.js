@@ -30,7 +30,7 @@ connectDB();
 // server defining 
 const io = new socketIo(httpServer, {
   cors: {
-    origin: ["http://localhost:5173", "http://localhost:5174"],
+    origin: ["http://localhost:5173", "http://localhost:5174", "https://learnloop-sykx.onrender.com"],
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -42,6 +42,7 @@ const io = new socketIo(httpServer, {
 app.use(
   cors({
     origin: [
+      "https://learnloop-sykx.onrender.com",
       "http://localhost:5173",
       "http://localhost:5174", // add any other frontend URLs you use
     ],
