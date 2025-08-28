@@ -113,10 +113,7 @@ Frontend/
 - MongoDB (Local or Cloud)
 - npm or yarn package manager
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/NIKSH02/LearnLoop.git
-cd LearnLoop
+
 ```
 
 ### 2. Backend Setup

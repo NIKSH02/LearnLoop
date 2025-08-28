@@ -1,99 +1,40 @@
-# Dependencies
+# Node.js
 node_modules/
+.env
+.DS_Store
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-package-lock.json
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
+# Vite
+/dist
 
-# Logs
-logs
-*.log
+# VS Code
+.vscode/
 
-# Environment variables
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Build outputs
-dist/
-dist-ssr/
+# Build
 build/
-out/
 
-# Cache directories
-.npm
-.eslintcache
-.parcel-cache
-.next/
-.nuxt/
-.vuepress/dist
-.serverless/
+# OS
+Thumbs.db
+Desktop.ini
 
-# IDE and Editor files
-.vscode/*
-!.vscode/extensions.json
-.idea/
+# Uploads
+Backend/uploads/
+
+# Misc
+*.local
+*.cache
+*.tmp
+
+# Coverage
+coverage/
+
+# Frontend
+Frontend/node_modules/
+Frontend/dist/
+
+# Others
 *.swp
 *.swo
-*.tmp
-*~
-
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-*.ico
-
-# Windows specific
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Local configuration
-*.local
-
-# Upload directories (user-uploaded files)
-Backend/uploads/
-uploads/
-
-# Testing
-coverage/
-.nyc_output/
-
-# Temporary files
-temp/
-tmp/
-
-# Database files
-*.sqlite
-*.sqlite3
-*.db
-
-# SSL certificates
-*.pem
-*.key
-*.crt
-
-# Backup files
-*.backup
-*.bak
-
-# Archive files
-*.zip
-*.tar.gz
-*.rar
